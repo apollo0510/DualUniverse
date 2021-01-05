@@ -20,3 +20,23 @@ a hardlink.
     They do NOT contain any slot configuration and can NOT be loaded into a PB directly.
     But they are nicely readable. Usually you would see the "start" event of "unit" 
     where I put all my code.
+
+
+
+recommeded usage :
+==================
+
+a.) copy / link "custom_construct.conf" into its folder (see 1).
+
+b.) Install a PB in your cockpit and link it to the core, a gyro and a (transparent M-)screen.
+    As an option you can link a telemeter also.
+    Slot linking is done automatically. No manual configuration is needed.
+
+c.) load "superfly_control.json" into your PB.
+
+What it does ?
+- the "superfly_control" is just visualizing in a very cpu effient way your flight status.
+- "custom_construct" contains an "anti death spiral" patch
+- "custom_construct" has "turnAssist" switched on by default, turnAssist is gently modifyed.
+- "custom_construct" has "pitchAssist". It is gently locking your planes pitch in a 5 degree grid.
+- The "pitchAssist" turns above 500km/h into an "altitudeAssist" when targetPitch is within +- 5 degrees.
