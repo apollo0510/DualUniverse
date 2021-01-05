@@ -81,6 +81,8 @@ local recipe_table=
           { id =2872711778 ; count = 50; name="unc connector"          ;t=0.0}, 
           { id =527681755  ; count = 50; name="bas power sys"          ;t=0.0}, 
           { id =527681752  ; count = 50; name="unc power sys"          ;t=0.0}, 
+          { id =466630565  ; count = 50; name="basic fixation" ;t=0.0}, 
+
     
           
     };
@@ -101,8 +103,23 @@ local recipe_table=
          { id =1623233219 ; count = 10; name="manual switch" ;t=0.0}, 
     };
 
-    EquipL=
+    EquipXS=
     {
+        { id =1383063781 ; count = 10; name="vert light XS" ;t=0.0}, 
+        { id =555932566 ; count = 10; name="vert light S" ;t=0.0}, 
+        { id =164219412 ; count = 10; name="vert light M" ;t=0.0}, 
+
+        { id =441567189  ; count = 100; name="glass panel S" ;t=0.0}, 
+        { id =283407660  ; count = 100; name="glass panel M" ;t=0.0}, 
+        
+        
+    };
+
+    EquipS=
+    {
+        { id =1601756570 ; count = 10; name="vert light L" ;t=0.0}, 
+        { id =2045974002  ; count = 100; name="glass panel L" ;t=0.0}, 
+        { id =760622009 ; count = 20; name="container XS" ;t=0.0}, 
     
     };
 
@@ -111,21 +128,10 @@ local recipe_table=
     
     };
 
-    EquipS=
+    EquipL=
     {
-        { id =1601756570 ; count = 10; name="vert light L" ;t=0.0}, 
     
     };
-
-    EquipXS=
-    {
-        { id =1383063781 ; count = 10; name="vert light XS" ;t=0.0}, 
-        { id =555932566 ; count = 10; name="vert light S" ;t=0.0}, 
-        { id =164219412 ; count = 10; name="vert light M" ;t=0.0}, 
-        
-        
-    };
-
 
     PlaneL=
     {

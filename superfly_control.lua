@@ -165,6 +165,25 @@ end
 --
 -- ******************************************************************
 
+function OnStart()
+    local u = unit_classes;
+    local screen   = u.ScreenUnit[1];
+    if screen then
+       screen.obj.activate(); 
+    end
+end
+function OnStop()
+    local u = unit_classes;
+    local screen   = u.ScreenUnit[1];
+    if screen then
+       screen.obj.deactivate(); 
+    end
+end
+
+-- ******************************************************************
+--
+-- ******************************************************************
+
 local layer_dynamic_atmo=
 [[
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
@@ -228,6 +247,12 @@ local layer_static_format=
     height="100%" 
     viewBox="-100 -100 200 200" 
     preserveAspectRatio ="xMidYMid meet" >
+        <g stroke="#80808080" >
+            <line x1="-100" y1="0" x2="-50" y2="0" />
+            <line x1="50" y1="0" x2="100" y2="0" />
+            <line x1="0" y1="-100" x2="0" y2="-50" />
+            <line x1="0" y1="50" x2="0" y2="100" />
+        </g>
         <g stroke="white" >
             <line x1="-50" y1="0" x2="-10" y2="0" />
             <line x1="10" y1="0" x2="50" y2="0" />
@@ -368,6 +393,9 @@ function CheckScreens(draw_10hz,draw_1hz)
 end
 
 setup_complete=IdentifySlots();
+if setup_complete then
+	OnStart();
+end
 
 
 
