@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="custom_config">
+      <UniqueIdentifier>{bc00335c-af4e-44e1-97a1-717ba3bf4e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="custom_lua">
+      <UniqueIdentifier>{a613b751-50c7-4ca9-9581-a05eeece2634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json">
+      <UniqueIdentifier>{086f245f-e7b9-415b-b1f2-75cef7413e8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua">
+      <UniqueIdentifier>{b31e4996-7d74-4330-a9e4-8ad02c831855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{ac8d73db-09fe-415c-b8eb-e60e8c66c5a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\custom_config\custom_construct.conf">
+      <Filter>custom_config</Filter>
+    </None>
+    <None Include="..\custom_lua\industry_lib.lua">
+      <Filter>custom_lua</Filter>
+    </None>
+    <None Include="..\custom_lua\unit_lib.lua">
+      <Filter>custom_lua</Filter>
+    </None>
+    <None Include="..\display1.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\display2.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\display3.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\doorcontrol.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\industry_control.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\master.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\oret1.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\oret2.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\oret3.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\superfly_control.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\superfly_doorcontrol.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\superfly_gearcontrol.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\warpcelldisplay.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="..\industry_control.lua">
+      <Filter>lua</Filter>
+    </None>
+    <None Include="..\superfly_control.lua">
+      <Filter>lua</Filter>
+    </None>
+    <None Include="..\superfly_doorcontrol.lua">
+      <Filter>lua</Filter>
+    </None>
+    <None Include="..\superfly_gearcontrol.lua">
+      <Filter>lua</Filter>
+    </None>
+    <None Include="..\.gitignore">
+      <Filter>resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\readme.txt">
+      <Filter>resource</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
