@@ -1,0 +1,144 @@
+{
+  "slots": {
+    "0": {
+      "name": "Display1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "1": {
+      "name": "Door1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "2": {
+      "name": "Door2",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "3": {
+      "name": "Door3",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "4": {
+      "name": "Door4",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "5": {
+      "name": "Door5",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "6": {
+      "name": "Door6",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "7": {
+      "name": "Door7",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "8": {
+      "name": "Door8",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "9": {
+      "name": "Button1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-1": {
+      "name": "unit",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-2": {
+      "name": "system",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-3": {
+      "name": "library",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    }
+  },
+  "handlers": [
+    {
+      "code": "",
+      "filter": {
+        "args": [],
+        "signature": "()",
+        "slotKey": "8"
+      },
+      "key": "1"
+    },
+    {
+      "code": "system.print(\"Button1 pressed\");\nDoor1.activate();",
+      "filter": {
+        "args": [],
+        "signature": "pressed()",
+        "slotKey": "9"
+      },
+      "key": "2"
+    },
+    {
+      "code": "system.print(\"Button1 release\");\n-- Door1.deactivate();",
+      "filter": {
+        "args": [],
+        "signature": "released()",
+        "slotKey": "9"
+      },
+      "key": "3"
+    },
+    {
+      "code": "DoorTimeout = 5 --export: Time until door closes\n\ndoors = \n{ \n    { obj=Door1, status=0,time=0 },\n    { obj=Door2, status=0,time=0},\n    { obj=Door3, status=0,time=0},\n    { obj=Door4, status=0,time=0},\n    { obj=Door5, status=0,time=0},\n    { obj=Door6, status=0,time=0},\n    { obj=Door7, status=0,time=0},\n    { obj=Door8, status=0,time=0} \n};\n\nsystem.print(\"DoorChecker started\");\nunit.setTimer(\"DoorChecker\",0.2);\n\n\n\n\n",
+      "filter": {
+        "args": [],
+        "signature": "start()",
+        "slotKey": "-1"
+      },
+      "key": "4"
+    },
+    {
+      "code": "local t=system.getTime();\n\nfor i=1,#doors do\n    local door=doors[i];\n    local s=door.obj.getState();\n    if s~=door.status then\n    \tdoor.status=s;\n         door.time=t;\n    else\n       if s==1 then\n           local delta=t-door.time; \n           if delta>=DoorTimeout then\n               door.obj.deactivate();     \n           end     \n       end     \n    end\nend\n",
+      "filter": {
+        "args": [ { "value": "DoorChecker" } ],
+        "signature": "tick(timerId)",
+        "slotKey": "-1"
+      },
+      "key": "5"
+    }
+  ],
+  "methods": [],
+  "events": []
+}

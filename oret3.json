@@ -1,0 +1,126 @@
+{
+  "slots": {
+    "0": {
+      "name": "container",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "1": {
+      "name": "refiner1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "2": {
+      "name": "refiner2",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "3": {
+      "name": "refiner3",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "4": {
+      "name": "refiner4",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "5": {
+      "name": "refiner5",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "6": {
+      "name": "refiner6",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "7": {
+      "name": "refiner7",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "8": {
+      "name": "refiner8",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "9": {
+      "name": "refiner5",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-1": {
+      "name": "unit",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-2": {
+      "name": "system",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-3": {
+      "name": "library",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    }
+  },
+  "handlers": [
+    {
+      "code": "objects =\n{\n    { machine=refiner1; name=\"Refiner 1\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner2; name=\"Refiner 2\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner3; name=\"Refiner 3\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner4; name=\"Refiner 4\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner5; name=\"Refiner 5\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner6; name=\"Refiner 6\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner7; name=\"Refiner 7\"; status=\"STOPPED\"; mass=0.0; } ,\n    { machine=refiner8; name=\"Refiner 8\"; status=\"STOPPED\"; mass=0.0; } \n};\n\nmachine_stati=\n{\n    [\"STOPPED\"]                   = 1,\n    [\"RUNNING\"]                   = 2,\n    [\"JAMMED_MISSING_INGREDIENT\"] = 3,    \n    [\"JAMMED_OUTPUT_FULL\"]        = 4,    \n    [\"JAMMED_NO_OUTPUT_CONTAINER\"]= 5,    \n}\n\nfunction UpdateMachines()\n   \n   if container then \n       local mass = container.getItemsMass();\n       local n=#objects; \n       for i = 1,n do\n            local o=objects[i];\n            local m=o.machine;\n            if m then\n              local status_name=m.getStatus();\n              local status=machine_stati[status_name];\n               if mass ~= o.mass then\n               \t  o.mass = mass;\n                   if status ~= 2 then\n                      m.start();\n                      system.print(\"starting machine :\"..o.name);\n                   end\n\t\t     else\n                    if status~=o.status then\n                        o.status=status;\n                        system.print(\"machine status change :\"..status_name);\n                        if status>2 then\n                           m.hardStop(); \n                           system.print(\"stopping machine :\"..o.name);\n                        end \n                    end\n               end\n            else\n               system.print(\"machine not found : \" .. o.name); \n            end            \n       end \n   else\n      system.print(\"container not found\"); \n   end     \nend\n\n\nfunction StartAllMachines()\n    for i = 1,#objects do\n        local o=objects[i];\n        local m=o.machine;\n        if m then\n           m.start();\n        end            \n\tend     \nend\n\nunit.setTimer(\"MachineChecker\",2.0);",
+      "filter": {
+        "args": [],
+        "signature": "start()",
+        "slotKey": "-1"
+      },
+      "key": "0"
+    },
+    {
+      "code": "UpdateMachines();",
+      "filter": {
+        "args": [ { "value": "MachineChecker" } ],
+        "signature": "tick(timerId)",
+        "slotKey": "-1"
+      },
+      "key": "1"
+    },
+    {
+      "code": "StartAllMachines();\n",
+      "filter": {
+        "args": [],
+        "signature": "stop()",
+        "slotKey": "-1"
+      },
+      "key": "2"
+    }
+  ],
+  "methods": [],
+  "events": []
+}

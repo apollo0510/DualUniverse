@@ -1,0 +1,117 @@
+{
+  "slots": {
+    "0": {
+      "name": "slot1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "1": {
+      "name": "slot2",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "2": {
+      "name": "slot3",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "3": {
+      "name": "slot4",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "4": {
+      "name": "slot5",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "5": {
+      "name": "slot6",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "6": {
+      "name": "slot7",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "7": {
+      "name": "slot8",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "8": {
+      "name": "slot9",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "9": {
+      "name": "slot10",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-1": {
+      "name": "unit",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-2": {
+      "name": "system",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-3": {
+      "name": "library",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    }
+  },
+  "handlers": [
+    {
+      "code": "Xoffset = -3 --export: To center the crosshair\nYoffset = -2.3 --export: To center the crosshair\n\n-- ******************************************************************\n--\n-- ******************************************************************\n\nlocal degree_to_delta = 4.0;\nlocal rad_to_delta    = 4.0 * 180.0 / math.pi;\nlocal format          = string.format;\nlocal print           = system.print;\nlocal acos            = math.acos;\nlocal pi_half         = math.pi / 2.0;\n\n\n-- ***********************************************************\n\nlocal unit_classes=\n{\n    CoreUnitDynamic  = { need = 1; meta = nil; },\n    ScreenUnit       = { need = 1; meta = nil; },\n    GyroUnit         = { need = 1; meta = nil; },\n    TelemeterUnit    = { need = 0; meta = nil; },\n};\n\nlocal setup_complete = false;\n\n-- ***********************************************************\n\nfunction IdentifySlots()\n    local u = unit_classes;\n    for key,obj in pairs(unit) do\n        if (type(obj)==\"table\") and (obj.getElementClass~=nil) then\n            local class = obj.getElementClass();\n            local class_table = u[class];\n            if class_table then\n                 local unit = {};\n                 unit.obj=obj; \n                 setmetatable(unit,class_table.meta);\n                 class_table[#class_table+1]=unit; \n             else if class~=\"Generic\" then\n               \tprint(format(\"Unexpected unit class %s\",class));\n             end    \n           end    \n        end    \n    end    \n    local all_units_found=true;\n    for class_name,class_table in pairs(u) do\n        local n = #class_table;\n        if n < class_table.need then\n            all_units_found=false;\n            print(format(\"Missing unit type %s : %d of %d\",class_name,n,class_table.need));\n        end    \n    end    \n    return all_units_found;\nend\n\n-- ******************************************************************\n--\n-- ******************************************************************\nlocal player_rel_pos;\nlocal player_distance; \n\nlocal v_forward = nil;\nlocal v_up      = nil;\nlocal v_right   = nil;\n\nlocal fps = 0;\nlocal fps_count = 0;\nlocal t_10hz = 0.0;    -- 10 hz   \nlocal t_1hz  = 0.0;    -- 1 hz\n\nlocal t = 0.0;\nlocal v_velo;\nlocal speed = 0.0;\nlocal kmh   = 0.0;\nlocal v_angle_v = 0.0;\nlocal v_angle_h = 0.0;\nlocal v_angle_valid = false;\n\nlocal pitch = 0.0;\nlocal roll  = 0.0;\nlocal altitude = 0.0;\nlocal atmosphere = 0.0;\nlocal planetinfluence = 0.0;\nlocal ground_distance = -1;\n\nfunction OnUpdate()\n     if setup_complete then\n        \n         local u      = unit_classes;\n    \tlocal core   = u.CoreUnitDynamic[1].obj;\n         local gyro   = u.GyroUnit[1].obj;\n        \n         if v_forward == nil then\n            v_forward = vec3(core.getConstructOrientationForward());\n            v_up      = vec3(core.getConstructOrientationUp());\n            v_right   = vec3(core.getConstructOrientationRight());\n            print(\"Starting Flight Control\");\n         end\n        \n        local telemeter = u.TelemeterUnit[1];\n        if telemeter then\n            ground_distance = telemeter.obj.getDistance();\n        else\n            ground_distance = -1;\n        end    \n        \n         t      = system.getTime();\n         fps_count = fps_count + 1;\n\n         local draw_10hz=false;\n         local draw_1hz =false;\n\n         if (t - t_10hz) >= 0.1 then\n            t_10hz = t;\n            draw_10hz = true;\n             if (t - t_1hz) >= 1.0 then\n                t_1hz = t;\n                draw_1hz = true;\n                fps = fps_count;\n                fps_count=0;\n             end\n         end\n\n\n        player_rel_pos  = vec3(unit.getMasterPlayerRelativePosition()); \n        player_distance = player_rel_pos:len();\n\n        altitude   = core.getAltitude();\n        atmosphere = unit.getAtmosphereDensity();  -- [ 0..1]\n        planetinfluence = unit.getClosestPlanetInfluence(); -- [ 0..1]\n\n        v_velo = vec3(core.getVelocity());\n        speed  = v_velo:len();\n        kmh    = speed * 3.6;\n\n        if kmh > 1.0 then\n            v_velo.x=v_velo.x/speed;\n            v_velo.y=v_velo.y/speed;\n            v_velo.z=v_velo.z/speed;\n            v_angle_v = pi_half - acos(v_velo:dot(v_up)   );\n            v_angle_h = pi_half - acos(v_velo:dot(v_right));\n            v_angle_valid = true;\n        else\n            v_velo.x=0.0;\n            v_velo.y=0.0;\n            v_velo.z=0.0;\n            v_angle_v = 0.0;\n            v_angle_h = 0.0;\n            v_angle_valid = false;\n        end\n\n        roll =gyro.getRoll();\n        pitch=gyro.getPitch();\n\n        if roll~=nil and pitch ~=nil then\n            CheckScreens(draw_10hz,draw_1hz);\n        end   \n\n    end\nend    \n\n-- ******************************************************************\n--\n-- ******************************************************************\n\nlocal layer_dynamic_atmo=\n[[\n    <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n    width=\"100%%\" \n    height=\"100%%\" \n    viewBox=\"-100 -100 200 200\" \n    preserveAspectRatio =\"xMidYMid meet\" >\n        <g transform=\"rotate(%.2f) translate( 0 %.2f)\" >\n            <g stroke-width=\"20\" stroke=\"black\">\n                <line x1=\"-100\" y1=\"0\" x2=\"100\" y2=\"0\" />\n                <line x1=\"0\" y1=\"-100\" x2=\"0\" y2=\"100\" />\n            </g>\n            <g stroke-width=\"3\" stroke=\"blue\">\n                <line x1=\"-100\" y1=\"0\" x2=\"-10\" y2=\"0\" />\n                <line x1=\"10\" y1=\"0\" x2=\"100\" y2=\"0\" />\n                <line x1=\"0\" y1=\"-100\" x2=\"0\" y2=\"-10\" />\n                <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"100\" />\n            </g>\n            <g stroke-width=\"2\" stroke=\"blue\">\n                <line x1=\"-10\" y1=\"-80\" x2=\"10\" y2=\"-80\" />\n                <line x1=\"-10\" y1=\"-60\" x2=\"10\" y2=\"-60\" />\n                <line x1=\"-10\" y1=\"-40\" x2=\"10\" y2=\"-40\" />\n                <line x1=\"-10\" y1=\"-20\" x2=\"10\" y2=\"-20\" />\n                <line x1=\"-10\" y1=\"20\" x2=\"10\" y2=\"20\" />\n                <line x1=\"-10\" y1=\"40\" x2=\"10\" y2=\"40\" />\n                <line x1=\"-10\" y1=\"60\" x2=\"10\" y2=\"60\" />\n                <line x1=\"-10\" y1=\"80\" x2=\"10\" y2=\"80\" />\n                <line x1=\"-80\" y1=\"-10\" x2=\"-80\" y2=\"10\" />\n                <line x1=\"-60\" y1=\"-10\" x2=\"-60\" y2=\"10\" />\n                <line x1=\"-40\" y1=\"-10\" x2=\"-40\" y2=\"10\" />\n                <line x1=\"-20\" y1=\"-10\" x2=\"-20\" y2=\"10\" />\n                <line x1=\"20\" y1=\"-10\" x2=\"20\" y2=\"10\" />\n                <line x1=\"40\" y1=\"-10\" x2=\"40\" y2=\"10\" />\n                <line x1=\"60\" y1=\"-10\" x2=\"60\" y2=\"10\" />\n                <line x1=\"80\" y1=\"-10\" x2=\"80\" y2=\"10\" />\n            </g>\n        </g>\n        <g fill=\"none\" >\n            <circle cx=\"%.2f\" cy=\"%.2f\" r=\"12\" stroke=\"green\" stroke-width=\"3\" />\n        </g>\n    </svg>\n]];\n\nlocal layer_dynamic_space=\n[[\n    <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n    width=\"100%%\" \n    height=\"100%%\" \n    viewBox=\"-100 -100 200 200\" \n    preserveAspectRatio =\"xMidYMid meet\" >\n        <g fill=\"none\" >\n            <circle cx=\"%.2f\" cy=\"%.2f\" r=\"12\" stroke=\"darkviolet\" stroke-width=\"3\" />\n        </g>\n    </svg>\n]];\n\nlocal layer_static_format=\n[[\n    <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n    width=\"100%\" \n    height=\"100%\" \n    viewBox=\"-100 -100 200 200\" \n    preserveAspectRatio =\"xMidYMid meet\" >\n        <g stroke=\"white\" >\n            <line x1=\"-50\" y1=\"0\" x2=\"-10\" y2=\"0\" />\n            <line x1=\"10\" y1=\"0\" x2=\"50\" y2=\"0\" />\n            <line x1=\"0\" y1=\"-50\" x2=\"0\" y2=\"-10\" />\n            <line x1=\"0\" y1=\"10\" x2=\"0\" y2=\"50\" />\n        </g>\n        <g fill=\"none\" >\n            <circle cx=\"0\" cy=\"0\" r=\"10\" stroke=\"white\" />\n        </g>\n    </svg>\n]];\n\n\nlocal layer_text_atmo=\n[[\n\t<head>\n\t\t<style>\n\t\t\tsvg \n\t\t\t{ \n\t\t\t\tfont-family: ArialMT , Arial, sans-serif; \n\t\t\t\tfont-size  : 20px;\n\t\t\t} \n\t\t</style>\n\t</head>\n\t<body>\n        <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n              width=\"100%%\" \n              height=\"100%%\" \n              viewBox=\"-100 -100 200 200\" \n             preserveAspectRatio =\"xMidYMid meet\" >\n\n            <g fill=\"white\" text-anchor=\"middle\">\n               <text x=\"90\" y=\"0\">%s</text>\n               <text x=\"0\"  y=\"90\">%s</text>\n               <text x=\"90\" y=\"90\">%s</text>\n               <text x=\"90\" y=\"-80\">%s</text>\n            </g>\t\n\n            <g fill=\"white\" style=\"font-size: 10px\">\n\t\t     <text x=\"-100\"  y=\"-90\">FPS %d</text>\n            </g>\t\n\n\n        </svg>\n    </body>\n]];\n\nlocal layer_text_space=\n[[\n\t<head>\n\t\t<style>\n\t\t\tsvg \n\t\t\t{ \n\t\t\t\tfont-family: ArialMT , Arial, sans-serif; \n\t\t\t\tfont-size  : 20px;\n\t\t\t} \n\t\t</style>\n\t</head>\n\t<body>\n        <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" \n              width=\"100%%\" \n              height=\"100%%\" \n              viewBox=\"-100 -100 200 200\" \n             preserveAspectRatio =\"xMidYMid meet\" >\n\n            <g fill=\"white\" text-anchor=\"middle\">\n               <text x=\"90\" y=\"-80\">%s</text>\n            </g>\t\n\n            <g fill=\"white\" style=\"font-size: 10px\">\n\t\t     <text x=\"-100\"  y=\"-90\">FPS %d</text>\n            </g>\t\n\n\n        </svg>\n    </body>\n]];\n\n\n\nfunction CheckScreens(draw_10hz,draw_1hz)\n    local u        = unit_classes;\n    local screen   = u.ScreenUnit[1];\n    \n    -- mouseXpos = screen.getMouseX()\n    -- mouseYpos = screen.getMouseY()\n    \n    local x=Xoffset;\n    local y=Yoffset;\n\n    local cx      = v_angle_h * ( rad_to_delta);\n    local cy      = v_angle_v * (-rad_to_delta);\n    local c_pitch = pitch * degree_to_delta; -- 1 degree = 20 units\n    local layer_dynamic;\n    \n    if planetinfluence > 0.001 then\n        layer_dynamic=format(layer_dynamic_atmo,roll,c_pitch,cx,cy);\n    else   \n        layer_dynamic=format(layer_dynamic_space,cx,cy);\n    end   \n\n    if screen.layer_dynamic==nil then\n        screen.obj.clear(); \n        screen.layer_dynamic = screen.obj.addContent(x,y,layer_dynamic);\n        screen.obj.addContent(x,y,layer_static_format);\n    else\n        screen.obj.resetContent(screen.layer_dynamic,layer_dynamic);\n    end    \n\n    if draw_10hz then\n        local pitch_text=format(\"%.1f°\",pitch);\n        local roll_text =format(\"%.1f°\",roll); \n        local alt_text;\n        \n        if ground_distance >=0 then\n            alt_text=format(\"> %.1f m <\",ground_distance)\n        else\n            alt_text=format(\"%.3f km\",altitude / 1000.0)\n        end    \n        \n        local layer_text;\n        \n        if planetinfluence > 0.001 then\n\t        local speed_text=format(\"%.0f km/h\",kmh);\n        \tlayer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,fps);    \n        else    \n\t        local speed_text=format(\"%.1f Tkm/h\",kmh/1000.0);\n             layer_text=format(layer_text_space,speed_text,fps);    \n        end    \n\n        if screen.layer_text==nil then\n            screen.layer_text = screen.obj.addContent(0,0,layer_text);\n        else\n            screen.obj.resetContent(screen.layer_text,layer_text);\n        end    \n    end    \n\nend\n\nsetup_complete=IdentifySlots();\n\n\n",
+      "filter": {
+        "args": [],
+        "signature": "start()",
+        "slotKey": "-1"
+      },
+      "key": "0"
+    },
+    {
+      "code": "OnUpdate();",
+      "filter": {
+        "args": [],
+        "signature": "update()",
+        "slotKey": "-2"
+      },
+      "key": "1"
+    }
+  ],
+  "methods": [],
+  "events": []
+}
