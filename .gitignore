@@ -2,3 +2,6 @@
 /DualUniverse/*.user
 .vs
 /Release.zip
+Debug
+Release
+/DUJoyStick/*.user
