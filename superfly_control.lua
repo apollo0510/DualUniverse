@@ -2,8 +2,6 @@ Xoffset = -3 --export: To center the crosshair
 Yoffset = -2.3 --export: To center the crosshair
 
 -- ******************************************************************
---
--- ******************************************************************
 
 local degree_to_delta = 4.0;
 local rad_to_delta    = 4.0 * 180.0 / math.pi;
@@ -11,7 +9,6 @@ local format          = string.format;
 local print           = system.print;
 local acos            = math.acos;
 local pi_half         = math.pi / 2.0;
-
 
 -- ***********************************************************
 
@@ -56,8 +53,7 @@ function IdentifySlots()
 end
 
 -- ******************************************************************
---
--- ******************************************************************
+
 local player_rel_pos;
 local player_distance; 
 
@@ -162,8 +158,6 @@ function OnUpdate()
 end    
 
 -- ******************************************************************
---
--- ******************************************************************
 
 function OnStart()
     local u = unit_classes;
@@ -171,26 +165,37 @@ function OnStart()
     if screen then
        screen.obj.activate(); 
     end
+    --local gyro = u.GyroUnit[1];
+    --if gyro then
+    --   gyro.obj.hide();
+    --end    
+    --local core = u.CoreUnitDynamic[1];
+    --if core then
+    --   core.obj.hide();
+    --end    
 end
+
 function OnStop()
     local u = unit_classes;
     local screen   = u.ScreenUnit[1];
     if screen then
        screen.obj.deactivate(); 
     end
+    --local gyro = u.GyroUnit[1];
+    --if gyro then
+    --   gyro.obj.show();
+    --end    
+    --local core = u.CoreUnitDynamic[1];
+    --if core then
+    --   core.obj.show();
+    --end    
 end
 
--- ******************************************************************
---
 -- ******************************************************************
 
 local layer_dynamic_atmo=
 [[
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="100%%" 
-    height="100%%" 
-    viewBox="-100 -100 200 200" 
-    preserveAspectRatio ="xMidYMid meet" >
+    <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
         <g transform="rotate(%.2f) translate( 0 %.2f)" >
             <g stroke-width="20" stroke="black">
                 <line x1="-100" y1="0" x2="100" y2="0" />
@@ -229,11 +234,7 @@ local layer_dynamic_atmo=
 
 local layer_dynamic_space=
 [[
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="100%%" 
-    height="100%%" 
-    viewBox="-100 -100 200 200" 
-    preserveAspectRatio ="xMidYMid meet" >
+    <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
         <g fill="none" >
             <circle cx="%.2f" cy="%.2f" r="12" stroke="darkviolet" stroke-width="3" />
         </g>
@@ -242,11 +243,7 @@ local layer_dynamic_space=
 
 local layer_static_format=
 [[
-    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-    width="100%" 
-    height="100%" 
-    viewBox="-100 -100 200 200" 
-    preserveAspectRatio ="xMidYMid meet" >
+    <svg width="100%" height="100%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
         <g stroke="#80808080" >
             <line x1="-100" y1="0" x2="-50" y2="0" />
             <line x1="50" y1="0" x2="100" y2="0" />
@@ -278,24 +275,16 @@ local layer_text_atmo=
 		</style>
 	</head>
 	<body>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-              width="100%%" 
-              height="100%%" 
-              viewBox="-100 -100 200 200" 
-             preserveAspectRatio ="xMidYMid meet" >
-
+        <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
                <text x="90" y="0">%s</text>
                <text x="0"  y="90">%s</text>
                <text x="90" y="90">%s</text>
                <text x="90" y="-80">%s</text>
             </g>	
-
             <g fill="white" style="font-size: 10px">
 		     <text x="-100"  y="-90">FPS %d</text>
             </g>	
-
-
         </svg>
     </body>
 ]];
@@ -312,26 +301,18 @@ local layer_text_space=
 		</style>
 	</head>
 	<body>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-              width="100%%" 
-              height="100%%" 
-              viewBox="-100 -100 200 200" 
-             preserveAspectRatio ="xMidYMid meet" >
-
+        <svg  width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
+               <text x="90" y="0">%s</text>
+               <text x="0"  y="90">%s</text>
                <text x="90" y="-80">%s</text>
             </g>	
-
             <g fill="white" style="font-size: 10px">
 		     <text x="-100"  y="-90">FPS %d</text>
             </g>	
-
-
         </svg>
     </body>
 ]];
-
-
 
 function CheckScreens(draw_10hz,draw_1hz)
     local u        = unit_classes;
@@ -380,7 +361,7 @@ function CheckScreens(draw_10hz,draw_1hz)
         	layer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,fps);    
         else    
 	        local speed_text=format("%.1f Tkm/h",kmh/1000.0);
-             layer_text=format(layer_text_space,speed_text,fps);    
+             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,fps);    
         end    
 
         if screen.layer_text==nil then
@@ -396,6 +377,7 @@ setup_complete=IdentifySlots();
 if setup_complete then
 	OnStart();
 end
+
 
 
 

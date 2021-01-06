@@ -65,7 +65,7 @@ local recipe_table=
           { id =3936127019 ; count = 50; name="basic screw"          ;t=0.0}, 
           { id =3936127018 ; count = 50; name="uncommon screw"       ;t=0.0}, 
 
-          { id =794666749 ; count = 50; name="basic component"       ;t=0.0}, 
+          { id =794666749 ; count = 500; name="basic component"       ;t=0.0}, 
           { id =794666748 ; count = 50; name="uncommon component"    ;t=0.0}, 
         
           { id =946503935 ; count = 50; name="basic casing XS"       ;t=0.0}, 
@@ -81,10 +81,9 @@ local recipe_table=
           { id =2872711778 ; count = 50; name="unc connector"          ;t=0.0}, 
           { id =527681755  ; count = 50; name="bas power sys"          ;t=0.0}, 
           { id =527681752  ; count = 50; name="unc power sys"          ;t=0.0}, 
-          { id =466630565  ; count = 50; name="basic fixation" ;t=0.0}, 
-
-    
-          
+          { id =466630565  ; count = 50; name="basic fixation"         ;t=0.0}, 
+          { id =1331181119 ; count = 300; name="basic hydraulics"      ;t=0.0}, 
+         
     };
 
     Electro =
@@ -125,12 +124,13 @@ local recipe_table=
 
     EquipM=
     {
-    
+        { id = 1173587001  ; count = 20; name="container S" ;t=0.0}, 
     };
 
     EquipL=
     {
-    
+        { id = 937197329 ; count = 20; name="container M" ;t=0.0}, 
+        { id = 1702024841; count = 20; name="container L" ;t=0.0}, 
     };
 
     PlaneL=
@@ -151,6 +151,14 @@ local recipe_table=
     PlaneXS=
     {
     
+    };
+
+
+    HoneyComb=
+    {
+        { id = 370095743 ; count = 300; name="Sodium Matte" ;t=0.0}, 
+        { id = 206461529 ; count = 300; name="Sodium Aged"  ;t=0.0}, 
+        { id = 1866059236; count = 300; name="Sodium Glossy";t=0.0}, 
     };
 
 };
