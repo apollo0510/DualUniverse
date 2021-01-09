@@ -16,7 +16,7 @@ int Application::Run()
 		if(!(m_frame%100))
 			m_DirectInput.ScanForJoysticks();
 
-		if(LockWindow())
+		// if(LockWindow())
 		{
 			m_DirectInput.PollJoystick();
 		}
@@ -57,8 +57,10 @@ bool Application::LockWindow()
 
 void Application::OnAxisChanged(JOYSTICK_AXIS axis,int ivalue)
 {
+	printf("OnAxisChanged %d %d\n",axis,ivalue);
 }
 
 void Application::OnButtonChanged(int nr,int value)
 {
+	printf("OnButtonChanged %d %d\n",nr,value);
 }

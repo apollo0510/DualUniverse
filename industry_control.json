@@ -94,7 +94,7 @@
   },
   "handlers": [
     {
-      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit,recipe_table);\n    ",
+      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit);\n    ",
       "filter": {
         "args": [],
         "signature": "start()",
@@ -103,7 +103,7 @@
       "key": "0"
     },
     {
-      "code": "industries:PeriodicCheck(system.getTime());",
+      "code": "industries:SecureCall(\"PeriodicCheck\",system.getTime());\n",
       "filter": {
         "args": [ { "value": "Periodic" } ],
         "signature": "tick(timerId)",

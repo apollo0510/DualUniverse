@@ -65,6 +65,9 @@ local recipe_table=
           { id =3936127019 ; count = 50; name="basic screw"          ;t=0.0}, 
           { id =3936127018 ; count = 50; name="uncommon screw"       ;t=0.0}, 
 
+          { id =1799107246 ; count = 50; name="basic pipe"          ;t=0.0}, 
+          { id =1799107247 ; count = 50; name="uncommon pipe"       ;t=0.0}, 
+
           { id =794666749 ; count = 500; name="basic component"       ;t=0.0}, 
           { id =794666748 ; count = 50; name="uncommon component"    ;t=0.0}, 
         
@@ -125,6 +128,22 @@ local recipe_table=
     EquipM=
     {
         { id = 1173587001  ; count = 20; name="container S" ;t=0.0}, 
+
+        { id = 1230093356  ; count = 5; name="chemical ind." ;t=0.0}, 
+        { id = 1809397339  ; count = 5; name="electron. ind." ;t=0.0}, 
+        { id = 1197243001  ; count = 5; name="glass furnace" ;t=0.0}, 
+        { id = 1113319562  ; count = 5; name="metalworks ind." ;t=0.0}, 
+
+        { id = 39016077    ; count = 5; name="unc 3d printer" ;t=0.0}, 
+        { id = 1275491022  ; count = 5; name="unc ass line M" ;t=0.0}, 
+        { id = 1303072730  ; count = 5; name="unc chem. ind." ;t=0.0}, 
+        { id = 1151494170  ; count = 5; name="unc elec. ind." ;t=0.0}, 
+        { id = 1081167024  ; count = 5; name="unc glass furn." ;t=0.0}, 
+        { id = 1993163113  ; count = 5; name="unc honeyc. ref." ;t=0.0}, 
+        { id = 127106567   ; count = 5; name="unc metal. ind." ;t=0.0}, 
+        { id = 1597739671  ; count = 1; name="unc refiner M" ;t=0.0}, 
+        { id = 1137084674  ; count = 1; name="unc smelter" ;t=0.0}, 
+       
     };
 
     EquipL=
@@ -159,6 +178,48 @@ local recipe_table=
         { id = 370095743 ; count = 300; name="Sodium Matte" ;t=0.0}, 
         { id = 206461529 ; count = 300; name="Sodium Aged"  ;t=0.0}, 
         { id = 1866059236; count = 300; name="Sodium Glossy";t=0.0}, 
+        { id = 519399105; count = 100; name="Matte beige";t=0.0}, 
+        { id = 1689313836; count = 100; name="Matte beige cold";t=0.0}, 
+        { id = 518970978; count = 100; name="Matte black";t=0.0}, 
+        { id = 464851947; count = 100; name="Matte blue cold";t=0.0}, 
+        { id = 1119214409; count = 100; name="Matte blue";t=0.0}, 
+        { id = 2109465292; count = 100; name="Matte dark beige";t=0.0}, 
+        { id = 120381316; count = 100; name="Matte dark beige cold";t=0.0}, 
+        { id = 518920294; count = 100; name="Matte dark blue";t=0.0}, 
+        { id = 165456444; count = 100; name="Matte dark blue cold";t=0.0}, 
+        { id = 1203733057; count = 100; name="Matte dark gray";t=0.0}, 
+        { id = 1504635849; count = 100; name="Matte dark green";t=0.0}, 
+        { id = 1673403525; count = 100; name="Matte dark green cold";t=0.0}, 
+        -- { id = 1528941636; count = 100; name="Matte dark orange";t=0.0}, 
+        -- { id = 811578893; count = 100; name="Matte dark orange cold";t=0.0}, 
+        { id = 1140432965; count = 100; name="Matte dark red";t=0.0}, 
+        { id = 1965917139; count = 100; name="Matte dark red cold";t=0.0}, 
+        { id = 194906983; count = 100; name="Matte yellow red";t=0.0}, 
+        { id = 2019620475 ; count = 100; name="Matte dark yellow cold";t=0.0}, 
+        { id = 1195626365; count = 100; name="Matte gray";t=0.0}, 
+        { id = 1203228381; count = 100; name="Matte green";t=0.0}, 
+        { id = 848897495; count = 100; name="Matte green cold";t=0.0}, 
+        -- { id = 2109465300; count = 100; name="Matte light beige";t=0.0}, 
+        -- { id =120381340 ; count = 100; name="Matte light beige cold";t=0.0}, 
+        { id =518920318 ; count = 100; name="Matte light blue";t=0.0}, 
+        { id =165456436 ; count = 100; name="Matte light blue cold";t=0.0}, 
+        { id =1203733049 ; count = 100; name="Matte light gray";t=0.0}, 
+        { id =1504635841 ; count = 100; name="Matte light green";t=0.0}, 
+        { id =1673403533 ; count = 100; name="Matte light green cold";t=0.0}, 
+        { id =1528941644 ; count = 100; name="Matte light orange";t=0.0}, 
+        -- { id =811579125 ; count = 100; name="Matte light orange cold";t=0.0}, 
+        { id = 1140432973; count = 100; name="Matte light red";t=0.0}, 
+        -- { id = 1965917147; count = 100; name="Matte light red cold";t=0.0}, 
+        { id =194907007 ; count = 100; name="Matte light yellow";t=0.0}, 
+        { id =2019620451 ; count = 100; name="Matte light yellow cold";t=0.0}, 
+        { id =1976371233 ; count = 100; name="Matte orange";t=0.0}, 
+        -- { id =1294971511 ; count = 100; name="Matte orange cold";t=0.0}, 
+        { id =349121824 ; count = 100; name="Matte red";t=0.0}, 
+        { id =1898326674 ; count = 100; name="Matte red cold";t=0.0}, 
+        { id =68509334 ; count = 100; name="Matte white";t=0.0}, 
+        { id =571173960 ; count = 100; name="Matte yellow";t=0.0}, 
+        -- { id =1144275122 ; count = 100; name="Matte yellow cold";t=0.0}, 
+        
     };
 
 };
@@ -214,6 +275,10 @@ function industry_lib.new(system,unit)
         { 
             need = 1; 
             meta = { __index={ volume=0.0; mass=0.0; t=0.0; }; }; 
+        },
+        DataBankUnit =
+        {
+           need = 0;
         },
     };
 
@@ -292,6 +357,17 @@ function industry_lib:AssignRecipeLists()
         end    
     end    
     return true;
+end
+
+
+
+function industry_lib:SecureCall(func_name,t)
+    local f = self[func_name];
+    local ok, message = pcall(f,self,t);
+    if not ok then
+       local text= string.format("Error in %s :\n%s",func_name,message);
+       self.system.print(string.gsub(text,"\n", "<br>"));
+    end
 end
 
 function industry_lib:PeriodicCheck(t)
