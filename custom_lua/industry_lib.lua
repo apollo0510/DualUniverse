@@ -159,7 +159,7 @@ local recipe_table=
 
     PlaneM=
     {
-    
+        { id = 1145478538 ; count = 4; name="Space Fuel Tank M" ;t=0.0}, 
     };
 
     PlaneS=
