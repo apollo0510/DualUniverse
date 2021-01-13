@@ -19,6 +19,7 @@ local recipe_table=
          { id = 374123370; count = 20; name="unc reinf XS" ;t=0.0},    
          -- { id = 266176733; count = 20; name="unc reinf S" ;t=0.0},    
          { id = 266176771; count = 10; name="unc reinf M" ;t=0.0},    
+         { id = 266176780; count = 10; name="unc reinf L" ;t=0.0},
     };
     
     Panels=
@@ -51,6 +52,8 @@ local recipe_table=
         { id =763768710 ; count = 20; name="bas ionic cham S" ;t=0.0},   
         { id =763768764 ; count = 20; name="bas ionic cham M" ;t=0.0},   
         { id =763768767 ; count = 10; name="bas ionic cham L" ;t=0.0},   
+
+        { id =763789004 ; count = 5; name="unc ionic cham L" ;t=0.0},   
     };
     
     Robotics=
@@ -154,12 +157,18 @@ local recipe_table=
 
     PlaneL=
     {
-    
+        { id = 538110466 ; count = 4; name="Mil Space Eng L" ;t=0.0}, 
     };
 
     PlaneM=
     {
         { id = 1145478538 ; count = 4; name="Space Fuel Tank M" ;t=0.0}, 
+        { id = 896390419  ; count = 4; name="Atmo Fuel Tank M" ;t=0.0}, 
+        { id = 1609056078 ; count = 10; name="Stabilizer M" ;t=0.0}, 
+        { id = 1117541306 ; count = 10; name="Atmo Airbrake L" ;t=0.0}, 
+        { id = 476284886  ; count = 10; name="Retro Rocketbrake L" ;t=0.0}, 
+        { id = 581659554  ; count = 20; name="Adjustor L" ;t=0.0}, 
+        { id = 1084256146 ; count = 10; name="Flat Hover Engine L" ;t=0.0}, 
     };
 
     PlaneS=
@@ -483,19 +492,26 @@ function industry_lib:UpdateScreen()
     	for i=1,n do
         	local industry=industry_table[i];
         	local m = industry.obj; 
-        	
-             local status_name = m.getStatus();
-             local status      = self.machine_stati[status_name];
-             local si          = self.status_info  [status];
-             local id_string   = tostring(industry.id);
-             local recipe      = self.recipe_by_id[id_string];
-             local text;
-             if recipe then
-                text=format("<tr style=\"color: %s\"><th>%s</th><th>%s</th><th>%s</th></tr>",si.color,industry.name,si.name,recipe.name);
-             else
-                text=format("<tr style=\"color: %s\"><th>%s</th><th>%s</th><th>%s</th></tr>",si.color,industry.name,si.name,id_string);
-             end   
-             table.insert(html,text);
+        	if m then
+                 local status_name = m.getStatus();
+                 if status_name then
+                     local status      = self.machine_stati[status_name];
+                     if status then
+                         local si          = self.status_info  [status];
+                         if si then
+                             local id_string   = tostring(industry.id);
+                             local recipe      = self.recipe_by_id[id_string];
+                             local text;
+                             if recipe then
+                                text=format("<tr style=\"color: %s\"><th>%s</th><th>%s</th><th>%s</th></tr>",si.color,industry.name,si.name,recipe.name);
+                             else
+                                text=format("<tr style=\"color: %s\"><th>%s</th><th>%s</th><th>%s</th></tr>",si.color,industry.name,si.name,id_string);
+                             end   
+                             table.insert(html,text);
+                         end
+                     end
+                 end
+             end
          end  
          table.insert(html,html_end);
          local screen   = u.ScreenUnit[1].obj;
