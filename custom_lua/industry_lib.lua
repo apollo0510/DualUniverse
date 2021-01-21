@@ -15,6 +15,7 @@ local recipe_table=
          { id = 266197940; count = 20; name="bas reinf S" ;t=0.0},    
          { id = 266197938; count = 20; name="bas reinf M" ;t=0.0},    
          { id = 266197949; count = 10; name="bas reinf L" ;t=0.0},    
+         { id = 376985790; count = 4; name="bas reinf XL" ;t=0.0},
 
          { id = 374123370; count = 20; name="unc reinf XS" ;t=0.0},    
          -- { id = 266176733; count = 20; name="unc reinf S" ;t=0.0},    
@@ -65,11 +66,11 @@ local recipe_table=
 
     Mix1=
     {
-          { id =3936127019 ; count = 50; name="basic screw"          ;t=0.0}, 
-          { id =3936127018 ; count = 50; name="uncommon screw"       ;t=0.0}, 
+          { id =3936127019 ; count = 200; name="basic screw"          ;t=0.0}, 
+          { id =3936127018 ; count = 200; name="uncommon screw"       ;t=0.0}, 
 
-          { id =1799107246 ; count = 50; name="basic pipe"          ;t=0.0}, 
-          { id =1799107247 ; count = 50; name="uncommon pipe"       ;t=0.0}, 
+          { id =1799107246 ; count = 200; name="basic pipe"          ;t=0.0}, 
+          { id =1799107247 ; count = 200; name="uncommon pipe"       ;t=0.0}, 
 
           { id =794666749 ; count = 500; name="basic component"       ;t=0.0}, 
           { id =794666748 ; count = 50; name="uncommon component"    ;t=0.0}, 
@@ -230,6 +231,13 @@ local recipe_table=
         -- { id =1144275122 ; count = 100; name="Matte yellow cold";t=0.0}, 
         
     };
+
+     Fuel=
+     {
+        { id = 400056330 ; count = 20000; name="Xeron Fuel" ;t=0.0}, 
+        { id = 1814211557 ; count = 40000; name="Nitron Fuel" ;t=0.0}, 
+        { id = 1397521130 ; count = 40000; name="Kergon-X3 Fuel" ;t=0.0}, 
+     };
 
 };
 
