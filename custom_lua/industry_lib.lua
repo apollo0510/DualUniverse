@@ -118,6 +118,12 @@ local recipe_table=
         { id =555932566 ; count = 10; name="vert light S";}, 
         { id =164219412 ; count = 10; name="vert light M";}, 
 
+        { id = 5872435 ; count = 20; name="screen  XS";}, 
+        { id = 5872498 ; count = 20; name="screen  S";}, 
+        { id = 5872566 ; count = 20; name="screen  M";}, 
+        { id = 1337136126 ; count = 10; name="transp. screen  M";}, 
+
+
         { id =441567189  ; count = 100; name="glass panel S";}, 
         { id =283407660  ; count = 100; name="glass panel M";}, 
         
@@ -255,20 +261,20 @@ local recipe_table=
      {
         { id = 1673011820 ; count = 500; name="CU-AG Alloy";}, 
         { id = 1034957327 ; count = 500; name="Calcium Reinforced Copper";}, 
-        { id = 3308209457 ; count = 500; name="Glass";}, 
-        { id = 18262914 ; count = 500; name="AL-FE Alloy";}, 
+        { id = 3308209457 ; count = 2000; name="Glass";}, 
+        { id = 18262914 ; count = 1000; name="AL-FE Alloy";}, 
         { id = 2872711778 ; count = 500; name="Uncommon Connector";}, 
-        { id = 2872711779 ; count = 500; name="Basic Connector";}, 
-        { id = 794666749 ; count = 500; name="Basic Component";}, 
+        { id = 2872711779 ; count = 1000; name="Basic Connector";}, 
+        { id = 794666749 ; count =  1000; name="Basic Component";}, 
      };
 
      WarpMix2=
      {
         { id = 1234754161 ; count = 500; name="Uncommon Led";}, 
-        { id = 1234754162 ; count = 500; name="Basic Led";}, 
-        { id = 2097691217 ; count = 500; name="Polysulfide Plastic";}, 
-        { id = 4103265826 ; count = 500; name="Polycalcite Plastic";}, 
-        { id = 2014531313 ; count = 500; name="Polycarbonate Plastic";}, 
+        { id = 1234754162 ; count = 2000; name="Basic Led";}, 
+        { id = 2097691217 ; count = 1000; name="Polysulfide Plastic";}, 
+        { id = 4103265826 ; count = 1000; name="Polycalcite Plastic";}, 
+        { id = 2014531313 ; count = 2000; name="Polycarbonate Plastic";}, 
      };
 
 
