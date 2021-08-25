@@ -22,7 +22,14 @@ local recipe_table=
          { id = 266176771; count = 10; name="unc reinf M";},    
          { id = 266176780; count = 10; name="unc reinf L";},
     };
-    
+
+    AdvFrames=
+    {
+        { id =264385523  ; count = 20; name="adv reinf S";},   
+        { id =0  ; count = 20; name="adv reinf M";},   
+        { id =0  ; count = 20; name="adv reinf L";},   
+    };
+        
     Panels=
     {
         { id =117227222  ; count = 20; name="bas mob panel XS";},   
@@ -135,7 +142,7 @@ local recipe_table=
         { id =1601756570 ; count = 10; name="vert light L";}, 
         { id =2045974002  ; count = 100; name="glass panel L";}, 
         { id =760622009 ; count = 20; name="container XS";}, 
-    
+        { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
     };
 
     EquipM=
@@ -277,6 +284,18 @@ local recipe_table=
         { id = 2014531313 ; count = 4000; name="Polycarbonate Plastic";}, 
      };
 
+     ShieldMix1=
+     {
+        { id = 1234754162 ; count = 200; name="Basic Led";}, 
+        { id = 1234754161 ; count = 200; name="Uncommon Led";}, 
+        { id = 1234754160 ; count = 200; name="Advanced Led";}, 
+
+        { id = 3739200051 ; count = 200; name="Basic Optics";}, 
+        { id = 3739200050 ; count = 200; name="Unc. Optics";}, 
+        { id = 3739200049 ; count = 200; name="Adv. Optics";}, 
+
+        { id = 2301749833 ; count = 200; name="AgLi Glas";}, 
+     };
 
 };
 
@@ -310,10 +329,6 @@ local industry_lib=
         { name="Jammed"  , color="#FF4040" },
     };
     
-    recipe_by_id=
-    {
-
-    };
 };
 
 function industry_lib.new(system,unit)
@@ -368,11 +383,13 @@ end
 
 function industry_lib:BuildRecipeTable()
     for _,recipe_list in pairs(recipe_table) do
-        for _,recipe in pairs(recipe_list) do
+        local recipe_by_id={};
+        for _,recipe in ipairs(recipe_list) do
             local id_string=tostring(recipe.id);
-            self.recipe_by_id[id_string]=recipe;
+            recipe_by_id[id_string]=recipe;
             -- self.system.print("Adding recipe "..id_string);
         end    
+        recipe_list.recipe_by_id=recipe_by_id;
     end
 end
 
@@ -463,9 +480,10 @@ function industry_lib:PeriodicCheck(t)
             update_screen   = true;
             
             local id_string=tostring(id);
+            local recipe_list = industry.recipe_list;
             
             if (status==self.STATUS_STOPPED) then
-                local recipe    = self.recipe_by_id[id_string];
+                local recipe    = recipe_list.recipe_by_id[id_string];
                 local container = industry.container;
                 if recipe then
 
@@ -481,7 +499,6 @@ function industry_lib:PeriodicCheck(t)
                         recipe_times[id_string]=t;
                         -- self.system.print(format("Starting recipe %s : %d" , recipe.name,recipe.count));
                     else
-                        local recipe_list = industry.recipe_list;
                         for r=1,#recipe_list do
                             recipe=recipe_list[r];
                             id_string=tostring(recipe.id);
@@ -548,6 +565,7 @@ function industry_lib:UpdateScreen()
         n=#industry_table;
     	for i=1,n do
         	local industry=industry_table[i];
+            local recipe_list = industry.recipe_list;
         	local m = industry.obj; 
         	if m then
                  local status_name = m.getStatus();
@@ -557,7 +575,7 @@ function industry_lib:UpdateScreen()
                          local si          = self.status_info  [status];
                          if si then
                              local id_string   = tostring(industry.id);
-                             local recipe      = self.recipe_by_id[id_string];
+                             local recipe      = recipe_list.recipe_by_id[id_string];
                              local text;
                              if recipe then
                                 text=format("<tr style=\"color: %s\"><th>%s</th><th>%s</th><th>%s</th></tr>",si.color,industry.name,si.name,recipe.name);

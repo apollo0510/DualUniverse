@@ -5,6 +5,7 @@ local format          = string.format;
 local class_translation=
 {
     ["Industry1"      ] = "Industry";
+    ["Industry2"      ] = "Industry";
     ["IndustryUnit"   ] = "Industry";
     ["CoreUnitStatic" ] = "CoreUnit";
     ["CoreUnitDynamic"] = "CoreUnit";
@@ -20,7 +21,7 @@ function unit_lib.new(system,unit,unit_classes)
      lib:ResolveNames();
      return lib;
 end
-
+    
 function unit_lib:ErrorHandler(text)
     local u=self.unit_classes;
     local screen=u.ScreenUnit[1];
