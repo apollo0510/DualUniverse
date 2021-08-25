@@ -142,7 +142,7 @@ local recipe_table=
         { id =1601756570 ; count = 10; name="vert light L";}, 
         { id =2045974002  ; count = 100; name="glass panel L";}, 
         { id =760622009 ; count = 20; name="container XS";}, 
-    
+        { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
     };
 
     EquipM=
