@@ -274,7 +274,7 @@ local recipe_table=
         { id = 1234754162 ; count = 2000; name="Basic Led";}, 
         { id = 2097691217 ; count = 1000; name="Polysulfide Plastic";}, 
         { id = 4103265826 ; count = 1000; name="Polycalcite Plastic";}, 
-        { id = 2014531313 ; count = 2000; name="Polycarbonate Plastic";}, 
+        { id = 2014531313 ; count = 4000; name="Polycarbonate Plastic";}, 
      };
 
 
