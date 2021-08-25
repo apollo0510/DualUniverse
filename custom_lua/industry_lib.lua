@@ -22,7 +22,14 @@ local recipe_table=
          { id = 266176771; count = 10; name="unc reinf M";},    
          { id = 266176780; count = 10; name="unc reinf L";},
     };
-    
+
+    AdvFrames=
+    {
+        { id =264385523  ; count = 20; name="adv reinf S";},   
+        { id =0  ; count = 20; name="adv reinf M";},   
+        { id =0  ; count = 20; name="adv reinf L";},   
+    };
+        
     Panels=
     {
         { id =117227222  ; count = 20; name="bas mob panel XS";},   
