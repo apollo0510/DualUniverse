@@ -17,6 +17,8 @@ local recipe_table=
          { id = 266197949; count = 10; name="bas reinf L";},    
          { id = 376985790; count = 4; name="bas reinf XL";},
 
+         { id = 461676511; count = 10; name="unc stand S";},
+
          { id = 374123370; count = 20; name="unc reinf XS";},    
          -- { id = 266176733; count = 20; name="unc reinf S";},    
          { id = 266176771; count = 10; name="unc reinf M";},    
@@ -26,8 +28,15 @@ local recipe_table=
     AdvFrames=
     {
         { id =264385523  ; count = 20; name="adv reinf S";},   
-        { id =0  ; count = 20; name="adv reinf M";},   
-        { id =0  ; count = 20; name="adv reinf L";},   
+        { id =264385481  ; count = 20; name="adv reinf M";},   
+        { id =264385482  ; count = 20; name="adv reinf L";},   
+    };
+
+    Transformer=
+    {
+        { id =1365338032  ; count = 10; name="unc transf S";},   
+        { id =1365333629  ; count = 10; name="bas transf M";},
+        { id =1365338026  ; count = 10; name="unc transf M";},   
     };
         
     Panels=
@@ -143,6 +152,7 @@ local recipe_table=
         { id =2045974002  ; count = 100; name="glass panel L";}, 
         { id =760622009 ; count = 20; name="container XS";}, 
         { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
+        { id =1053616004 ; count = 2; name="RezzNode";}, 
     };
 
     EquipM=
