@@ -18,6 +18,7 @@ local recipe_table=
          { id = 376985790; count = 4; name="bas reinf XL";},
 
          { id = 461676511; count = 10; name="unc stand S";},
+         { id = 461676500; count = 10; name="unc stand L";},
 
          { id = 374123370; count = 20; name="unc reinf XS";},    
          -- { id = 266176733; count = 20; name="unc reinf S";},    
@@ -180,6 +181,7 @@ local recipe_table=
     {
         { id = 937197329 ; count = 20; name="container M";}, 
         { id = 1702024841; count = 20; name="container L";}, 
+        { id = 1339132959; count = 10; name="stat Core L";}, 
     };
 
     PlaneL=
@@ -299,6 +301,7 @@ local recipe_table=
         { id = 1234754162 ; count = 200; name="Basic Led";}, 
         { id = 1234754161 ; count = 200; name="Uncommon Led";}, 
         { id = 1234754160 ; count = 200; name="Advanced Led";}, 
+        { id = 1246524876 ; count = 50; name="Adv Magnet";},
 
         { id = 3739200051 ; count = 200; name="Basic Optics";}, 
         { id = 3739200050 ; count = 200; name="Unc. Optics";}, 
