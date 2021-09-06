@@ -90,7 +90,7 @@ local recipe_table=
           { id =1799107247 ; count = 200; name="uncommon pipe";}, 
 
           { id =794666749 ; count = 500; name="basic component";}, 
-          { id =794666748 ; count = 50; name="uncommon component";}, 
+          { id =794666748 ; count = 200; name="uncommon component";}, 
         
           { id =946503935 ; count = 50; name="basic casing XS";}, 
           { id =3808417022 ; count = 50; name="basic processor";}, 
