@@ -344,7 +344,7 @@ local industry_lib=
     
 };
 
-function industry_lib.new(system,unit)
+function industry_lib.new(system,unit,delay)
 
     local unit_classes=
     {
@@ -373,12 +373,18 @@ function industry_lib.new(system,unit)
          lib.system       = system;
          lib.unit         = unit;
          lib.unit_classes = unit_classes;
+         lib.service_slot = 1000;
          lib:BuildRecipeTable();
          -- system.print("industry_lib:BuildRecipeTable done");
          lib.init_ok=lib:AssignRecipeLists();
          -- system.print("industry_lib:AssignRecipeLists done");
          if lib.init_ok then
-             unit.setTimer("Periodic",1.0);
+             local n=#unit_classes.Industry;
+             if n>0 then
+                lib.service_interval = 1.0 / n;
+                if delay==nil then delay=1.0; end
+                unit.setTimer("Periodic",delay);
+             end 
          end   
      end
      return lib;
@@ -437,6 +443,7 @@ function industry_lib:AssignRecipeLists()
             return false;
         end    
         industry.container = container_lookup[name_postfix];
+        industry.container_time = 0;
         if not industry.container then
             self:ErrorHandler(format("No container match for %s (%s)",industry.name,name_postfix));
             return false;
@@ -457,39 +464,51 @@ function industry_lib:SecureCall(func_name,t)
 end
 
 function industry_lib:PeriodicCheck(t)
+    
+    if self.service_interval~=nil then
+        self.unit.setTimer("Periodic",self.service_interval);
+        self.service_interval=nil;
+    end
+
     local u=self.unit_classes;
     local industry_table = u.Industry;
     local container_table = u.ItemContainer;
-    
-    local container_changed=false;
-    local n=#container_table;
-    for i=1,n do
-        local container  = container_table[i];
-        local volume = container.obj.getItemsVolume();
-        local mass   = container.obj.getItemsMass();
-        if (volume~=container.volume) or (mass~=container.mass) then
-            container.volume = volume;
-            container.mass   = mass;
-            container.t      = t;
-            container_changed= true;
-            -- self.system.print("Container content changed : " .. container.name);
-        end    
-    end  
 
     local update_screen=false;
-    n=#industry_table;
-    for i=1,n do
-        local industry    = industry_table[i];
+    local n_industry=#industry_table;
+    if n_industry>0 then
+
+        self.service_slot=self.service_slot+1;
+        if self.service_slot>n_industry then 
+            self.service_slot=1; 
+
+            local n_container=#container_table;
+            for i=1,n_container do
+                local container  = container_table[i];
+                local volume = container.obj.getItemsVolume();
+                local mass   = container.obj.getItemsMass();
+                if (volume~=container.volume) or (mass~=container.mass) then
+                    container.volume = volume;
+                    container.mass   = mass;
+                    container.t      = t;
+                    -- self.system.print("Container content changed : " .. container.name);
+                end    
+            end  
+        end
+
+        local industry    = industry_table[self.service_slot];
         local m           = industry.obj; 
         local status      = self.machine_stati[m.getStatus()];
         local id          = m.getCurrentSchematic();
+        local container = industry.container;
 
         if  (status~=industry.status) or 
             (id   ~=industry.id) or 
-             container_changed then
+            (container.t ~= industry.container_time )  then
 
             industry.status = status;
             industry.id     = id;
+            industry.container_time = container.t;
             update_screen   = true;
             
             local id_string=tostring(id);
@@ -497,7 +516,6 @@ function industry_lib:PeriodicCheck(t)
             
             if (status==self.STATUS_STOPPED) then
                 local recipe    = recipe_list.recipe_by_id[id_string];
-                local container = industry.container;
                 if recipe then
 
                     local recipe_times= industry.recipe_times;

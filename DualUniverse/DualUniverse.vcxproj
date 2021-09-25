@@ -144,6 +144,7 @@
     <None Include="..\custom_lua\industry_lib.lua" />
     <None Include="..\custom_lua\unit_lib.lua" />
     <None Include="..\display1.json" />
+    <None Include="..\display1.lua" />
     <None Include="..\display2.json" />
     <None Include="..\display3.json" />
     <None Include="..\doorcontrol.json" />
