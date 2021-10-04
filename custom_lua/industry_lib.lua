@@ -127,6 +127,7 @@ local recipe_table=
 
          { id =1210245076 ; count = 10; name="manual button XS";}, 
          { id =1623233219 ; count = 10; name="manual switch";}, 
+         { id =819585790 ; count = 10; name="Telemeter";}, 
     };
 
     EquipXS=
@@ -186,7 +187,7 @@ local recipe_table=
 
     PlaneL=
     {
-        { id = 538110466 ; count = 4; name="Mil Space Eng L";}, 
+        { id = 538110466 ; count = 8; name="Mil Space Eng L";}, 
     };
 
     PlaneM=
@@ -209,6 +210,7 @@ local recipe_table=
     {
         { id = 707706079 ; count = 10; name="Hatch S";}, 
         { id = 1405119260 ; count = 10; name="Sliding Door S";}, 
+        { id = 615006973 ; count = 10; name="Command Seat";}, 
     
     };
 
@@ -271,9 +273,9 @@ local recipe_table=
 
      Fuel=
      {
-        { id = 400056330 ; count = 20000; name="Xeron Fuel";}, 
-        { id = 1814211557 ; count = 40000; name="Nitron Fuel";}, 
-        { id = 1397521130 ; count = 40000; name="Kergon-X3 Fuel";}, 
+        { id = 400056330 ; count =  40000; name="Xeron Fuel";}, 
+        { id = 1814211557 ; count = 60000; name="Nitron Fuel";}, 
+        { id = 1397521130 ; count = 60000; name="Kergon-X3 Fuel";}, 
      };
 
      WarpMix1=
