@@ -175,6 +175,8 @@ local recipe_table=
         { id = 127106567   ; count = 5; name="unc metal. ind.";}, 
         { id = 1597739671  ; count = 1; name="unc refiner M";}, 
         { id = 1137084674  ; count = 1; name="unc smelter";}, 
+
+        -- { id = 921860876  ; count = 1; name="scaffolding";},
        
     };
 
@@ -271,12 +273,12 @@ local recipe_table=
         
     };
 
-     Fuel=
-     {
-        { id = 400056330 ; count =  40000; name="Xeron Fuel";}, 
-        { id = 1814211557 ; count = 60000; name="Nitron Fuel";}, 
-        { id = 1397521130 ; count = 60000; name="Kergon-X3 Fuel";}, 
-     };
+    -- Fuel=
+    -- {
+    --    { id = 400056330 ; count =  40000; name="Xeron Fuel";}, 
+    --    { id = 1814211557 ; count = 60000; name="Nitron Fuel";}, 
+    --    { id = 1397521130 ; count = 60000; name="Kergon-X3 Fuel";}, 
+    -- };
 
      WarpMix1=
      {
