@@ -206,6 +206,8 @@ local recipe_table=
         { id = 1176770283 ; count = 10; name="Interior Door M";}, 
         { id = 700444865 ; count = 10; name="Reinforced Door M";}, 
         { id = 952044375 ; count = 10; name="Sliding Door M";}, 
+
+        { id = 1123820852 ; count = 10; name="Wing M";},
     };
 
     PlaneS=
