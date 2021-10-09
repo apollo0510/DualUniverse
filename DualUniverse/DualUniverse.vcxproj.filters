@@ -84,6 +84,9 @@
     <None Include="..\display1.lua">
       <Filter>lua</Filter>
     </None>
+    <None Include="..\experimental.json">
+      <Filter>json</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\readme.txt">

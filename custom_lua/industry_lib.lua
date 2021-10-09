@@ -72,6 +72,7 @@ local recipe_table=
         { id =763768767 ; count = 10; name="bas ionic cham L";},   
 
         { id =763789004 ; count = 5; name="unc ionic cham L";},   
+        { id =763760349 ; count = 2; name="adv ionic cham L";},
     };
     
     Robotics=
@@ -185,6 +186,7 @@ local recipe_table=
         { id = 937197329 ; count = 20; name="container M";}, 
         { id = 1702024841; count = 20; name="container L";}, 
         { id = 1339132959; count = 10; name="stat Core L";}, 
+        { id = 1275490954; count = 1;  name="unc Ass L";},
     };
 
     PlaneL=

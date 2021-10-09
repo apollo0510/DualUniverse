@@ -1,0 +1,149 @@
+{
+  "slots": {
+    "0": {
+      "name": "slot1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "1": {
+      "name": "slot2",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "2": {
+      "name": "slot3",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "3": {
+      "name": "slot4",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "4": {
+      "name": "slot5",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "5": {
+      "name": "slot6",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "6": {
+      "name": "slot7",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "7": {
+      "name": "slot8",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "8": {
+      "name": "slot9",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "9": {
+      "name": "slot10",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-1": {
+      "name": "unit",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-2": {
+      "name": "system",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-3": {
+      "name": "library",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    }
+  },
+  "handlers": [
+    
+    {
+      "code": "-- ***********************************************************\n\nlocal format          = string.format;\nlocal print           = system.print;\n\n-- ***********************************************************\n\nlocal unit_classes=\n{\n    CoreUnitStatic   = { need = 1; meta = nil; },\n    ScreenUnit       = { need = 1; meta = nil; },\n    DataBankUnit     = { need = 1; meta = nil; },\n    ManualButtonUnit = { need = 1; meta = nil; },\n    LightUnit        = { need = 1; meta = nil; },\n};\n\n-- ***********************************************************\n\nfunction IdentifySlots()\n    local u = unit_classes;\n    for key,obj in pairs(unit) do\n        if (type(obj)==\"table\") and (obj.getElementClass~=nil) then\n            local class = obj.getElementClass();\n            local class_table = u[class];\n            if class_table then\n                 local unit = {};\n                 unit.obj=obj; \n                 setmetatable(unit,class_table.meta);\n                 class_table[#class_table+1]=unit; \n             else if class~=\"Generic\" then\n               \tprint(format(\"Unexpected unit class %s\",class));\n             end    \n           end    \n        end    \n    end    \n    local all_units_found=true;\n    for class_name,class_table in pairs(u) do\n        local n = #class_table;\n        if n < class_table.need then\n            all_units_found=false;\n            print(format(\"Missing unit type %s : %d of %d\",class_name,n,class_table.need));\n        end    \n    end    \n    return all_units_found;\nend\n\n\n-- ***********************************************************\n\nfunction OnPeriodic(shutdown)\n    local t  = system.getTime();\nend\n\n-- ***********************************************************\n\nfunction OnPressed(slot,status)\n    if status then\n        print(format(\"pressed %d\",slot));\n    else\n        print(format(\"release %d\",slot));\n    end\nend\n\n\n-- ***********************************************************\n\n\nif IdentifySlots() then\n   print(\"Starting Experimental Control\"); \n   unit.setTimer(\"Periodic\",1.0);\nend    \n",
+      "filter": {
+        "args": [],
+        "signature": "start()",
+        "slotKey": "-1"
+      },
+      "key": "0"
+    },
+    {
+      "code": "OnPeriodic(true);",
+      "filter": {
+        "args": [],
+        "signature": "stop()",
+        "slotKey": "-1"
+      },
+      "key": "1"
+    },
+    {
+      "code": "OnPeriodic(false);",
+      "filter": {
+        "args": [ { "value": "Periodic" } ],
+        "signature": "tick(timerId)",
+        "slotKey": "-1"
+      },
+      "key": "2"
+    },
+
+    { "code": "OnPressed(1,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "0"  }, "key": "3"  },
+    { "code": "OnPressed(1,false)", "filter": { "args": [], "signature": "released()","slotKey": "0" }, "key": "4"  },
+    { "code": "OnPressed(2,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "1"  }, "key": "5"  },
+    { "code": "OnPressed(2,false)", "filter": { "args": [], "signature": "released()","slotKey": "1" }, "key": "6"  },
+    { "code": "OnPressed(3,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "2"  }, "key": "7"  },
+    { "code": "OnPressed(3,false)", "filter": { "args": [], "signature": "released()","slotKey": "2" }, "key": "8"  },
+    { "code": "OnPressed(4,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "3"  }, "key": "9"  },
+    { "code": "OnPressed(4,false)", "filter": { "args": [], "signature": "released()","slotKey": "3" }, "key": "10"  },
+    { "code": "OnPressed(5,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "4"  }, "key": "11"  },
+    { "code": "OnPressed(5,false)", "filter": { "args": [], "signature": "released()","slotKey": "4" }, "key": "12"  },
+    { "code": "OnPressed(6,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "5"  }, "key": "13"  },
+    { "code": "OnPressed(6,false)", "filter": { "args": [], "signature": "released()","slotKey": "5" }, "key": "14"  },
+    { "code": "OnPressed(7,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "6"  }, "key": "15"  },
+    { "code": "OnPressed(7,false)", "filter": { "args": [], "signature": "released()","slotKey": "6" }, "key": "16"  },
+    { "code": "OnPressed(8,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "7"  }, "key": "17"  },
+    { "code": "OnPressed(8,false)", "filter": { "args": [], "signature": "released()","slotKey": "7" }, "key": "18"  },
+    { "code": "OnPressed(9,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "8"  }, "key": "19"  },
+    { "code": "OnPressed(9,false)", "filter": { "args": [], "signature": "released()","slotKey": "8" }, "key": "20"  },
+    { "code": "OnPressed(10,true)", "filter": { "args": [], "signature": "pressed()", "slotKey": "9"  }, "key": "21"  },
+    { "code": "OnPressed(10,false)", "filter": { "args": [], "signature": "released()","slotKey": "9" }, "key": "22"  }
+
+  ],
+  "methods": [],
+  "events": []
+}
