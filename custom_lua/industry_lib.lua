@@ -72,7 +72,7 @@ local recipe_table=
         { id =763768767 ; count = 10; name="bas ionic cham L";},   
 
         { id =763789004 ; count = 5; name="unc ionic cham L";},   
-        { id =763760349 ; count = 2; name="adv ionic cham L";},
+        { id =763760349 ; count = 1; name="adv ionic cham L";},
     };
     
     Robotics=
@@ -372,6 +372,10 @@ function industry_lib.new(system,unit,delay)
         {
            need = 0;
         },
+        ManualSwitchUnit =
+        {
+           need = 0;
+        },
     };
 
      local lib={};
@@ -382,6 +386,7 @@ function industry_lib.new(system,unit,delay)
          lib.unit         = unit;
          lib.unit_classes = unit_classes;
          lib.service_slot = 1000;
+         lib.idle_count   = 0;
          lib:BuildRecipeTable();
          -- system.print("industry_lib:BuildRecipeTable done");
          lib.init_ok=lib:AssignRecipeLists();
@@ -389,9 +394,9 @@ function industry_lib.new(system,unit,delay)
          if lib.init_ok then
              local n=#unit_classes.Industry;
              if n>0 then
-                lib.service_interval = 1.0 / n;
-                if delay==nil then delay=1.0; end
-                unit.setTimer("Periodic",delay);
+                -- lib.service_interval = 1.0 / n;
+                lib.service_interval = 0.1;
+                unit.setTimer("Periodic",lib.service_interval);
              end 
          end   
      end
@@ -409,12 +414,14 @@ function industry_lib:ErrorHandler(text)
 end
 
 function industry_lib:BuildRecipeTable()
+    --local core=self.unit_lib.core;
     for _,recipe_list in pairs(recipe_table) do
         local recipe_by_id={};
         for _,recipe in ipairs(recipe_list) do
             local id_string=tostring(recipe.id);
             recipe_by_id[id_string]=recipe;
-            -- self.system.print("Adding recipe "..id_string);
+            --    local json_string=core.getSchematicInfo(recipe.id);
+            --    self.system.print("Adding recipe "..json_string);
         end    
         recipe_list.recipe_by_id=recipe_by_id;
     end
@@ -424,6 +431,7 @@ function industry_lib:AssignRecipeLists()
     local u = self.unit_classes;
     local industry_table = u.Industry;
     local container_table = u.ItemContainer;
+    
     local container_lookup = {};
     
     local n=#container_table;
@@ -471,16 +479,41 @@ function industry_lib:SecureCall(func_name,t)
     end
 end
 
+function industry_lib:ContainerCheck(t)
+
+    local u=self.unit_classes;
+    local container_table = u.ItemContainer;
+
+    local n_container=#container_table;
+    for i=1,n_container do
+        local container  = container_table[i];
+        local cont_obj   = container.obj;
+
+        if container.acquire_pending then
+            container.acquire_pending = false;
+            local json_string=cont_obj.getItemsList();
+            local item_list = json.encode(json_string);
+            self.system.print(json_string);
+        else
+            local volume = cont_obj.getItemsVolume();
+            local mass   = cont_obj.getItemsMass();
+            if (volume~=container.volume) or (mass~=container.mass) then
+                container.volume = volume;
+                container.mass   = mass;
+                container.t      = t;
+                -- cont_obj.acquireStorage();
+                -- container.acquire_pending = true;
+                -- self.system.print("Container content changed : " .. container.name);
+            end
+        end
+    end  
+
+end
+
 function industry_lib:PeriodicCheck(t)
-    
-    if self.service_interval~=nil then
-        self.unit.setTimer("Periodic",self.service_interval);
-        self.service_interval=nil;
-    end
 
     local u=self.unit_classes;
     local industry_table = u.Industry;
-    local container_table = u.ItemContainer;
 
     local update_screen=false;
     local n_industry=#industry_table;
@@ -489,19 +522,18 @@ function industry_lib:PeriodicCheck(t)
         self.service_slot=self.service_slot+1;
         if self.service_slot>n_industry then 
             self.service_slot=1; 
-
-            local n_container=#container_table;
-            for i=1,n_container do
-                local container  = container_table[i];
-                local volume = container.obj.getItemsVolume();
-                local mass   = container.obj.getItemsMass();
-                if (volume~=container.volume) or (mass~=container.mass) then
-                    container.volume = volume;
-                    container.mass   = mass;
-                    container.t      = t;
-                    -- self.system.print("Container content changed : " .. container.name);
-                end    
-            end  
+            self:ContainerCheck(t);
+            if self.idle_count < 3 then
+                self.idle_count = self.idle_count +1;
+            else
+                self.system.print("System is idle");
+                local switch_table    = u.ManualSwitchUnit;
+                local switch = switch_table[1];
+                if switch then
+                    switch.obj.activate();
+                    switch.obj.deactivate();
+                end
+            end
         end
 
         local industry    = industry_table[self.service_slot];
@@ -536,7 +568,8 @@ function industry_lib:PeriodicCheck(t)
                     if (recipe_time==nil) or  (recipe_time < container.t) then
                         m.startAndMaintain(recipe.count);    
                         recipe_times[id_string]=t;
-                        -- self.system.print(format("Starting recipe %s : %d" , recipe.name,recipe.count));
+                        self.idle_count = 0;
+                        --self.system.print(format("Starting recipe %s : %d" , recipe.name,recipe.count));
                     else
                         for r=1,#recipe_list do
                             recipe=recipe_list[r];
@@ -544,7 +577,8 @@ function industry_lib:PeriodicCheck(t)
                             recipe_time=recipe_times[id_string];
                             if (recipe_time==nil) or  (recipe_time < container.t) then
                                 m.setCurrentSchematic(recipe.id);
-                                -- self.system.print("Changing recipe to "..recipe.name);
+                                self.idle_count = 0;
+                                --self.system.print("Changing recipe to "..recipe.name);
                                 break;
                             end   
                         end 
@@ -554,7 +588,8 @@ function industry_lib:PeriodicCheck(t)
                -- work here
             elseif(status~=self.STATUS_RUNNING) then
                 m.hardStop();
-                -- self.system.print("Stopping machine");    
+                self.idle_count = 0;
+                --self.system.print("Stopping machine");    
             end    
         end
     end
