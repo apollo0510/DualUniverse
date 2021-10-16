@@ -277,33 +277,6 @@ local recipe_table=
         
     };
 
-    -- Fuel=
-    -- {
-    --    { id = 400056330 ; count =  40000; name="Xeron Fuel";}, 
-    --    { id = 1814211557 ; count = 60000; name="Nitron Fuel";}, 
-    --    { id = 1397521130 ; count = 60000; name="Kergon-X3 Fuel";}, 
-    -- };
-
-     WarpMix1=
-     {
-        { id = 1673011820 ; count = 500; name="CU-AG Alloy";}, 
-        { id = 1034957327 ; count = 500; name="Calcium Reinforced Copper";}, 
-        { id = 3308209457 ; count = 2000; name="Glass";}, 
-        { id = 18262914 ; count = 1000; name="AL-FE Alloy";}, 
-        { id = 2872711778 ; count = 500; name="Uncommon Connector";}, 
-        { id = 2872711779 ; count = 1000; name="Basic Connector";}, 
-        { id = 794666749 ; count =  1000; name="Basic Component";}, 
-     };
-
-     WarpMix2=
-     {
-        { id = 1234754161 ; count = 500; name="Uncommon Led";}, 
-        { id = 1234754162 ; count = 2000; name="Basic Led";}, 
-        { id = 2097691217 ; count = 1000; name="Polysulfide Plastic";}, 
-        { id = 4103265826 ; count = 1000; name="Polycalcite Plastic";}, 
-        { id = 2014531313 ; count = 4000; name="Polycarbonate Plastic";}, 
-     };
-
      ShieldMix1=
      {
         { id = 1234754162 ; count = 200; name="Basic Led";}, 
