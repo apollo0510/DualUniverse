@@ -19,7 +19,7 @@ local recipe_table=
 
 
          { id = 374123370; count = 20; name="unc reinf XS";},    
-         -- { id = 266176733; count = 20; name="unc reinf S";},    
+         { id = 266176773; count = 20; name="unc reinf S";},    
          { id = 266176771; count = 10; name="unc reinf M";},    
          { id = 266176780; count = 10; name="unc reinf L";},
     };
@@ -158,11 +158,6 @@ local recipe_table=
         { id =760622009 ; count = 20; name="container XS";}, 
         { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
         { id =1053616004 ; count = 2; name="RezzNode";}, 
-
-        { id =65660295  ; count = 20; name="Canopy flat S";}, 
-        { id =2001045118  ; count = 20; name="Canopy triangle S";}, 
-
-
     };
 
     EquipM=
@@ -186,8 +181,6 @@ local recipe_table=
 
         { id =55289725    ; count = 10; name="TerriUnit";}, 
 
-        { id =2007822249  ; count = 20; name="Canopy flat M";}, 
-        { id =354023964  ; count = 20; name="Canopy triangle M";}, 
 
         -- { id = 921860876  ; count = 1; name="scaffolding";},
        
@@ -204,9 +197,13 @@ local recipe_table=
     PlaneL=
     {
         { id = 538110466 ; count = 8; name="Mil Space Eng L";}, 
+        { id =1041265279 ; count = 4; name="Canopy corner L";}, 
+        { id =1011557660 ; count = 4; name="Canopy tilted L";}, 
+        { id =830288667  ; count = 4; name="Canopy flat L";}, 
+        { id =479960376  ; count = 4; name="Canopy triangle L";}, 
     };
 
-    PlaneM=
+    PlaneM1=
     {
         { id = 1145478538 ; count = 4; name="Space Fuel Tank M";}, 
         { id = 896390419  ; count = 4; name="Atmo Fuel Tank M";}, 
@@ -224,12 +221,19 @@ local recipe_table=
         { id = 1123820852 ; count = 10; name="Wing M";},
     };
 
+    PlaneM2=
+    {
+        { id =2007822249  ; count = 10; name="Canopy flat M";}, 
+        { id =354023964  ; count = 10; name="Canopy triangle M";}, 
+    };
+
     PlaneS=
     {
         { id = 707706079 ; count = 10; name="Hatch S";}, 
         { id = 1405119260 ; count = 10; name="Sliding Door S";}, 
         { id = 615006973 ; count = 10; name="Command Seat";}, 
-    
+        { id = 65660295  ; count = 10; name="Canopy flat S";}, 
+        { id = 2001045118 ; count = 10; name="Canopy triangle S";}, 
     };
 
     PlaneXS=
