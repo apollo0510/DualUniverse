@@ -17,8 +17,6 @@ local recipe_table=
          { id = 266197949; count = 10; name="bas reinf L";},    
          { id = 376985790; count = 4; name="bas reinf XL";},
 
-         { id = 461676511; count = 10; name="unc stand S";},
-         { id = 461676500; count = 10; name="unc stand L";},
 
          { id = 374123370; count = 20; name="unc reinf XS";},    
          -- { id = 266176733; count = 20; name="unc reinf S";},    
@@ -28,6 +26,10 @@ local recipe_table=
 
     AdvFrames=
     {
+         { id = 461676511; count = 10; name="unc stand S";},
+         { id = 461676501; count = 10; name="unc stand M";},
+         { id = 461676500; count = 10; name="unc stand L";},
+
         { id =264385523  ; count = 20; name="adv reinf S";},   
         { id =264385481  ; count = 20; name="adv reinf M";},   
         { id =264385482  ; count = 20; name="adv reinf L";},   
@@ -127,7 +129,7 @@ local recipe_table=
          { id =1449541857 ; count = 10; name="databank";}, 
 
          { id =1210245076 ; count = 10; name="manual button XS";}, 
-         { id =1623233219 ; count = 10; name="manual switch";}, 
+         { id =1623233219 ; count = 10; name="manual switch";},     
          { id =819585790 ; count = 10; name="Telemeter";}, 
     };
 
@@ -156,6 +158,11 @@ local recipe_table=
         { id =760622009 ; count = 20; name="container XS";}, 
         { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
         { id =1053616004 ; count = 2; name="RezzNode";}, 
+
+        { id =65660295  ; count = 20; name="Canopy flat S";}, 
+        { id =2001045118  ; count = 20; name="Canopy triangle S";}, 
+
+
     };
 
     EquipM=
@@ -176,6 +183,11 @@ local recipe_table=
         { id = 127106567   ; count = 5; name="unc metal. ind.";}, 
         { id = 1597739671  ; count = 1; name="unc refiner M";}, 
         { id = 1137084674  ; count = 1; name="unc smelter";}, 
+
+        { id =55289725    ; count = 10; name="TerriUnit";}, 
+
+        { id =2007822249  ; count = 20; name="Canopy flat M";}, 
+        { id =354023964  ; count = 20; name="Canopy triangle M";}, 
 
         -- { id = 921860876  ; count = 1; name="scaffolding";},
        

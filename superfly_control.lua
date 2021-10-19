@@ -120,7 +120,7 @@ function OnUpdate()
          end
 
 
-        player_rel_pos  = vec3(unit.getMasterPlayerRelativePosition()); 
+        player_rel_pos  = vec3(unit.getMasterPlayerPosition()); 
         player_distance = player_rel_pos:len();
 
         altitude   = core.getAltitude();
@@ -377,6 +377,7 @@ setup_complete=IdentifySlots();
 if setup_complete then
 	OnStart();
 end
+
 
 
 
