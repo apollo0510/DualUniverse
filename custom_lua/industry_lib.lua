@@ -234,6 +234,8 @@ local recipe_table=
         { id = 615006973 ; count = 10; name="Command Seat";}, 
         { id = 65660295  ; count = 10; name="Canopy flat S";}, 
         { id = 2001045118 ; count = 10; name="Canopy triangle S";}, 
+        { id = 203547655 ; count = 10; name="Canopy tilted S";}, 
+        { id = 1825028805 ; count = 10; name="Canopy corner S";}, 
     };
 
     PlaneXS=
