@@ -218,13 +218,18 @@ local recipe_table=
         { id = 700444865 ; count = 10; name="Reinforced Door M";}, 
         { id = 952044375 ; count = 10; name="Sliding Door M";}, 
 
-        { id = 1123820852 ; count = 10; name="Wing M";},
     };
 
     PlaneM2=
     {
         { id =2007822249  ; count = 10; name="Canopy flat M";}, 
         { id =354023964  ; count = 10; name="Canopy triangle M";}, 
+        { id =426566210  ; count = 10; name="Canopy tilted M";}, 
+        { id =1156504881  ; count = 10; name="Canopy corner M";}, 
+
+        { id = 1123820852 ; count = 10; name="Wing M";},
+        { id = 1756752144 ; count = 4; name="Wing M Vari";},
+
     };
 
     PlaneS=
