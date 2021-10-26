@@ -229,6 +229,7 @@ local recipe_table=
 
         { id = 1123820852 ; count = 10; name="Wing M";},
         { id = 1756752144 ; count = 4; name="Wing M Vari";},
+        { id = 519895957 ; count = 10; name="Vert Booster L";},
 
     };
 
