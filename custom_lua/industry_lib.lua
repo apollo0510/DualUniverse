@@ -4,6 +4,32 @@ local format          = string.format;
 
 local recipe_table=
 {
+    PosRefiner=
+    {
+         { id = 1199082577; count = 1000; name="Pure Alu";     ignore_missing=true; },    
+         { id = 1262929839; count = 1000; name="Pure Carbon";  ignore_missing=true; },    
+         { id = 1833008839; count = 1000; name="Pure Iron";    ignore_missing=true; },  
+         { id = 1678829760; count = 1000; name="Pure Silicon"; ignore_missing=true; },  
+    };
+
+    PosChemical=
+    {
+         { id = 1814211557; count = 1000; name="Nitron";},    
+    };
+
+    PosRecycler=
+    {
+         { id = 722030824; count =  200; name="Pure Hydrogene"; },    
+         { id = 608747454; count =  400; name="Pure Oxygene";   },    
+         { id = 702266664; count = 1000; name="Copper Scrap"; ignore_missing=true; },    
+    };
+
+    PosTransfer=
+    {
+         { id = 1010524904; count =  200; name="Pure Hydrogene"; ignore_missing=true; },    
+         { id = 947806142; count =  400; name="Pure Oxygene";  ignore_missing=true; },    
+    };
+
     Frames=
     {
          { id = 510615335; count = 20; name="bas stand XS";},    
@@ -168,6 +194,7 @@ local recipe_table=
         { id = 1809397339  ; count = 5; name="electron. ind.";}, 
         { id = 1197243001  ; count = 5; name="glass furnace";}, 
         { id = 1113319562  ; count = 5; name="metalworks ind.";}, 
+        { id = 487570606  ; count = 5; name="basic recycler";},
 
         { id = 39016077    ; count = 5; name="unc 3d printer";}, 
         { id = 1275491022  ; count = 5; name="unc ass line M";}, 
@@ -523,10 +550,10 @@ function industry_lib:PeriodicCheck(t)
             if self.idle_count < 3 then
                 self.idle_count = self.idle_count +1;
             else
-                self.system.print("System is idle");
                 local switch_table    = u.ManualSwitchUnit;
                 local switch = switch_table[1];
                 if switch then
+                    self.system.print("Switching off");
                     switch.obj.activate();
                     switch.obj.deactivate();
                 end
@@ -582,7 +609,14 @@ function industry_lib:PeriodicCheck(t)
                     end
                 end    
             elseif(status==self.STATUS_JAMMED_MISSING_INGREDIENT) then
-               -- work here
+                local recipe    = recipe_list.recipe_by_id[id_string];
+                if recipe then
+                   if recipe.ignore_missing then
+                      self.system.print("Ignoring missing ingredients");    
+                       m.hardStop();
+                       self.idle_count = 0;
+                   end
+                end
             elseif(status~=self.STATUS_RUNNING) then
                 m.hardStop();
                 self.idle_count = 0;
