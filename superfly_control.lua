@@ -1,5 +1,5 @@
 Xoffset = -3 --export: To center the crosshair
-Yoffset = -2.3 --export: To center the crosshair
+Yoffset = 0 --export: To center the crosshair
 
 -- ******************************************************************
 
@@ -377,8 +377,4 @@ setup_complete=IdentifySlots();
 if setup_complete then
 	OnStart();
 end
-
-
-
-
 

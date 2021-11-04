@@ -1,9 +1,9 @@
 objects = 
 {
-    { cont = cont1; disp=disp1; name="Iron";      container_type=3; container_count=3; container_volume=512000; },
-    { cont = cont2; disp=disp2; name="Aluminium"; container_type=3; container_count=3; container_volume=512000; },
-    { cont = cont3; disp=disp3; name="Carbon";    container_type=3; container_count=3; container_volume=512000; },
-    { cont = cont4; disp=disp4; name="Silicon";   container_type=3; container_count=3; container_volume=486400; },
+    { cont = cont1; disp=disp1; name="Iron";      container_type=3; container_count=3; container_volume=537600; },
+    { cont = cont2; disp=disp2; name="Aluminium"; container_type=3; container_count=3; container_volume=537600; },
+    { cont = cont3; disp=disp3; name="Carbon";    container_type=3; container_count=3; container_volume=537600; },
+    { cont = cont4; disp=disp4; name="Silicon";   container_type=3; container_count=3; container_volume=537600; },
 };
 
 -- below code is the same for all units
@@ -15,7 +15,7 @@ container=
      [3]={ size="L" ; mass = 14840; volume = 128000; }
 };
 
-container_skill = 1.3; -- multiplyer for volume
+container_skill = 1.4; -- multiplyer for volume
 
 materials=
 {
@@ -65,7 +65,7 @@ function AnalyseContainer(o)
     local m = materials[o.name];
     o.material   = m;
     if container_volume~=nil and container_volume>0 then
-        -- system.print("container volume = " ..container_volume);     
+        system.print("container volume = " ..container_volume);     
         o.max_volume = container_volume;
     else
         o.max_volume = c.volume * container_skill * container_count;
@@ -128,5 +128,6 @@ end
 
 
 unit.setTimer("ContChecker",1.0);
+
 
 

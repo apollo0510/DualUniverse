@@ -94,7 +94,7 @@
   },
   "handlers": [
     {
-      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit);\n    ",
+      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit,0.4);\n    ",
       "filter": {
         "args": [],
         "signature": "start()",
