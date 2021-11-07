@@ -171,8 +171,8 @@ local recipe_table=
         { id = 1337136126 ; count = 10; name="transp. screen  M";}, 
 
 
-        { id =441567189  ; count = 100; name="glass panel S";}, 
-        { id =283407660  ; count = 100; name="glass panel M";}, 
+        { id =441567189  ; count = 200; name="glass panel S";}, 
+        { id =283407660  ; count = 200; name="glass panel M";}, 
         
         
     };
@@ -180,7 +180,7 @@ local recipe_table=
     EquipS=
     {
         { id =1601756570 ; count = 10; name="vert light L";}, 
-        { id =2045974002  ; count = 100; name="glass panel L";}, 
+        { id =2045974002  ; count = 200; name="glass panel L";}, 
         { id =760622009 ; count = 20; name="container XS";}, 
         { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
         { id =1053616004 ; count = 2; name="RezzNode";}, 
