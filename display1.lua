@@ -1,9 +1,9 @@
 objects = 
 {
-    { cont = cont1; disp=disp1; name="Iron";      container_type=3; container_count=3; container_volume=537600; },
-    { cont = cont2; disp=disp2; name="Aluminium"; container_type=3; container_count=3; container_volume=537600; },
-    { cont = cont3; disp=disp3; name="Carbon";    container_type=3; container_count=3; container_volume=537600; },
-    { cont = cont4; disp=disp4; name="Silicon";   container_type=3; container_count=3; container_volume=537600; },
+    { cont = cont1; disp=disp1; name="Iron";      container_type=3; container_count=3; container_volume=1075200; },
+    { cont = cont2; disp=disp2; name="Aluminium"; container_type=3; container_count=3; container_volume= 716800; },
+    { cont = cont3; disp=disp3; name="Carbon";    container_type=3; container_count=3; container_volume=1075200; },
+    { cont = cont4; disp=disp4; name="Silicon";   container_type=3; container_count=3; container_volume= 896000; },
 };
 
 -- below code is the same for all units
@@ -77,6 +77,7 @@ function AnalyseContainer(o)
     if o.density and o.volume_per_piece then
     	o.mass_per_piece   = o.volume_per_piece * o.density;
     end    
+    
 end
 
 function UpdateContainers()
@@ -103,7 +104,7 @@ function UpdateContainers()
                         end
                         
                         local text=string.format("%.2f%%",o.percent);
-                        disp.addText(10,40,20,text);
+                        disp.addText(5,40,18,text);
 
                         if o.mass_per_piece then
                         	o.pieces  = mass / o.mass_per_piece;
@@ -124,6 +125,15 @@ function UpdateContainers()
            system.print("Container not found : " .. o.name);    
         end    
    end    
+end
+
+function ShutDown()
+   local n=#objects; 
+   for i = 1,n do
+        local o = objects[i];
+        local disp = o.disp;
+        disp.clear();
+    end    
 end
 
 
