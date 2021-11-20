@@ -9,6 +9,7 @@ local class_translation=
     ["IndustryUnit"   ] = "Industry";
     ["CoreUnitStatic" ] = "CoreUnit";
     ["CoreUnitDynamic"] = "CoreUnit";
+    ["CoreUnitSpace"  ] = "CoreUnit";
 };
 
 function unit_lib.new(system,unit,unit_classes)

@@ -174,7 +174,7 @@ local recipe_table=
         { id =441567189  ; count = 200; name="glass panel S";}, 
         { id =283407660  ; count = 200; name="glass panel M";}, 
         
-        
+        -- uncommon assembly line xs
     };
 
     EquipS=
@@ -182,7 +182,7 @@ local recipe_table=
         { id =1601756570 ; count = 10; name="vert light L";}, 
         { id =2045974002  ; count = 200; name="glass panel L";}, 
         { id =760622009 ; count = 20; name="container XS";}, 
-        { id =1275490653 ; count = 1; name="Unc.Ass.Line S";}, 
+        { id =1275490653 ; count = 0; name="Unc.Ass.Line S";}, 
         { id =1053616004 ; count = 2; name="RezzNode";}, 
     };
 
@@ -190,21 +190,21 @@ local recipe_table=
     {
         { id = 1173587001  ; count = 20; name="container S";}, 
 
-        { id = 1230093356  ; count = 1; name="chemical ind.";}, 
-        { id = 1809397339  ; count = 1; name="electron. ind.";}, 
-        { id = 1197243001  ; count = 1; name="glass furnace";}, 
-        { id = 1113319562  ; count = 1; name="metalworks ind.";}, 
-        { id = 487570606  ; count = 1; name="basic recycler";},
+        { id = 1230093356  ; count = 0; name="chemical ind.";}, 
+        { id = 1809397339  ; count = 0; name="electron. ind.";}, 
+        { id = 1197243001  ; count = 0; name="glass furnace";}, 
+        { id = 1113319562  ; count = 0; name="metalworks ind.";}, 
+        { id = 487570606  ; count = 0; name="basic recycler";},
 
-        { id = 39016077    ; count = 1; name="unc 3d printer";}, 
-        { id = 1275491022  ; count = 1; name="unc ass line M";}, 
-        { id = 1303072730  ; count = 1; name="unc chem. ind.";}, 
-        { id = 1151494170  ; count = 1; name="unc elec. ind.";}, 
-        { id = 1081167024  ; count = 1; name="unc glass furn.";}, 
-        { id = 1993163113  ; count = 1; name="unc honeyc. ref.";}, 
-        { id = 127106567   ; count = 1; name="unc metal. ind.";}, 
-        { id = 1597739671  ; count = 1; name="unc refiner M";}, 
-        { id = 1137084674  ; count = 1; name="unc smelter";}, 
+        { id = 39016077    ; count = 0; name="unc 3d printer";}, 
+        { id = 1275491022  ; count = 0; name="unc ass line M";}, 
+        { id = 1303072730  ; count = 0; name="unc chem. ind.";}, 
+        { id = 1151494170  ; count = 0; name="unc elec. ind.";}, 
+        { id = 1081167024  ; count = 0; name="unc glass furn.";}, 
+        { id = 1993163113  ; count = 0; name="unc honeyc. ref.";}, 
+        { id = 127106567   ; count = 0; name="unc metal. ind.";}, 
+        { id = 1597739671  ; count = 0; name="unc refiner M";}, 
+        { id = 1137084674  ; count = 0; name="unc smelter";}, 
 
         { id =55289725    ; count = 10; name="TerriUnit";}, 
 
@@ -215,10 +215,28 @@ local recipe_table=
 
     EquipL=
     {
-        { id = 937197329 ; count = 20; name="container M";}, 
-        { id = 1702024841; count = 20; name="container L";}, 
-        { id = 1339132959; count = 10; name="stat Core L";}, 
-        { id = 1275490954; count = 1;  name="unc Ass L";},
+        { id = 937197329 ; count = 10; name="container M";}, 
+        { id = 1702024841; count = 10; name="container L";}, 
+        { id = 1339132959; count = 0; name="stat Core L";}, 
+        { id = 1275490954; count = 0;  name="unc Ass L";},
+    };
+
+
+    ProdL=
+    {
+    };
+
+
+    ProdM=
+    {
+    };
+
+    ProdS=
+    {
+    };
+
+    ProdXS=
+    {
     };
 
     PlaneL=
@@ -228,6 +246,11 @@ local recipe_table=
         { id =1011557660 ; count = 4; name="Canopy tilted L";}, 
         { id =830288667  ; count = 4; name="Canopy flat L";}, 
         { id =479960376  ; count = 4; name="Canopy triangle L";}, 
+        -- atmo fuel tank L
+        -- space fuel tank L
+        -- stabilizer L
+        -- warp drive
+        -- advanced military atmo engine
     };
 
     PlaneM1=
@@ -269,6 +292,15 @@ local recipe_table=
         { id = 2001045118 ; count = 10; name="Canopy triangle S";}, 
         { id = 203547655 ; count = 10; name="Canopy tilted S";}, 
         { id = 1825028805 ; count = 10; name="Canopy corner S";}, 
+        -- adjustor S
+        -- space fuel tank S
+        -- atmo tank S
+        -- hover engine M
+        -- navigator chair S
+        -- office chair s
+        -- retro rocket M
+        -- atmo brake M
+        -- stabilizer s
     };
 
     PlaneXS=
@@ -276,6 +308,7 @@ local recipe_table=
         { id = 1972188620 ; count = 10; name="Adjustor S";}, 
         { id = 359449714 ; count = 10; name="Encampment Chair";}, 
         { id = 1834144963 ; count = 10; name="Fuel Intake XS";}, 
+        -- gyro
     };
 
 
@@ -427,7 +460,7 @@ function industry_lib.new(system,unit,delay)
      return lib;
 end
 
-function industry_lib:ErrorHandler(text)
+function industry_lib:ErrorHandler(text,switch_off)
     local u=self.unit_classes;
     local screen=u.ScreenUnit[1];
     if screen then
@@ -435,6 +468,10 @@ function industry_lib:ErrorHandler(text)
     else
         self.system.print(text);
     end    
+    if switch_off then
+        self:SwitchOff();
+        u.ScreenUnit[1]=nil;
+    end
 end
 
 function industry_lib:BuildRecipeTable()
@@ -479,13 +516,13 @@ function industry_lib:AssignRecipeLists()
         end
         industry.recipe_list = recipe_table[name_prefix];
         if not industry.recipe_list then
-            self:ErrorHandler(format("No recipe list for %s (%s)",industry.name,name_prefix));
+            self:ErrorHandler(format("No recipe list for %s (%s)",industry.name,name_prefix),true);
             return false;
         end    
         industry.container = container_lookup[name_postfix];
         industry.container_time = 0;
         if not industry.container then
-            self:ErrorHandler(format("No container match for %s (%s)",industry.name,name_postfix));
+            self:ErrorHandler(format("No container match for %s (%s)",industry.name,name_postfix),true);
             return false;
         end    
     end    
@@ -534,6 +571,17 @@ function industry_lib:ContainerCheck(t)
 
 end
 
+function industry_lib:SwitchOff()
+    local u=self.unit_classes;
+    local switch_table    = u.ManualSwitchUnit;
+    local switch = switch_table[1];
+    if switch then
+        self.system.print("Switching off");
+        switch.obj.activate();
+        switch.obj.deactivate();
+    end
+end
+
 function industry_lib:PeriodicCheck(t)
 
     local u=self.unit_classes;
@@ -550,13 +598,7 @@ function industry_lib:PeriodicCheck(t)
             if self.idle_count < 3 then
                 self.idle_count = self.idle_count +1;
             else
-                local switch_table    = u.ManualSwitchUnit;
-                local switch = switch_table[1];
-                if switch then
-                    self.system.print("Switching off");
-                    switch.obj.activate();
-                    switch.obj.deactivate();
-                end
+                self:SwitchOff();
             end
         end
 
@@ -589,7 +631,7 @@ function industry_lib:PeriodicCheck(t)
                     end
 
                     local recipe_time=recipe_times[id_string];
-                    if (recipe_time==nil) or  (recipe_time < container.t) then
+                    if (recipe.count>0) and ((recipe_time==nil) or  (recipe_time < container.t)) then
                         m.startAndMaintain(recipe.count);    
                         recipe_times[id_string]=t;
                         self.idle_count = 0;
