@@ -10,18 +10,21 @@ local recipe_table=
          { id = 1262929839; count = 1000; name="Pure Carbon";  ignore_missing=true; },    
          { id = 1833008839; count = 1000; name="Pure Iron";    ignore_missing=true; },  
          { id = 1678829760; count = 1000; name="Pure Silicon"; ignore_missing=true; },  
+         { id = 67742786; count = 1000; name="Pure Chromium"; ignore_missing=true; },  
     };
 
     PosChemical=
     {
-         { id = 1814211557; count = 1000; name="Nitron";},    
+         { id = 1814211557; count = 20000; name="Nitron";},    
+         { id = 1397521130; count = 2000; name="Kergon-X3";},    
     };
 
     PosRecycler=
     {
          { id = 722030824; count =  200; name="Pure Hydrogene"; },    
          { id = 608747454; count =  400; name="Pure Oxygene";   },    
-         { id = 702266664; count = 1000; name="Copper Scrap"; ignore_missing=true; },    
+         -- { id = 702266664; count = 3000; name="Copper Scrap"; },    
+         { id = 119221489; count = 3000; name="Chromium Scrap";  },    
     };
 
     PosTransfer=
