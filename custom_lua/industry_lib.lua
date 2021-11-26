@@ -572,6 +572,7 @@ function industry_lib:ContainerCheck(t)
 end
 
 function industry_lib:SwitchOff()
+    self:UpdateScreen();
     local u=self.unit_classes;
     local switch_table    = u.ManualSwitchUnit;
     local switch = switch_table[1];
