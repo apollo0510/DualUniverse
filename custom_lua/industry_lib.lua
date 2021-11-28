@@ -16,7 +16,7 @@ local recipe_table=
     PosChemical=
     {
          { id = 1814211557; count = 20000; name="Nitron";},    
-         { id = 1397521130; count = 2000; name="Kergon-X3";},    
+         { id = 1397521130; count = 20000; name="Kergon-X3";},    
     };
 
     PosRecycler=
