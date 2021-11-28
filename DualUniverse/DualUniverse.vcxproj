@@ -159,8 +159,6 @@
     <None Include="..\superfly_control.lua" />
     <None Include="..\superfly_doorcontrol.json" />
     <None Include="..\superfly_doorcontrol.lua" />
-    <None Include="..\superfly_gearcontrol.json" />
-    <None Include="..\superfly_gearcontrol.lua" />
     <None Include="..\warpcelldisplay.json" />
   </ItemGroup>
   <ItemGroup>

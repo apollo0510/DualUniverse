@@ -60,9 +60,6 @@
     <None Include="..\superfly_doorcontrol.json">
       <Filter>json</Filter>
     </None>
-    <None Include="..\superfly_gearcontrol.json">
-      <Filter>json</Filter>
-    </None>
     <None Include="..\warpcelldisplay.json">
       <Filter>json</Filter>
     </None>
@@ -73,9 +70,6 @@
       <Filter>lua</Filter>
     </None>
     <None Include="..\superfly_doorcontrol.lua">
-      <Filter>lua</Filter>
-    </None>
-    <None Include="..\superfly_gearcontrol.lua">
       <Filter>lua</Filter>
     </None>
     <None Include="..\.gitignore">
