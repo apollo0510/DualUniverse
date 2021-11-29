@@ -141,6 +141,7 @@
   <ItemGroup>
     <None Include="..\.gitignore" />
     <None Include="..\custom_config\custom_construct.conf" />
+    <None Include="..\custom_lua\fly_lib.lua" />
     <None Include="..\custom_lua\industry_lib.lua" />
     <None Include="..\custom_lua\unit_lib.lua" />
     <None Include="..\display1.json" />
