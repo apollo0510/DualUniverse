@@ -51,6 +51,9 @@ local FlyLib=
     v_angle_v = 0.0;
     v_angle_h = 0.0;
     v_angle_valid = false;
+
+    Xoffset = 0;
+    Yoffset = 0;
 };
 
 -- ******************************************************************
@@ -131,9 +134,6 @@ function FlyLib:IdentifySlots(system,unit)
         end    
     end    
     -- ******************************************************************
-    if self.InitOk then
-        self.screen.setCenteredText("Ready");        
-    end
     return self.InitOk;
 end
 
@@ -230,7 +230,7 @@ function FlyLib:OnUpdate()
    self.roll =gyro.getRoll();
    self.pitch=gyro.getPitch();
 
-   if roll~=nil and pitch ~=nil then
+   if self.roll~=nil and self.pitch ~=nil then
          self:CheckScreens(draw_10hz,draw_1hz);
    end   
 
@@ -240,9 +240,187 @@ end
     --
     -- ******************************************************************
 
+local layer_dynamic_atmo=
+[[
+    <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+        <g transform="rotate(%.2f) translate( 0 %.2f)" >
+            <g stroke-width="20" stroke="black">
+                <line x1="-100" y1="0" x2="100" y2="0" />
+                <line x1="0" y1="-100" x2="0" y2="100" />
+            </g>
+            <g stroke-width="3" stroke="blue">
+                <line x1="-100" y1="0" x2="-10" y2="0" />
+                <line x1="10" y1="0" x2="100" y2="0" />
+                <line x1="0" y1="-100" x2="0" y2="-10" />
+                <line x1="0" y1="10" x2="0" y2="100" />
+            </g>
+            <g stroke-width="2" stroke="blue">
+                <line x1="-10" y1="-80" x2="10" y2="-80" />
+                <line x1="-10" y1="-60" x2="10" y2="-60" />
+                <line x1="-10" y1="-40" x2="10" y2="-40" />
+                <line x1="-10" y1="-20" x2="10" y2="-20" />
+                <line x1="-10" y1="20" x2="10" y2="20" />
+                <line x1="-10" y1="40" x2="10" y2="40" />
+                <line x1="-10" y1="60" x2="10" y2="60" />
+                <line x1="-10" y1="80" x2="10" y2="80" />
+                <line x1="-80" y1="-10" x2="-80" y2="10" />
+                <line x1="-60" y1="-10" x2="-60" y2="10" />
+                <line x1="-40" y1="-10" x2="-40" y2="10" />
+                <line x1="-20" y1="-10" x2="-20" y2="10" />
+                <line x1="20" y1="-10" x2="20" y2="10" />
+                <line x1="40" y1="-10" x2="40" y2="10" />
+                <line x1="60" y1="-10" x2="60" y2="10" />
+                <line x1="80" y1="-10" x2="80" y2="10" />
+            </g>
+        </g>
+        <g fill="none" >
+            <circle cx="%.2f" cy="%.2f" r="12" stroke="green" stroke-width="3" />
+        </g>
+    </svg>
+]];
+
+local layer_dynamic_space=
+[[
+    <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+        <g fill="none" >
+            <circle cx="%.2f" cy="%.2f" r="12" stroke="darkviolet" stroke-width="3" />
+        </g>
+    </svg>
+]];
+
+local layer_static_format=
+[[
+    <svg width="100%" height="100%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+        <g stroke="#80808080" >
+            <line x1="-100" y1="0" x2="-50" y2="0" />
+            <line x1="50" y1="0" x2="100" y2="0" />
+            <line x1="0" y1="-100" x2="0" y2="-50" />
+            <line x1="0" y1="50" x2="0" y2="100" />
+        </g>
+        <g stroke="white" >
+            <line x1="-50" y1="0" x2="-10" y2="0" />
+            <line x1="10" y1="0" x2="50" y2="0" />
+            <line x1="0" y1="-50" x2="0" y2="-10" />
+            <line x1="0" y1="10" x2="0" y2="50" />
+        </g>
+        <g fill="none" >
+            <circle cx="0" cy="0" r="10" stroke="white" />
+        </g>
+    </svg>
+]];
+
+
+local layer_text_atmo=
+[[
+	<head>
+		<style>
+			svg 
+			{ 
+				font-family: ArialMT , Arial, sans-serif; 
+				font-size  : 20px;
+			} 
+		</style>
+	</head>
+	<body>
+        <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+            <g fill="white" text-anchor="middle">
+               <text x="90" y="0">%s</text>
+               <text x="0"  y="90">%s</text>
+               <text x="90" y="90">%s</text>
+               <text x="90" y="-80">%s</text>
+            </g>	
+            <g fill="white" style="font-size: 10px">
+		     <text x="-100"  y="-90">FPS %d</text>
+            </g>	
+        </svg>
+    </body>
+]];
+
+local layer_text_space=
+[[
+	<head>
+		<style>
+			svg 
+			{ 
+				font-family: ArialMT , Arial, sans-serif; 
+				font-size  : 20px;
+			} 
+		</style>
+	</head>
+	<body>
+        <svg  width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+            <g fill="white" text-anchor="middle">
+               <text x="90" y="0">%s</text>
+               <text x="0"  y="90">%s</text>
+               <text x="90" y="-80">%s</text>
+            </g>	
+            <g fill="white" style="font-size: 10px">
+		     <text x="-100"  y="-90">FPS %d</text>
+            </g>	
+        </svg>
+    </body>
+]];
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
 function FlyLib:CheckScreens(draw_10hz,draw_1hz)
+    local screen   = self.screen;
+    
+    -- mouseXpos = screen.getMouseX()
+    -- mouseYpos = screen.getMouseY()
+    
+    local x=self.Xoffset;
+    local y=self.Yoffset;
 
+    local cx      = self.v_angle_h * ( rad_to_delta);
+    local cy      = self.v_angle_v * (-rad_to_delta);
+    local c_pitch = self.pitch * degree_to_delta; -- 1 degree = 20 units
+    local layer_dynamic;
+    
+    if self.planetinfluence > 0.001 then
+        layer_dynamic=format(layer_dynamic_atmo,self.roll,c_pitch,cx,cy);
+    else   
+        layer_dynamic=format(layer_dynamic_space,cx,cy);
+    end   
 
+    if screen.layer_dynamic==nil then
+        screen.setHTML("");
+        screen.clear(); 
+        screen.layer_dynamic = screen.addContent(x,y,layer_dynamic);
+        screen.addContent(x,y,layer_static_format);
+    else
+        screen.resetContent(screen.layer_dynamic,layer_dynamic);
+    end    
+
+    if draw_10hz then
+        local pitch_text=format("%.1f",self.pitch);
+        local roll_text =format("%.1f",self.roll); 
+        local alt_text;
+        
+        if self.ground_distance >=0 then
+            alt_text=format("> %.1f m <",self.ground_distance)
+        else
+            alt_text=format("%.3f km",self.altitude / 1000.0)
+        end    
+        
+        local layer_text;
+        
+        if self.planetinfluence > 0.001 then
+	        local speed_text=format("%.0f km/h",self.kmh);
+        	layer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,self.fps);    
+        else    
+	        local speed_text=format("%.1f Tkm/h",self.kmh/1000.0);
+             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self.fps);    
+        end    
+
+        if screen.layer_text==nil then
+            screen.layer_text = screen.addContent(0,0,layer_text);
+        else
+            screen.resetContent(screen.layer_text,layer_text);
+        end    
+    end    
 end
 
 return FlyLib;
