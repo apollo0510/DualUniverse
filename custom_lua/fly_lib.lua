@@ -63,6 +63,7 @@ function FlyLib:SecureCall(func_name,a1,a2,a3)
         local text= format("Error in %s :\n%s",func_name,message);
         self:ErrorHandler(string.gsub(text,"\n", "<br>"));
     end
+    return ok;
 end
 
     -- ******************************************************************
@@ -139,7 +140,7 @@ end
 
 function FlyLib:OnUpdate()
     
-   if not self.InitOk then return end;
+   if not self.InitOk then return end
 
    local core        = self.core;
    local unit        = self.unit;
