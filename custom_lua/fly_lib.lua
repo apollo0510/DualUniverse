@@ -139,29 +139,29 @@ end
 
 function FlyLib:OnUpdate()
     
-    if not self.InitOk then return;
+   if not self.InitOk then return end;
 
-    local core        = self.core;
-    local unit        = self.unit;
-    local system      = self.system;
+   local core        = self.core;
+   local unit        = self.unit;
+   local system      = self.system;
 
-    local t           = system.getTime();
-    self.t            = t;
-    self.fps_count    = self.fps_count+1;
+   local t           = system.getTime();
+   self.t            = t;
+   self.fps_count    = self.fps_count+1;
 
-    local draw_10hz=false;
-    local draw_1hz =false;
+   local draw_10hz=false;
+   local draw_1hz =false;
 
-    if (t - self.t_10hz) >= 0.1 then
-        self.t_10hz = t;
-        draw_10hz = true;
-        if (t - self.t_1hz) >= 1.0 then
-            self.t_1hz = t;
-            draw_1hz = true;
-            self.fps = self.fps_count;
-            self.fps_count = 0;
-        end
-    end
+   if (t - self.t_10hz) >= 0.1 then
+       self.t_10hz = t;
+       draw_10hz = true;
+       if (t - self.t_1hz) >= 1.0 then
+           self.t_1hz = t;
+           draw_1hz = true;
+           self.fps = self.fps_count;
+           self.fps_count = 0;
+       end
+   end
 
 end
 
