@@ -157,7 +157,6 @@
     <None Include="..\oret2.json" />
     <None Include="..\oret3.json" />
     <None Include="..\superfly_control.json" />
-    <None Include="..\superfly_control.lua" />
     <None Include="..\superfly_doorcontrol.json" />
     <None Include="..\superfly_doorcontrol.lua" />
     <None Include="..\warpcelldisplay.json" />

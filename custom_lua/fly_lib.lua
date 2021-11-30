@@ -12,9 +12,6 @@ local FlyLib=
 
     ClassTranslation=
     {
-        ["Industry1"      ] = "Industry";
-        ["Industry2"      ] = "Industry";
-        ["IndustryUnit"   ] = "Industry";
         ["CoreUnitStatic" ] = "CoreUnit";
         ["CoreUnitDynamic"] = "CoreUnit";
         ["CoreUnitSpace"  ] = "CoreUnit";
