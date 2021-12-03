@@ -7,6 +7,8 @@ local FlyLib=
         GyroUnit           = { need = 1; meta = nil; name="gyro"; },
         TelemeterUnit      = { need = 0; meta = nil; name="telemeter"; },
         SpaceFuelContainer = { need = 0; meta = nil; },
+        AtmoFuelContainer  = { need = 0; meta = nil; },
+        WarpDriveUnit      = { need = 0; meta = nil; },
         CockpitCommandmentUnit = { need = 0; meta = nil; },
     };
 
@@ -43,7 +45,12 @@ local FlyLib=
     altitude = 0.0;
     atmosphere = 0.0;
     planetinfluence = 0.0;
+    speed = 0.0;
     kmh = 0.0;
+    
+    unit_data = nil;
+    mass      = nil;
+    max_brake = nil;
 
     v_angle_v = 0.0;
     v_angle_h = 0.0;
@@ -60,8 +67,12 @@ local FlyLib=
 local degree_to_delta = 4.0;
 local rad_to_delta    = 4.0 * 180.0 / math.pi;
 local format          = string.format;
-local acos            = math.acos;
 local pi_half         = math.pi / 2.0;
+
+local ACOS = math.acos;
+local ASIN = math.asin;
+local SIN  = math.sin;
+local COS  = math.cos;
 
 -- ******************************************************************
 --
@@ -173,6 +184,10 @@ function FlyLib:OnUpdate()
        self.v_forward = vec3(core.getConstructOrientationForward());
        self.v_up      = vec3(core.getConstructOrientationUp());
        self.v_right   = vec3(core.getConstructOrientationRight());
+
+        self.mass      = core.getConstructMass();
+        self.unit_data = json.decode(unit.getData());
+        self.max_brake = self.unit_data.maxBrake;
    end
 
    if self.telemeter then
@@ -208,14 +223,15 @@ function FlyLib:OnUpdate()
 
    local v_velo = vec3(core.getVelocity());
    local speed  = v_velo:len();
-   self.kmh     = speed * 3.6;
+   self.speed = speed;
+   self.kmh   = speed * 3.6;
 
    if self.kmh > 1.0 then
         v_velo.x=v_velo.x/speed;
         v_velo.y=v_velo.y/speed;
         v_velo.z=v_velo.z/speed;
-        self.v_angle_v = pi_half - acos(v_velo:dot(self.v_up)   );
-        self.v_angle_h = pi_half - acos(v_velo:dot(self.v_right));
+        self.v_angle_v = pi_half - ACOS(v_velo:dot(self.v_up)   );
+        self.v_angle_h = pi_half - ACOS(v_velo:dot(self.v_right));
         self.v_angle_valid = true;
    else
         self.v_angle_v = 0.0;
@@ -345,14 +361,15 @@ local layer_text_space=
 		</style>
 	</head>
 	<body>
-        <svg  width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+        <svg  width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
                <text x="90" y="0">%s</text>
                <text x="0"  y="90">%s</text>
-               <text x="90" y="-80">%s</text>
+               <text x="120" y="-80">%s</text>
+               <text x="120" y="-60">%s</text>
             </g>	
             <g fill="white" style="font-size: 10px">
-		     <text x="-100"  y="-90">FPS %d</text>
+		     <text x="-150"  y="-90">FPS %d</text>
             </g>	
         </svg>
     </body>
@@ -403,13 +420,21 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         end    
         
         local layer_text;
+
+        local speed_text;
+        if self.kmh <1.0 then
+            speed_text="Stop";
+        elseif self.kmh < 10000.0 then
+            speed_text=format("%.0f km/h",self.kmh);
+        else
+            speed_text=format("%.1f Tkm/h",self.kmh/1000.0);
+        end
+
         
         if self.planetinfluence > 0.001 then
-	        local speed_text=format("%.0f km/h",self.kmh);
         	layer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,self.fps);    
         else    
-	        local speed_text=format("%.1f Tkm/h",self.kmh/1000.0);
-             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self.fps);    
+             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self:DistanceText(self:CalcBrakeDistance()),self.fps);    
         end    
 
         if screen.layer_text==nil then
@@ -418,6 +443,49 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
             screen.resetContent(screen.layer_text,layer_text);
         end    
     end    
+end
+
+function FlyLib:DistanceText(distance)
+    if distance<1000.0 then
+       return format("%.0fm",distance);
+    else
+        distance=distance/1000.0;
+        if distance<200.0 then
+            return format("%.1fkm",distance);
+        else
+            return format("%.2fsu",distance/200.0);
+        end
+    end
+end
+
+function FlyLib:MassText(mass)
+    if mass <1000.0 then
+        return format("%.0fKg",mass);
+    else
+        return format("%.1ft",mass);
+    end
+end
+
+
+function FlyLib:CalcBrakeDistance()
+
+    local c = 30000.0 / 3.6; -- in m/s
+    local c2 = c*c;
+
+    local target_speed  = 0.0;
+
+    local accel    = -self.max_brake / self.mass;
+    local distance = 0.0;
+    local time     = 0.0;
+
+    if self.speed > target_speed then
+        local k1 = c * ASIN(self.speed/c);
+        local k2 = c2 * COS(k1/c) / accel;
+        time     = (c* ASIN(target_speed/c) - k1) / accel;
+        distance = k2 - c2 * COS((accel * time + k1) /c) / accel;
+    end
+
+    return distance,time;
 end
 
 return FlyLib;
