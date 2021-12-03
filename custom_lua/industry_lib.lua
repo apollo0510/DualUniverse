@@ -172,6 +172,7 @@ local recipe_table=
         { id = 5872498 ; count = 20; name="screen  S";}, 
         { id = 5872566 ; count = 20; name="screen  M";}, 
         { id = 1337136126 ; count = 10; name="transp. screen  M";}, 
+        { id = 1337135686 ; count = 10; name="transp. screen  L";}, 
 
 
         { id =441567189  ; count = 200; name="glass panel S";}, 
