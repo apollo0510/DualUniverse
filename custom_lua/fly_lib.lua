@@ -552,22 +552,21 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         layer_dynamic=format(layer_dynamic_space,cx,cy);
     end   
 
-    if self:UpdateLayerUI() then
-        if screen.layer_ui == nil then
-            screen.setHTML("");
-            screen.clear(); 
-            screen.layer_ui = screen.addContent(x,y,self.layer_ui);
-        else
-            screen.resetContent(screen.layer_ui,self.layer_ui);
-        end
-    end
-
     if screen.layer_dynamic==nil then
+        screen.setHTML("");
+        screen.clear(); 
         screen.layer_dynamic = screen.addContent(x,y,layer_dynamic);
     else
         screen.resetContent(screen.layer_dynamic,layer_dynamic);
     end    
 
+    if self:UpdateLayerUI() then
+        if screen.layer_ui == nil then
+            screen.layer_ui = screen.addContent(x,y,self.layer_ui);
+        else
+            screen.resetContent(screen.layer_ui,self.layer_ui);
+        end
+    end
 
     if draw_10hz then
         local pitch_text=format("%.1f",self.pitch);
