@@ -74,6 +74,8 @@ local ASIN = math.asin;
 local SIN  = math.sin;
 local COS  = math.cos;
 
+local atlas = require("atlas");
+
 -- ******************************************************************
 --
 -- ******************************************************************
@@ -92,9 +94,9 @@ end
 --
 -- ******************************************************************
 
-function FlyLib:SecureCall(func_name,a1,a2,a3)
+function FlyLib:SecureCall(func_name,...)
     local f = self[func_name];
-    local ok, message = pcall(f,self,a1,a2,a3);
+    local ok, message = pcall(f,self,...);
     if not ok then
         local text= format("Error in %s :\n%s",func_name,message);
         self:ErrorHandler(string.gsub(text,"\n", "<br>"));
@@ -248,6 +250,21 @@ function FlyLib:OnUpdate()
    end   
 
 end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnFlush(constructUp,            
+                        constructForward,       
+                        constructRight,
+                        constructVelocity,
+                        constructVelocityDir,
+                        velocity,
+                        inAtmosphere)
+
+
+end
     -- ******************************************************************
     --
     -- ******************************************************************
@@ -285,6 +302,31 @@ end
         return nil;
     end
 
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+    function FlyLib:CalcWorldCoordinates(position)
+        if position then
+          if position.bodyId == 0 then
+             return vec3(position.latitude, position.longitude, position.altitude);
+          end
+          local solar_system = atlas[position.systemId];
+          if solar_system then
+              local body = solar_system[position.bodyId];
+              if body then
+                 local h  = body.radius + position.altitude;
+                 local c  = body.center;
+                 local cosl = COS(position.latitude);
+                 local x = c.x + h * COS(position.longitude) * cosl;
+                 local y = c.y + h * SIN(position.longitude) * cosl;
+                 local z = c.z + h * SIN(position.latitude);
+                 return vec3(x,y,z);
+              end
+          end
+        end
+        return nil
+    end
 
     -- ******************************************************************
     --
