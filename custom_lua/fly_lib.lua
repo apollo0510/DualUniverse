@@ -58,6 +58,30 @@ local FlyLib=
 
     Xoffset = 0;
     Yoffset = 0;
+
+    target_valid    = false;
+    target_position = nil;
+    target_vec      = nil;
+
+    update_ui = false;
+
+    buttons = 
+    { 
+        {   x=-160;y=-80;w=20;h=20;text="T"; 
+            
+            update=function(self,flylib)
+               if flylib.target_valid~=self.target_valid then
+                    self.target_valid = flylib.target_valid;
+                    return true;
+               end
+            end;
+
+            fill=function(self,flylib) 
+                if flylib.target_valid then return "green";
+                else return "none"; end
+            end;
+        } 
+    };  
 };
 
 -- ******************************************************************
@@ -318,9 +342,9 @@ end
                  local h  = body.radius + position.altitude;
                  local c  = body.center;
                  local cosl = COS(position.latitude);
-                 local x = c.x + h * COS(position.longitude) * cosl;
-                 local y = c.y + h * SIN(position.longitude) * cosl;
-                 local z = c.z + h * SIN(position.latitude);
+                 local x = c[1] + h * COS(position.longitude) * cosl;
+                 local y = c[2] + h * SIN(position.longitude) * cosl;
+                 local z = c[3] + h * SIN(position.latitude);
                  return vec3(x,y,z);
               end
           end
@@ -335,7 +359,10 @@ end
 function FlyLib:OninputText(text)
     local position=self:ParsePosition(text);
     if position then
-        self.system.print("Valid Position Input");
+        self.target_position = position;
+        self.target_vec      = self:CalcWorldCoordinates(position);
+        self.target_valid    = (self.target_vec ~= nil);
+        self.system.setWaypoint(text);
     else
         self.system.print("OninputText : " .. text);
     end
@@ -445,33 +472,9 @@ local layer_dynamic_atmo=
 local layer_dynamic_space=
 [[
     <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
-        <g fill="none" >
-            <circle cx="%.2f" cy="%.2f" r="12" stroke="darkviolet" stroke-width="3" />
-        </g>
+        <circle cx="%.2f" cy="%.2f" r="12" stroke="darkviolet" stroke-width="3" fill="none" />
     </svg>
 ]];
-
-local layer_static_format=
-[[
-    <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
-        <g stroke="#80808080" >
-            <line x1="-100" y1="0" x2="-50" y2="0" />
-            <line x1="50" y1="0" x2="100" y2="0" />
-            <line x1="0" y1="-100" x2="0" y2="-50" />
-            <line x1="0" y1="50" x2="0" y2="100" />
-        </g>
-        <g stroke="white" >
-            <line x1="-50" y1="0" x2="-10" y2="0" />
-            <line x1="10" y1="0" x2="50" y2="0" />
-            <line x1="0" y1="-50" x2="0" y2="-10" />
-            <line x1="0" y1="10" x2="0" y2="50" />
-        </g>
-        <g fill="none" >
-            <circle cx="0" cy="0" r="10" stroke="white" />
-        </g>
-    </svg>
-]];
-
 
 local layer_text_atmo=
 [[
@@ -549,14 +552,22 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         layer_dynamic=format(layer_dynamic_space,cx,cy);
     end   
 
+    if self:UpdateLayerUI() then
+        if screen.layer_ui == nil then
+            screen.setHTML("");
+            screen.clear(); 
+            screen.layer_ui = screen.addContent(x,y,self.layer_ui);
+        else
+            screen.resetContent(screen.layer_ui,self.layer_ui);
+        end
+    end
+
     if screen.layer_dynamic==nil then
-        screen.setHTML("");
-        screen.clear(); 
         screen.layer_dynamic = screen.addContent(x,y,layer_dynamic);
-        screen.addContent(x,y,layer_static_format);
     else
         screen.resetContent(screen.layer_dynamic,layer_dynamic);
     end    
+
 
     if draw_10hz then
         local pitch_text=format("%.1f",self.pitch);
@@ -593,6 +604,46 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
             screen.resetContent(screen.layer_text,layer_text);
         end    
     end    
+end
+
+function FlyLib:UpdateLayerUI()
+    local buttons = self.buttons;
+    local update_ui = false;
+    for i,button in ipairs(buttons) do
+        if button:update(self) then
+            button.svg_text=nil;
+            update_ui = true;
+        end
+    end
+    if  update_ui or self.layer_ui==nil then
+        local ui_text = {};
+        ui_text[1]=        
+[[ <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
+      <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
+      <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" stroke="white" />
+      <circle cx="0" cy="0" r="10" stroke="white" fill="none" />
+]];
+        ui_text[#ui_text+1]=[[<g text-anchor="middle" stroke="white" fill="white" >]];
+        for i,button in ipairs(buttons) do
+            if button.svg_text==nil then    
+                local x0=button.x;
+                local y0=button.y;
+                local w =button.w;
+                local h =button.h;
+                local tx = x0+w/2.0;
+                local ty = y0+h/2.0;
+                button.svg_text=format(
+[[<rect x="%d" y="%d" width="%d" height="%d" fill=%s />
+<text x="%d" y="%d"  dy=".35em" >%s</text>
+]],x0,y0,w,h,button:fill(self),tx,ty,button.text);
+            end
+            ui_text[#ui_text+1]=button.svg_text;
+        end
+        ui_text[#ui_text+1]="</g>";
+        ui_text[#ui_text+1]="</svg>";
+        self.layer_ui=table.concat(ui_text);
+        return true;
+    end
 end
 
 function FlyLib:DistanceText(distance)
