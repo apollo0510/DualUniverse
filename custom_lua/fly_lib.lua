@@ -248,6 +248,114 @@ function FlyLib:OnUpdate()
    end   
 
 end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+    function FlyLib:ParsePosition(text)
+        if type(text)=="string" then
+
+            if not self.posPattern then
+                local num        = ' *([+-]?%d+%.?%d*e?[+-]?%d*)'
+                self.posPattern = '::pos{' .. num .. ',' .. num .. ',' ..  num .. ',' .. num ..  ',' .. num .. '}'
+            end
+
+            local _systemId, _bodyId, _latitude, _longitude, _altitude = string.match(text, self.posPattern);
+            _systemId  = tonumber(_systemId);
+            _bodyId    = tonumber(_bodyId);
+            _latitude  = tonumber(_latitude);
+            _longitude = tonumber(_longitude);
+            _altitude  = tonumber(_altitude);
+            if _systemId ~=nil and 
+               _bodyId   ~=nil and 
+               _latitude ~=nil and 
+               _longitude~=nil and 
+               _altitude ~=nil then 
+               local position=
+               {
+                    systemId  = _systemId;
+                    bodyId    = _bodyId;
+                    latitude  = _latitude;
+                    longitude = _longitude;
+                    altitude  = _altitude;
+               };
+               return position;
+            end
+        end
+        return nil;
+    end
+
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OninputText(text)
+    local position=self:ParsePosition(text);
+    if position then
+        self.system.print("Valid Position Input");
+    else
+        self.system.print("OninputText : " .. text);
+    end
+end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption1()
+    self.system.print("OnOption1");
+end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption2()
+    self.system.print("OnOption2");
+end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption3()
+    self.system.print("OnOption3");
+end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption4()
+    self.system.print("OnOption4");
+end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption5()
+    self.system.print("OnOption5");
+end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption6()
+    self.system.print("OnOption6");
+end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption7()
+    self.system.print("OnOption7");
+end
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnOption8()
+    self.system.print("OnOption8");
+end
 
     -- ******************************************************************
     --
@@ -255,7 +363,7 @@ end
 
 local layer_dynamic_atmo=
 [[
-    <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+    <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
         <g transform="rotate(%.2f) translate( 0 %.2f)" >
             <g stroke-width="20" stroke="black">
                 <line x1="-100" y1="0" x2="100" y2="0" />
@@ -294,7 +402,7 @@ local layer_dynamic_atmo=
 
 local layer_dynamic_space=
 [[
-    <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+    <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
         <g fill="none" >
             <circle cx="%.2f" cy="%.2f" r="12" stroke="darkviolet" stroke-width="3" />
         </g>
@@ -303,7 +411,7 @@ local layer_dynamic_space=
 
 local layer_static_format=
 [[
-    <svg width="100%" height="100%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+    <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
         <g stroke="#80808080" >
             <line x1="-100" y1="0" x2="-50" y2="0" />
             <line x1="50" y1="0" x2="100" y2="0" />
@@ -335,7 +443,7 @@ local layer_text_atmo=
 		</style>
 	</head>
 	<body>
-        <svg width="100%%" height="100%%" viewBox="-100 -100 200 200" preserveAspectRatio ="xMidYMid meet" >
+        <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
                <text x="90" y="0">%s</text>
                <text x="0"  y="90">%s</text>
