@@ -64,6 +64,7 @@ local FlyLib=
 
     autoPitchPID = nil;
     autoYawPID   = nil;
+    auto_align   = false;
 
     target_valid    = false;
     target_position = nil;
@@ -86,7 +87,29 @@ local FlyLib=
                 if flylib.target_valid then return "green";
                 else return "none"; end
             end;
-        } 
+        }; 
+
+        {   x=-135;y=-80;w=20;h=20;text="A"; 
+            
+            update=function(self,flylib)
+               if flylib.auto_align~=self.auto_align then
+                    self.auto_align = flylib.auto_align;
+                    return true;
+               end
+            end;
+
+            fill=function(self,flylib) 
+                if flylib.auto_align then return "red";
+                else return "none"; end
+            end;
+
+            click=function(self,flylib)
+                flylib:ToggleAutoAlign();
+            end
+        }; 
+
+
+
     };  
 };
 
@@ -96,6 +119,9 @@ local FlyLib=
 
 local degree_to_delta = 4.0;
 local rad_to_delta    = 4.0 * 180.0 / math.pi;
+local rad_to_deg      = 180.0 / math.pi;
+local deg_to_rad      = math.pi / 180.0;
+
 local format          = string.format;
 local pi_half         = math.pi / 2.0;
 
@@ -296,26 +322,55 @@ function FlyLib:OnFlush(targetAngularVelocity,
 
     if self.target_valid then
 
-        if self.autoPitchPID = nil then
+        if self.autoPitchPID == nil then
             self.autoPitchPID = pid.new(self.AutoPitch * 0.01, 0, self.AutoPitch * 0.1);
             self.autoYawPID   = pid.new(self.AutoYaw   * 0.01, 0, self.AutoYaw   * 0.1);
+            self.system.print("starting auto align");
         end
+
 
         local myPos=vec3(self.core.getConstructWorldPos());
         local align_vector = (self.target_vec - myPos):normalize();
-        local align_scalar_pitch = align_vector * constructUp;
-        local align_scalar_yaw   = align_vector * constructRight;
-        self.align_pitch_angle  = ACOS(align_scalar_pitch) * rad_to_delta;
-        self.align_yaw_angle    = ACOS(align_scalar_yaw  ) * rad_to_delta;
+        local align_scalar_pitch = - align_vector:dot(constructUp);
+        local align_scalar_yaw   = - align_vector:dot(constructRight);
+
+        self.align_pitch_angle  =  ASIN(align_scalar_pitch) * rad_to_deg;
+        self.align_yaw_angle    =  ASIN(align_scalar_yaw  ) * rad_to_deg;
 
         self.autoPitchPID:inject(-self.align_pitch_angle);
-        self.autoYawPID:inject(-self.align_yaw_angle);
+        self.autoYawPID:inject(self.align_yaw_angle);
+
+        if self.auto_align then
+            
+            local autoPitchInput =0.0;
+            local autoYawInput   =0.0;
+        
+            if not inAtmosphere then
+                autoPitchInput = self.autoPitchPID:get();
+            end
+            autoYawInput   = self.autoYawPID:get();
+
+            targetAngularVelocity.x = targetAngularVelocity.x +  
+                autoPitchInput * constructRight.x +
+                autoYawInput   * constructUp.x;
+            
+            targetAngularVelocity.y = targetAngularVelocity.y +  
+                autoPitchInput * constructRight.y +
+                autoYawInput   * constructUp.y;
+            
+            targetAngularVelocity.z = targetAngularVelocity.z +  
+                autoPitchInput * constructRight.z +
+                autoYawInput   * constructUp.z;
+        end
 
     else
-        self.autoPitchPID       = nil;
-        self.autoYawPID         = nil;
-        self.align_pitch_angle  = nil;
-        self.align_yaw_angle    = nil;
+        if self.autoPitchPID then
+            self.autoPitchPID       = nil;
+            self.autoYawPID         = nil;
+            self.align_pitch_angle  = nil;
+            self.align_yaw_angle    = nil;
+            self.system.print("stopping auto align");
+        end
     end
 
     if not inAtmosphere then
@@ -377,10 +432,12 @@ end
               if body then
                  local h  = body.radius + position.altitude;
                  local c  = body.center;
-                 local cosl = COS(position.latitude);
-                 local x = c[1] + h * COS(position.longitude) * cosl;
-                 local y = c[2] + h * SIN(position.longitude) * cosl;
-                 local z = c[3] + h * SIN(position.latitude);
+                 local latitude  = position.latitude *deg_to_rad;
+                 local longitude = position.longitude*deg_to_rad;
+                 local cosl = COS(latitude);
+                 local x = c[1] + h * COS(longitude) * cosl;
+                 local y = c[2] + h * SIN(longitude) * cosl;
+                 local z = c[3] + h * SIN(latitude);
                  return vec3(x,y,z);
               end
           end
@@ -408,8 +465,17 @@ end
     --
     -- ******************************************************************
 
+function FlyLib:ToggleAutoAlign()
+    self.auto_align = not self.auto_align;
+    if self.auto_align then
+        self.system.print("auto align on");
+    else
+        self.system.print("auto align off");
+    end
+end
+
 function FlyLib:OnOption1()
-    self.system.print("OnOption1");
+    self:ToggleAutoAlign();
 end
 
     -- ******************************************************************
@@ -512,6 +578,14 @@ local layer_dynamic_space=
     </svg>
 ]];
 
+local layer_static=
+[[ <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
+      <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
+      <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" stroke="white" />
+      <circle cx="0" cy="0" r="10" stroke="white" fill="none" />
+   </svg>
+]];
+
 local layer_text_atmo=
 [[
 	<head>
@@ -526,8 +600,8 @@ local layer_text_atmo=
 	<body>
         <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
-               <text x="90" y="0">%s</text>
-               <text x="0"  y="90">%s</text>
+               <text x="90" y="0" %s</text>
+               <text x="0"  y="90" %s</text>
                <text x="90" y="90">%s</text>
                <text x="90" y="-80">%s</text>
             </g>	
@@ -552,8 +626,8 @@ local layer_text_space=
 	<body>
         <svg  width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
-               <text x="90" y="0">%s</text>
-               <text x="0"  y="90">%s</text>
+               <text x="90" y="0" %s</text>
+               <text x="0"  y="90" %s</text>
                <text x="120" y="-80">%s</text>
                <text x="120" y="-60">%s</text>
             </g>	
@@ -594,23 +668,40 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         screen.layer_dynamic = screen.addContent(x,y,layer_dynamic);
     else
         screen.resetContent(screen.layer_dynamic,layer_dynamic);
-    end    
+    end   
+    
+    if screen.layer_static == nil then
+        screen.layer_static = screen.addContent(x,y,layer_static);
+    end
 
     if self:UpdateLayerUI() then
         if screen.layer_ui == nil then
-            screen.layer_ui = screen.addContent(x,y,self.layer_ui);
+            screen.layer_ui = screen.addContent(0,0,self.layer_ui);
         else
             screen.resetContent(screen.layer_ui,self.layer_ui);
         end
     end
 
     if draw_10hz then
-        local pitch_text=format("%.1f",self.pitch);
-        local roll_text =format("%.1f",self.roll); 
+        local pitch_text;
+        local roll_text;
+
+        if self.align_pitch_angle then
+            pitch_text=format("fill=\"green\" >[%.1f]",self.align_pitch_angle);
+        else
+            pitch_text=format(">%.1f",self.pitch);
+        end
+
+        if self.align_yaw_angle~=nil then
+            roll_text =format("fill=\"green\" >[%.1f]",self.align_yaw_angle); 
+        else
+            roll_text =format(">%.1f",self.roll); 
+        end
+
         local alt_text;
         
         if self.ground_distance >=0 then
-            alt_text=format("> %.1f m <",self.ground_distance)
+            alt_text=format("(%.1f m)",self.ground_distance)
         else
             alt_text=format("%.3f km",self.altitude / 1000.0)
         end    
@@ -654,9 +745,6 @@ function FlyLib:UpdateLayerUI()
         local ui_text = {};
         ui_text[1]=        
 [[ <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
-      <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
-      <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" stroke="white" />
-      <circle cx="0" cy="0" r="10" stroke="white" fill="none" />
 ]];
         ui_text[#ui_text+1]=[[<g text-anchor="middle" stroke="white" fill="white" >]];
         for i,button in ipairs(buttons) do
