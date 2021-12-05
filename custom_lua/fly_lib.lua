@@ -1,3 +1,4 @@
+
 local FlyLib=
 {
     UnitClasses=
@@ -9,7 +10,7 @@ local FlyLib=
         SpaceFuelContainer = { need = 0; meta = nil; },
         AtmoFuelContainer  = { need = 0; meta = nil; },
         WarpDriveUnit      = { need = 0; meta = nil; },
-        CockpitCommandmentUnit = { need = 0; meta = nil; },
+        Cockpit            = { need = 0; meta = nil; },
     };
 
     ClassTranslation=
@@ -17,6 +18,8 @@ local FlyLib=
         ["CoreUnitStatic" ] = "CoreUnit";
         ["CoreUnitDynamic"] = "CoreUnit";
         ["CoreUnitSpace"  ] = "CoreUnit";
+        ["CockpitCommandmentUnit"  ] = "Cockpit";
+        ["CockpitFighterUnit"  ] = "Cockpit";
     };
 
     system = nil;
@@ -58,6 +61,17 @@ local FlyLib=
 
     Xoffset = 0;
     Yoffset = 0;
+
+    mouse_x = -1;
+    mouse_y = -1;
+    mouse_s =  false;
+    mouse_valid = false;
+    mouse_press_x = nil;
+    mouse_press_y = nil;
+    mouse_release_x = nil;
+    mouse_release_y = nil;
+    mouse_target = nil;
+
 
     AutoPitch = 2.0;
     AutoYaw   = 2.0;
@@ -301,10 +315,86 @@ function FlyLib:OnUpdate()
    self.roll =gyro.getRoll();
    self.pitch=gyro.getPitch();
 
+   self:CheckMouse();
+
    if self.roll~=nil and self.pitch ~=nil then
          self:CheckScreens(draw_10hz,draw_1hz);
    end   
 
+end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+local mouse_screen_width  = 335;
+local mouse_screen_height = 195;
+local mouse_screen_x0     = -mouse_screen_width / 2;
+local mouse_screen_y0     = -mouse_screen_height / 2;
+
+function FlyLib:CheckMouse()
+   local screen  = self.screen;
+   local mouse_x = screen.getMouseX();
+   local mouse_y = screen.getMouseY();
+   local mouse_s     = false;
+   local mouse_valid = false;
+   if mouse_x>=0.0 and mouse_y>=0.0 then
+        mouse_x = mouse_screen_x0 + mouse_x * mouse_screen_width;
+        mouse_y = mouse_screen_y0 + mouse_y * mouse_screen_height;
+        mouse_s = (screen.getMouseState() == 1);
+        mouse_valid = true;
+   end
+
+   if (mouse_x~=self.mouse_x) or 
+      (mouse_y~=self.mouse_y) or
+      (mouse_s~=self.mouse_s) then
+        self.mouse_x=mouse_x;
+        self.mouse_y=mouse_y;
+        local mouse_change  = (mouse_s ~= self.mouse_s);
+        local mouse_press   = mouse_change and mouse_s;
+        local mouse_release = mouse_change and self.mouse_s;
+        self.mouse_s=mouse_s;
+        self.mouse_valid=mouse_valid;
+        if mouse_press then
+            self:OnMousePress(mouse_x,mouse_y);
+        end
+        if mouse_release then
+            self:OnMouseRelease(mouse_x,mouse_y);    
+        end
+   end
+end
+
+function FlyLib:FindMouseTarget(x,y)
+    for i,button in ipairs(self.buttons) do
+        if x>=button.x and x<button.x+button.w then
+            if y>=button.y and y<button.y+button.h then
+                return button;
+            end
+        end
+    end
+    return nil;
+end
+
+function FlyLib:OnMousePress(mouse_x,mouse_y)
+    self.mouse_press_x=mouse_x;
+    self.mouse_press_y=mouse_y;
+    self.mouse_release_x=nil;
+    self.mouse_release_y=nil;
+    self.mouse_target   =self:FindMouseTarget(mouse_x,mouse_y);
+    -- self.system.print(format("mouse press %.0f %.0f",mouse_x,mouse_y));
+end
+
+function FlyLib:OnMouseRelease(mouse_x,mouse_y)
+    -- self.system.print(format("mouse release %.0f %.0f",mouse_x,mouse_y));
+    self.mouse_release_x=mouse_x;
+    self.mouse_release_y=mouse_y;
+    local mouse_target   =self:FindMouseTarget(mouse_x,mouse_y);
+    if mouse_target and mouse_target==self.mouse_target then
+        local click=mouse_target.click;
+        if click then
+            click(mouse_target,self,mouse_x-mouse_target.x,mouse_y-mouse_target.y);
+        end
+    end
 end
 
     -- ******************************************************************
@@ -373,12 +463,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
         end
     end
 
-    if not inAtmosphere then
-
-
-
-
-    end
+   
 end
     -- ******************************************************************
     --
