@@ -59,6 +59,12 @@ local FlyLib=
     Xoffset = 0;
     Yoffset = 0;
 
+    AutoPitch = 2.0;
+    AutoYaw   = 2.0;
+
+    autoPitchPID = nil;
+    autoYawPID   = nil;
+
     target_valid    = false;
     target_position = nil;
     target_vec      = nil;
@@ -279,7 +285,8 @@ end
     --
     -- ******************************************************************
 
-function FlyLib:OnFlush(constructUp,            
+function FlyLib:OnFlush(targetAngularVelocity,
+                        constructUp,            
                         constructForward,       
                         constructRight,
                         constructVelocity,
@@ -287,7 +294,36 @@ function FlyLib:OnFlush(constructUp,
                         velocity,
                         inAtmosphere)
 
+    if self.target_valid then
 
+        if self.autoPitchPID = nil then
+            self.autoPitchPID = pid.new(self.AutoPitch * 0.01, 0, self.AutoPitch * 0.1);
+            self.autoYawPID   = pid.new(self.AutoYaw   * 0.01, 0, self.AutoYaw   * 0.1);
+        end
+
+        local myPos=vec3(self.core.getConstructWorldPos());
+        local align_vector = (self.target_vec - myPos):normalize();
+        local align_scalar_pitch = align_vector * constructUp;
+        local align_scalar_yaw   = align_vector * constructRight;
+        self.align_pitch_angle  = ACOS(align_scalar_pitch) * rad_to_delta;
+        self.align_yaw_angle    = ACOS(align_scalar_yaw  ) * rad_to_delta;
+
+        self.autoPitchPID:inject(-self.align_pitch_angle);
+        self.autoYawPID:inject(-self.align_yaw_angle);
+
+    else
+        self.autoPitchPID       = nil;
+        self.autoYawPID         = nil;
+        self.align_pitch_angle  = nil;
+        self.align_yaw_angle    = nil;
+    end
+
+    if not inAtmosphere then
+
+
+
+
+    end
 end
     -- ******************************************************************
     --
