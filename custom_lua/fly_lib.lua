@@ -462,9 +462,9 @@ function FlyLib:OnFlush(targetAngularVelocity,
             self.system.print("stopping auto align");
         end
     end
-
-   
 end
+
+
     -- ******************************************************************
     --
     -- ******************************************************************
