@@ -413,7 +413,7 @@ local industry_lib=
     
 };
 
-function industry_lib.new(system,unit,industry_id,industry_count)
+function industry_lib.new(system,unit)
 
     local unit_classes=
     {
@@ -433,15 +433,11 @@ function industry_lib.new(system,unit,industry_id,industry_count)
         {
            need = 0;
         },
-        ManualSwitchUnit =
-        {
-           need = 0;
-        },
-        EmitterUnit =
+        CounterUnit =
         {
             need = 0;
         },
-        ReceiverUnit =
+        LaserDetectorUnit =
         {
             need = 0;
         },
@@ -455,19 +451,13 @@ function industry_lib.new(system,unit,industry_id,industry_count)
          lib.unit         = unit;
          lib.unit_classes = unit_classes;
          lib.service_slot = 1000;
-         lib.idle_count   = 0;
-
-         lib.industry_heartbeat = 1;
-         lib.industry_id        = industry_id;
-         lib.industry_count     = industry_count;
-         lib.HeartBeatChannel   ="IndustryHeartBeat";
 
          lib:BuildRecipeTable();
          -- system.print("industry_lib:BuildRecipeTable done");
          lib.init_ok=lib:AssignRecipeLists();
          -- system.print("industry_lib:AssignRecipeLists done");
          if lib.init_ok then
-             lib:SecureCall("InitTransponder");
+             lib:InitTransponder();
          end   
      end
      return lib;
@@ -481,10 +471,6 @@ function industry_lib:ErrorHandler(text,switch_off)
     else
         self.system.print(text);
     end    
-    if switch_off then
-        self:SwitchOff();
-        u.ScreenUnit[1]=nil;
-    end
 end
 
 function industry_lib:BuildRecipeTable()
@@ -581,31 +567,12 @@ function industry_lib:ContainerCheck(t)
             end
         end
     end  
-
-end
-
-function industry_lib:SwitchOff()
-    self:UpdateScreen();
-    local u=self.unit_classes;
-    local switch_table    = u.ManualSwitchUnit;
-    local switch = switch_table[1];
-    if switch then
-        self.system.print("Switching off");
-        switch.obj.activate();
-        switch.obj.deactivate();
-    end
-end
+end 
 
 function industry_lib:InitTransponder()
-    local u = self.unit_classes;
-    local receiver=u.ReceiverUnit[1];
-    if receiver then
-        local channel=self.HeartBeatChannel..self.industry_id;
-        self.system.print(channel);
-        receiver.obj.setChannels(channel);
-    end
-    local emitter=u.EmitterUnit[1];
-    if emitter then
+    local u = self.unit_classes;    
+    local counter=u.CounterUnit[1];
+    if counter then
         self.unit.setTimer("Periodic",0.2);
     end
 end
@@ -613,23 +580,10 @@ end
 
 function industry_lib:OnPeriodic()
     local u = self.unit_classes;
-    local emitter=u.EmitterUnit[1];
-    if emitter then
-        local channel=self.HeartBeatChannel..self.industry_heartbeat;
-        local message="Service";
-        -- self.system.print(channel);
-        emitter.obj.send(channel,message);
-        if self.industry_heartbeat < self.industry_count then
-            self.industry_heartbeat = self.industry_heartbeat+1;
-        else
-            self.industry_heartbeat = 1;
-        end
+    local counter=u.CounterUnit[1];
+    if counter then
+        counter.obj.next();
     end
-end
-
-function industry_lib:OnReceiver(channel,message)
-    self.system.print(message);
-    self:RunService();
 end
 
 function industry_lib:RunService()
@@ -646,11 +600,6 @@ function industry_lib:RunService()
         if self.service_slot>n_industry then 
             self.service_slot=1; 
             self:ContainerCheck(t);
-            if self.idle_count < 3 then
-                self.idle_count = self.idle_count +1;
-            else
-                self:SwitchOff();
-            end
         end
 
         local industry    = industry_table[self.service_slot];
@@ -685,7 +634,6 @@ function industry_lib:RunService()
                     if (recipe.count>0) and ((recipe_time==nil) or  (recipe_time < container.t)) then
                         m.startAndMaintain(recipe.count);    
                         recipe_times[id_string]=t;
-                        self.idle_count = 0;
                         --self.system.print(format("Starting recipe %s : %d" , recipe.name,recipe.count));
                     else
                         for r=1,#recipe_list do
@@ -694,7 +642,6 @@ function industry_lib:RunService()
                             recipe_time=recipe_times[id_string];
                             if (recipe_time==nil) or  (recipe_time < container.t) then
                                 m.setCurrentSchematic(recipe.id);
-                                self.idle_count = 0;
                                 --self.system.print("Changing recipe to "..recipe.name);
                                 break;
                             end   
@@ -707,12 +654,10 @@ function industry_lib:RunService()
                    if recipe.ignore_missing then
                       self.system.print("Ignoring missing ingredients");    
                        m.hardStop();
-                       self.idle_count = 0;
                    end
                 end
             elseif(status~=self.STATUS_RUNNING) then
                 m.hardStop();
-                self.idle_count = 0;
                 --self.system.print("Stopping machine");    
             end    
         end

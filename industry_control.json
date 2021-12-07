@@ -15,7 +15,7 @@
       }
     },
     "2": {
-      "name": "receiver",
+      "name": "IO",
       "type": {
         "events": [],
         "methods": []
@@ -94,34 +94,31 @@
   },
   "handlers": [
     {
-      "code": "industries:OnReceiver(channel,message);",
+      "code": "industries:SecureCall(\"RunService\");",
       "filter": {
-        "args": [
-          { "value": "channel" },
-          { "value": "message" }
-        ],
-        "signature": "receive(channel,message)",
+        "args": [],
+        "signature": "laserHit()",
         "slotKey": "2"
       },
-      "key": "0"
+      "key": 4
     },
     {
-      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit,1,5);\n    ",
+      "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
       "filter": {
         "args": [],
         "signature": "start()",
         "slotKey": "-1"
       },
-      "key": "1"
+      "key": "0"
     },
     {
-      "code": "industries:OnPeriodic();\n",
+      "code": "industries:SecureCall(\"OnPeriodic\");\n",
       "filter": {
         "args": [ { "value": "Periodic" } ],
         "signature": "tick(timerId)",
         "slotKey": "-1"
       },
-      "key": "2"
+      "key": "1"
     },
     {
       "code": "-- industries:ErrorHandler(\"Offline\");",
@@ -130,7 +127,7 @@
         "signature": "stop()",
         "slotKey": "-1"
       },
-      "key": "3"
+      "key": "2"
     }
   ],
   "methods": [],
