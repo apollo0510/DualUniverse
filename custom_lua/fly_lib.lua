@@ -86,6 +86,18 @@ local FlyLib=
 
     update_ui = false;
 
+    button_meta=
+    {
+        __index=
+        {
+            x= 0.0; y= 0.0; w=20.0; h=20.0; text="?"; hotkey=0;
+
+            update = function(self,flylib) return false; end;
+            fill   = function(self,flylib) return "none"; end;
+            click  = function(self,flylib) end;
+        };
+    };
+
     buttons = 
     { 
         {   x=-160;y=-80;w=20;h=20;text="T"; 
@@ -104,6 +116,7 @@ local FlyLib=
         }; 
 
         {   x=-135;y=-80;w=20;h=20;text="A"; 
+            hotkey=1;
             
             update=function(self,flylib)
                if flylib.auto_align~=self.auto_align then
@@ -126,6 +139,17 @@ local FlyLib=
 
     };  
 };
+
+-- ******************************************************************
+--
+-- ******************************************************************
+
+function FlyLib:InitButtons()
+    local meta=self.button_meta;
+    for i,button in ipairs(self.buttons) do
+          setmetatable(button,meta);
+    end
+end
 
 -- ******************************************************************
 --
@@ -214,6 +238,7 @@ function FlyLib:IdentifySlots(system,unit)
         end    
     end    
     -- ******************************************************************
+    self:InitButtons();
     return self.InitOk;
 end
 
@@ -390,10 +415,7 @@ function FlyLib:OnMouseRelease(mouse_x,mouse_y)
     self.mouse_release_y=mouse_y;
     local mouse_target   =self:FindMouseTarget(mouse_x,mouse_y);
     if mouse_target and mouse_target==self.mouse_target then
-        local click=mouse_target.click;
-        if click then
-            click(mouse_target,self,mouse_x-mouse_target.x,mouse_y-mouse_target.y);
-        end
+        mouse_target:click(self,mouse_x-mouse_target.x,mouse_y-mouse_target.y);
     end
 end
 
@@ -559,58 +581,13 @@ function FlyLib:ToggleAutoAlign()
     end
 end
 
-function FlyLib:OnOption1()
-    self:ToggleAutoAlign();
-end
-
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption2()
-    self.system.print("OnOption2");
-end
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption3()
-    self.system.print("OnOption3");
-end
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption4()
-    self.system.print("OnOption4");
-end
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption5()
-    self.system.print("OnOption5");
-end
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption6()
-    self.system.print("OnOption6");
-end
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption7()
-    self.system.print("OnOption7");
-end
-    -- ******************************************************************
-    --
-    -- ******************************************************************
-
-function FlyLib:OnOption8()
-    self.system.print("OnOption8");
+function FlyLib:OnOption(hotkey)
+    self.system.print("OnOption" .. hotkey);
+    for i,button in ipairs(self.buttons) do
+          if button.hotkey == hotkey then
+             button:click(self);
+          end
+    end
 end
 
     -- ******************************************************************
