@@ -571,8 +571,9 @@ end
 
 function industry_lib:InitTransponder()
     local u = self.unit_classes;    
-    local counter=u.CounterUnit[1];
-    if counter then
+    local counter =u.CounterUnit[1];
+    local detector=u.LaserDetectorUnit[1];
+    if counter or not detector then
         self.unit.setTimer("Periodic",0.2);
     end
 end
@@ -581,8 +582,12 @@ end
 function industry_lib:OnPeriodic()
     local u = self.unit_classes;
     local counter=u.CounterUnit[1];
+    local detector=u.LaserDetectorUnit[1];
     if counter then
         counter.obj.next();
+    end
+    if not detector then
+        self:RunService();
     end
 end
 
