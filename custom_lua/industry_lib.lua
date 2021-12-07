@@ -413,7 +413,7 @@ local industry_lib=
     
 };
 
-function industry_lib.new(system,unit,delay)
+function industry_lib.new(system,unit,industry_id,industry_count)
 
     local unit_classes=
     {
@@ -437,6 +437,14 @@ function industry_lib.new(system,unit,delay)
         {
            need = 0;
         },
+        EmitterUnit =
+        {
+            need = 0;
+        },
+        ReceiverUnit =
+        {
+            need = 0;
+        },
     };
 
      local lib={};
@@ -448,17 +456,18 @@ function industry_lib.new(system,unit,delay)
          lib.unit_classes = unit_classes;
          lib.service_slot = 1000;
          lib.idle_count   = 0;
+
+         lib.industry_heartbeat = 1;
+         lib.industry_id        = industry_id;
+         lib.industry_count     = industry_count;
+         lib.HeartBeatChannel   ="IndustryHeartBeat";
+
          lib:BuildRecipeTable();
          -- system.print("industry_lib:BuildRecipeTable done");
          lib.init_ok=lib:AssignRecipeLists();
          -- system.print("industry_lib:AssignRecipeLists done");
          if lib.init_ok then
-             local n=#unit_classes.Industry;
-             if n>0 then
-                -- lib.service_interval = 1.0 / n;
-                lib.service_interval = 0.1;
-                unit.setTimer("Periodic",lib.service_interval);
-             end 
+             lib:SecureCall("InitTransponder");
          end   
      end
      return lib;
@@ -535,9 +544,9 @@ end
 
 
 
-function industry_lib:SecureCall(func_name,t)
+function industry_lib:SecureCall(func_name,a1,a2)
     local f = self[func_name];
-    local ok, message = pcall(f,self,t);
+    local ok, message = pcall(f,self,a1,a2);
     if not ok then
        local text= string.format("Error in %s :\n%s",func_name,message);
        self.system.print(string.gsub(text,"\n", "<br>"));
@@ -587,8 +596,45 @@ function industry_lib:SwitchOff()
     end
 end
 
-function industry_lib:PeriodicCheck(t)
+function industry_lib:InitTransponder()
+    local u = self.unit_classes;
+    local receiver=u.ReceiverUnit[1];
+    if receiver then
+        local channel=self.HeartBeatChannel..self.industry_id;
+        self.system.print(channel);
+        receiver.obj.setChannels(channel);
+    end
+    local emitter=u.EmitterUnit[1];
+    if emitter then
+        self.unit.setTimer("Periodic",0.2);
+    end
+end
 
+
+function industry_lib:OnPeriodic()
+    local u = self.unit_classes;
+    local emitter=u.EmitterUnit[1];
+    if emitter then
+        local channel=self.HeartBeatChannel..self.industry_heartbeat;
+        local message="Service";
+        -- self.system.print(channel);
+        emitter.obj.send(channel,message);
+        if self.industry_heartbeat < self.industry_count then
+            self.industry_heartbeat = self.industry_heartbeat+1;
+        else
+            self.industry_heartbeat = 1;
+        end
+    end
+end
+
+function industry_lib:OnReceiver(channel,message)
+    self.system.print(message);
+    self:RunService();
+end
+
+function industry_lib:RunService()
+
+    local t=self.system.getTime();
     local u=self.unit_classes;
     local industry_table = u.Industry;
 

@@ -1,70 +1,70 @@
 {
   "slots": {
     "0": {
-      "name": "slot1",
+      "name": "core",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "1": {
-      "name": "slot2",
+      "name": "screen",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "2": {
-      "name": "slot3",
+      "name": "receiver",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "3": {
-      "name": "slot4",
+      "name": "con1",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "4": {
-      "name": "slot5",
+      "name": "con2",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "5": {
-      "name": "slot6",
+      "name": "con3",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "6": {
-      "name": "slot7",
+      "name": "con4",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "7": {
-      "name": "slot8",
+      "name": "con5",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "8": {
-      "name": "slot9",
+      "name": "con6",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "9": {
-      "name": "slot10",
+      "name": "con7",
       "type": {
         "events": [],
         "methods": []
@@ -94,31 +94,43 @@
   },
   "handlers": [
     {
-      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit,0.4);\n    ",
+      "code": "industries:OnReceiver(channel,message);",
+      "filter": {
+        "args": [
+          { "value": "channel" },
+          { "value": "message" }
+        ],
+        "signature": "receive(channel,message)",
+        "slotKey": "2"
+      },
+      "key": "0"
+    },
+    {
+      "code": "local industry_lib    = require(\"industry_lib\");\nindustries = industry_lib.new(system,unit,1,5);\n    ",
       "filter": {
         "args": [],
         "signature": "start()",
         "slotKey": "-1"
       },
-      "key": "0"
+      "key": "1"
     },
     {
-      "code": "industries:SecureCall(\"PeriodicCheck\",system.getTime());\n",
+      "code": "industries:OnPeriodic();\n",
       "filter": {
         "args": [ { "value": "Periodic" } ],
         "signature": "tick(timerId)",
         "slotKey": "-1"
       },
-      "key": "1"
+      "key": "2"
     },
     {
-      "code": "industries:ErrorHandler(\"Offline\");",
+      "code": "-- industries:ErrorHandler(\"Offline\");",
       "filter": {
         "args": [],
         "signature": "stop()",
         "slotKey": "-1"
       },
-      "key": "2"
+      "key": "3"
     }
   ],
   "methods": [],
