@@ -283,8 +283,6 @@ function FlyLib:OnUpdate()
        self.v_right   = vec3(core.getConstructOrientationRight());
 
         self.mass      = core.getConstructMass();
-        self.unit_data = json.decode(unit.getData());
-        self.max_brake = self.unit_data.maxBrake;
    end
 
    if self.telemeter then
@@ -308,6 +306,8 @@ function FlyLib:OnUpdate()
            draw_1hz = true;
            self.fps = self.fps_count;
            self.fps_count = 0;
+           self.unit_data = json.decode(unit.getData());
+           self.max_brake = self.unit_data.maxBrake;
        end
    end
 
@@ -855,22 +855,20 @@ end
 
 function FlyLib:CalcBrakeDistance()
 
-    local c = 30000.0 / 3.6; -- in m/s
-    local c2 = c*c;
-
-    local target_speed  = 0.0;
-
-    local accel    = -self.max_brake / self.mass;
     local distance = 0.0;
     local time     = 0.0;
-
-    if self.speed > target_speed then
-        local k1 = c * ASIN(self.speed/c);
-        local k2 = c2 * COS(k1/c) / accel;
-        time     = (c* ASIN(target_speed/c) - k1) / accel;
-        distance = k2 - c2 * COS((accel * time + k1) /c) / accel;
+    if self.max_brake and self.mass then
+        local c = 30000.0 / 3.6; -- in m/s
+        local c2 = c*c;
+        local target_speed  = 0.0;
+        local accel    = -self.max_brake / self.mass;
+        if self.speed > target_speed then
+            local k1 = c * ASIN(self.speed/c);
+            local k2 = c2 * COS(k1/c) / accel;
+            time     = (c* ASIN(target_speed/c) - k1) / accel;
+            distance = k2 - c2 * COS((accel * time + k1) /c) / accel;
+        end
     end
-
     return distance,time;
 end
 
