@@ -211,6 +211,7 @@ local recipe_table=
         { id = 1137084674  ; count = 0; name="unc smelter";}, 
 
         { id =55289725    ; count = 10; name="TerriUnit";}, 
+        { id =1339054248  ; count = 10; name="Static Core M";}, 
 
 
         -- { id = 921860876  ; count = 1; name="scaffolding";},
@@ -223,6 +224,8 @@ local recipe_table=
         { id = 1702024841; count = 10; name="container L";}, 
         { id = 1339132959; count = 0; name="stat Core L";}, 
         { id = 1275490954; count = 0;  name="unc Ass L";},
+
+        { id = 721775397 ; count = 10;  name="Transfer Unit";},
     };
 
 
@@ -250,6 +253,9 @@ local recipe_table=
         { id =1011557660 ; count = 4; name="Canopy tilted L";}, 
         { id =830288667  ; count = 4; name="Canopy flat L";}, 
         { id =479960376  ; count = 4; name="Canopy triangle L";}, 
+        
+        { id =1846671476  ; count = 0; name="Adv Mining Unit";}, 
+
         -- atmo fuel tank L
         -- space fuel tank L
         -- stabilizer L
