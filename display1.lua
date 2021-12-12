@@ -91,7 +91,7 @@ function UpdateContainers()
             if disp then
                 if o.max_volume then
                     local mass = cont.getItemsMass();
-                    if mass~=o.mass then	
+                    if mass~=nil and mass~=o.mass then	
                         o.mass    = mass;
                         o.volume  = mass / o.density;
                         o.percent = o.volume * 100.0 / o.max_volume;

@@ -121,27 +121,34 @@ local recipe_table=
           { id =1799107246 ; count = 200; name="basic pipe";}, 
           { id =1799107247 ; count = 200; name="uncommon pipe";}, 
 
+          { id =1331181119 ; count = 300; name="basic hydraulics";}, 
+
           { id =794666749 ; count = 500; name="basic component";}, 
           { id =794666748 ; count = 200; name="uncommon component";}, 
+
+          { id =2872711779 ; count = 50; name="bas connector";}, 
+          { id =2872711778 ; count = 50; name="unc connector";}, 
         
-          { id =946503935 ; count = 50; name="basic casing XS";}, 
-          { id =3808417022 ; count = 50; name="basic processor";}, 
-        
+          { id =527681755  ; count = 50; name="bas power sys";}, 
+          { id =527681752  ; count = 50; name="unc power sys";}, 
+
+          { id =1297540454 ; count = 50; name="basic electronics";}, 
           { id =1297540453 ; count = 50; name="uncommon electronics";}, 
+
 
     };
 
     Mix2=
     {
-          { id =2872711779 ; count = 50; name="bas connector";}, 
-          { id =2872711778 ; count = 50; name="unc connector";}, 
-          { id =527681755  ; count = 50; name="bas power sys";}, 
-          { id =527681752  ; count = 50; name="unc power sys";}, 
           { id =466630565  ; count = 50; name="basic fixation";}, 
-          { id =1331181119 ; count = 300; name="basic hydraulics";}, 
 
           { id = 3728054834; count = 10; name="basic electric engine S";}, 
           { id = 3728054836 ; count = 10; name="basic electric engine M";}, 
+
+          { id =3808417022 ; count = 50; name="basic processor";}, 
+        
+          { id =946503935 ; count = 50; name="basic casing XS";}, 
+          -- { id = ; count = 50; name="unc casing XS";}, 
          
     };
 
