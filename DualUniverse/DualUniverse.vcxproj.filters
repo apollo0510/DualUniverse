@@ -84,6 +84,9 @@
     <None Include="..\custom_lua\db_lib.lua">
       <Filter>custom_lua</Filter>
     </None>
+    <None Include="..\mu_display.lua">
+      <Filter>lua</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\readme.txt">

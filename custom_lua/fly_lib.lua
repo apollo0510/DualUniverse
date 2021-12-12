@@ -7,6 +7,8 @@ local FlyLib=
         CoreUnit           = { need = 1; meta = nil; name="core"; },
         ScreenUnit         = { need = 1; meta = nil; name="screen"; },
         GyroUnit           = { need = 1; meta = nil; name="gyro"; },
+        DataBankUnit       = { need = 1; meta = nil; name="data_bank"; },
+
         TelemeterUnit      = { need = 0; meta = nil; name="telemeter"; },
         SpaceFuelContainer = { need = 0; meta = nil; },
         AtmoFuelContainer  = { need = 0; meta = nil; },
@@ -59,9 +61,6 @@ local FlyLib=
     v_angle_v = 0.0;
     v_angle_h = 0.0;
     v_angle_valid = false;
-
-    Xoffset = 0;
-    Yoffset = 0;
 
     mouse_x = -1;
     mouse_y = -1;
@@ -238,7 +237,8 @@ function FlyLib:IdentifySlots(system,unit)
             self:ErrorHandler(format("Missing unit type %s : %d of %d",class_name,n,class_table.need));
         end    
     end    
-    -- ******************************************************************
+    db_lib:Start(system,unit,self.data_bank);
+    self.ScreenOffset=db_lib:GetKey("ScreenOffset", { x=0; y=0; } , 1);
     self:InitButtons();
     return self.InitOk;
 end
@@ -265,6 +265,29 @@ function FlyLib:OnPeriodic()
     end   
 end
 
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnCursorKey(dx,dy)
+
+    self.ScreenOffset.x = self.ScreenOffset.x + dx/20.0;
+    self.ScreenOffset.y = self.ScreenOffset.y + dy/20.0;
+    self.ScreenOffset.update=true;
+
+    self.update_ui = true;
+
+    self.system.print(format("Screen Offset %.2f %.2f",self.ScreenOffset.x,self.ScreenOffset.y));
+
+end
+   
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:OnStop()
+    db_lib:Stop();
+end
     -- ******************************************************************
     --
     -- ******************************************************************
@@ -710,9 +733,6 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
     
     -- mouseXpos = screen.getMouseX()
     -- mouseYpos = screen.getMouseY()
-    
-    local x=self.Xoffset;
-    local y=self.Yoffset;
 
     local cx      = self.v_angle_h * ( rad_to_delta);
     local cy      = self.v_angle_v * (-rad_to_delta);
@@ -725,16 +745,16 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         layer_dynamic=format(layer_dynamic_space,cx,cy);
     end   
 
-    if screen.layer_dynamic==nil then
+    if self.update_ui or screen.layer_dynamic==nil then
         screen.setHTML("");
         screen.clear(); 
-        screen.layer_dynamic = screen.addContent(x,y,layer_dynamic);
+        screen.layer_dynamic = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_dynamic);
     else
         screen.resetContent(screen.layer_dynamic,layer_dynamic);
     end   
     
-    if screen.layer_static == nil then
-        screen.layer_static = screen.addContent(x,y,layer_static);
+    if self.update_ui or screen.layer_static == nil then
+        screen.layer_static = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_static);
     end
 
     if self:UpdateLayerUI() then
@@ -787,17 +807,18 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
              layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self:DistanceText(self:CalcBrakeDistance()),self.fps);    
         end    
 
-        if screen.layer_text==nil then
+        if self.update_ui or screen.layer_text==nil then
             screen.layer_text = screen.addContent(0,0,layer_text);
         else
             screen.resetContent(screen.layer_text,layer_text);
         end    
     end    
+    self.update_ui = false;
 end
 
 function FlyLib:UpdateLayerUI()
     local buttons = self.buttons;
-    local update_ui = false;
+    local update_ui = self.update_ui;
     for i,button in ipairs(buttons) do
         if button:update(self) then
             button.svg_text=nil;

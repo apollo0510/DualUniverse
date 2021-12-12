@@ -154,6 +154,7 @@
     <None Include="..\industry_control.json" />
     <None Include="..\industry_control.lua" />
     <None Include="..\master.json" />
+    <None Include="..\mu_display.lua" />
     <None Include="..\oret1.json" />
     <None Include="..\oret2.json" />
     <None Include="..\oret3.json" />
