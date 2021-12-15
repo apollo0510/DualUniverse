@@ -115,8 +115,8 @@ local recipe_table=
 
     Mix1=
     {
-          { id =3936127019 ; count = 200; name="basic screw";}, 
-          { id =3936127018 ; count = 200; name="uncommon screw";}, 
+          { id =3936127019 ; count = 800; name="basic screw";}, 
+          { id =3936127018 ; count = 800; name="uncommon screw";}, 
 
           { id =1799107246 ; count = 200; name="basic pipe";}, 
           { id =1799107247 ; count = 200; name="uncommon pipe";}, 

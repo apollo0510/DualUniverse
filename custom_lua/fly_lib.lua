@@ -80,6 +80,9 @@ local FlyLib=
     autoYawPID   = nil;
     auto_align   = false;
 
+    brake_distance = 0.0;
+    auto_brake = false;
+
     target_valid    = false;
     target_position = nil;
     target_vec      = nil;
@@ -325,6 +328,9 @@ function FlyLib:OnUpdate()
    if (t - self.t_10hz) >= 0.1 then
        self.t_10hz = t;
        draw_10hz = true;
+
+       self:CheckAutoBrake();
+
        if (t - self.t_1hz) >= 1.0 then
            self.t_1hz = t;
            draw_1hz = true;
@@ -371,6 +377,49 @@ function FlyLib:OnUpdate()
    end   
 
 end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:CheckAutoBrake()
+
+    self.brake_distance, self.brake_time = self:CalcBrakeDistance();
+    if self.target_valid and self.auto_align then
+        if self.kmh > 10.0 then
+            local core = self.core;
+            local myPos=vec3(core.getConstructWorldPos());
+
+            local constructVelocity    = vec3(core.getWorldVelocity());
+            local constructVelocityDir = vec3(core.getWorldVelocity()):normalize();
+            local velocity             = constructVelocity:len(); 
+
+            local d = myPos.x * constructVelocityDir.x + 
+                      myPos.y * constructVelocityDir.y +
+                      myPos.z * constructVelocityDir.z;
+
+            local target_d = self.target_vec.x * constructVelocityDir.x + 
+                             self.target_vec.y * constructVelocityDir.y + 
+                             self.target_vec.z * constructVelocityDir.z - d;
+
+            if target_d > 0 then
+                if target_d  < self.brake_distance * 1.5 then
+                    self.auto_brake = true;
+                    -- self.system.print("auto brake "..target_d);
+                else
+                    self.auto_brake = false;
+                    -- self.system.print("target distance "..target_d);
+                end
+            else
+                self.auto_brake = true;
+                -- self.system.print("overshot target "..target_d);
+            end
+        end
+    else
+        self.auto_brake = false;
+    end
+end
+
 
     -- ******************************************************************
     --
@@ -804,7 +853,7 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         if self.planetinfluence > 0.001 then
         	layer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,self.fps);    
         else    
-             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self:DistanceText(self:CalcBrakeDistance()),self.fps);    
+             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self:DistanceText(self.brake_distance),self.fps);    
         end    
 
         if self.update_ui or screen.layer_text==nil then
