@@ -524,6 +524,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
                         velocity,
                         inAtmosphere)
 
+    self.inAtmosphere = inAtmosphere;                            
     if self.target_valid then
 
         if self.autoPitchPID == nil then
@@ -652,9 +653,9 @@ end
               if body then
                   if position.altitude < 0.0 then
                      -- this is a planet target
-                     return body.radius + 200000; -- 1su above surface
+                     return body.radius + 200000.0; -- 1su above surface
                   end
-                  if position.altitude < 30000 then
+                  if position.altitude < 30000.0 then
                      -- this is a target on planet surface
                      return 50.0;
                   end
@@ -861,7 +862,9 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         local pitch_text;
         local roll_text;
 
-        if self.align_pitch_angle then
+        local near_planet = (self.planetinfluence > 0.001); 
+
+        if self.align_pitch_angle and not near_planet then
             pitch_text=format("fill=\"green\" >[%.1f]",self.align_pitch_angle);
         else
             pitch_text=format(">%.1f",self.pitch);
@@ -893,7 +896,7 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         end
 
         
-        if self.planetinfluence > 0.001 then
+        if near_planet then
         	layer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,self.fps);    
         else    
              layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self:DistanceText(self.brake_distance),self.fps);    
