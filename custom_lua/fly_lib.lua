@@ -38,6 +38,7 @@ local FlyLib=
     t         = 0;
     t_10hz    = 0;
     t_1hz     = 0;
+    t_2hz     = 0;
     fps       = 0;
 
     v_forward = nil;
@@ -86,8 +87,10 @@ local FlyLib=
     target_valid    = false;
     target_position = nil;
     target_vec      = nil;
+    target_break_distance = 0.0;
 
     update_ui = false;
+    blink     = false;
 
     button_meta=
     {
@@ -126,11 +129,23 @@ local FlyLib=
                     self.auto_align = flylib.auto_align;
                     return true;
                end
+               local blink = flylib.blink and flylib.auto_brake;
+               if blink~=self.blink then
+                   self.blink = blink;
+                   return true;
+               end
             end;
 
             fill=function(self,flylib) 
-                if flylib.auto_align then return "red";
-                else return "none"; end
+                if flylib.auto_align then 
+                   local blink = flylib.blink and flylib.auto_brake;
+                   if blink then 
+                        return "none";
+                   else
+                        return "red";
+                   end 
+                else 
+                   return "none"; end
             end;
 
             click=function(self,flylib)
@@ -331,6 +346,10 @@ function FlyLib:OnUpdate()
 
        self:CheckAutoBrake();
 
+       if (t - self.t_2hz) >= 0.5 then
+           self.t_2hz = t;
+           self.blink = not self.blink;
+       end
        if (t - self.t_1hz) >= 1.0 then
            self.t_1hz = t;
            draw_1hz = true;
@@ -400,7 +419,7 @@ function FlyLib:CheckAutoBrake()
 
             local target_d = self.target_vec.x * constructVelocityDir.x + 
                              self.target_vec.y * constructVelocityDir.y + 
-                             self.target_vec.z * constructVelocityDir.z - d;
+                             self.target_vec.z * constructVelocityDir.z - d -self.target_break_distance;
 
             if target_d > 0 then
                 if target_d  < self.brake_distance * 1.5 then
@@ -625,6 +644,26 @@ end
         return nil
     end
 
+    function FlyLib:CalcTargetBreakDistance(position)
+        if position then
+          local solar_system = atlas[position.systemId];
+          if solar_system then
+              local body = solar_system[position.bodyId];
+              if body then
+                  if position.altitude < 0.0 then
+                     -- this is a planet target
+                     return body.radius + 200000; -- 1su above surface
+                  end
+                  if position.altitude < 30000 then
+                     -- this is a target on planet surface
+                     return 50.0;
+                  end
+              end
+          end
+        end
+        return 1000.0; -- default is 1km distance for a target in space
+    end
+
     -- ******************************************************************
     --
     -- ******************************************************************
@@ -634,6 +673,10 @@ function FlyLib:OninputText(text)
     if position then
         self.target_position = position;
         self.target_vec      = self:CalcWorldCoordinates(position);
+        self.target_break_distance = self:CalcTargetBreakDistance(position);
+
+        self.system.print("brake distance " .. self:DistanceText(self.target_break_distance));
+
         self.target_valid    = (self.target_vec ~= nil);
         self.system.setWaypoint(text);
     else

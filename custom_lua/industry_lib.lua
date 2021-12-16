@@ -1,6 +1,7 @@
 local unit_lib        = require("unit_lib");
 
 local format          = string.format;
+local ABS             = math.abs;
 
 local recipe_table=
 {
@@ -454,6 +455,10 @@ function industry_lib.new(system,unit)
         {
             need = 0;
         },
+        ManualSwitchUnit =
+        {
+            need = 0;
+        },
     };
 
      local lib={};
@@ -464,6 +469,7 @@ function industry_lib.new(system,unit)
          lib.unit         = unit;
          lib.unit_classes = unit_classes;
          lib.service_slot = 1000;
+         lib.warm_up      = 50;
 
          lib:BuildRecipeTable();
          -- system.print("industry_lib:BuildRecipeTable done");
@@ -587,7 +593,7 @@ function industry_lib:InitTransponder()
     local counter =u.CounterUnit[1];
     local detector=u.LaserDetectorUnit[1];
     if counter or not detector then
-        self.unit.setTimer("Periodic",0.2);
+        self.unit.setTimer("Periodic",0.5);
     end
 end
 
@@ -596,11 +602,31 @@ function industry_lib:OnPeriodic()
     local u = self.unit_classes;
     local counter=u.CounterUnit[1];
     local detector=u.LaserDetectorUnit[1];
-    if counter then
-        counter.obj.next();
+    local switch  =u.ManualSwitchUnit[1];
+
+    if self.warm_up then
+        self.warm_up=self.warm_up-1;
+        if self.warm_up<=0 then
+            self.warm_up = nil;
+            self.unit.setTimer("Periodic",0.20);
+        end
     end
-    if not detector then
-        self:RunService();
+
+    local player_distance= self.unit.getMasterPlayerPosition();
+    local r  = 50;
+    local dx = ABS(player_distance[1]);
+    local dy = ABS(player_distance[2]);
+    local dz = ABS(player_distance[3]);
+    if dx < r and dy<r and dz<r then
+        if switch then switch.obj.activate(); end
+        if counter then
+            counter.obj.next();
+        end
+        if not detector then
+            self:RunService();
+        end
+    else
+        if switch then switch.obj.deactivate(); end
     end
 end
 
