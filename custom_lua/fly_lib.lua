@@ -81,8 +81,9 @@ local FlyLib=
     autoYawPID   = nil;
     auto_align   = false;
 
-    brake_distance = 0.0;
-    auto_brake = false;
+    brake_distance      = 0.0;
+    brake_distance_text = "";
+    auto_brake          = false;
 
     target_valid    = false;
     target_position = nil;
@@ -404,6 +405,8 @@ end
 function FlyLib:CheckAutoBrake()
 
     self.brake_distance, self.brake_time = self:CalcBrakeDistance();
+    self.brake_distance_text = self:DistanceText(self.brake_distance);
+
     if self.target_valid and self.auto_align then
         if self.kmh > 10.0 then
             local core = self.core;
@@ -783,6 +786,7 @@ local layer_text_atmo=
                <text x="0"  y="90" %s</text>
                <text x="90" y="90">%s</text>
                <text x="90" y="-80">%s</text>
+               <text x="90" y="-60">%s</text>
             </g>	
             <g fill="white" style="font-size: 10px">
 		     <text x="-100"  y="-90">FPS %d</text>
@@ -897,9 +901,20 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
 
         
         if near_planet then
-        	layer_text=format(layer_text_atmo,pitch_text,roll_text,alt_text,speed_text,self.fps);    
+        	layer_text=format(layer_text_atmo,
+                              pitch_text,
+                              roll_text,
+                              alt_text,
+                              speed_text,
+                              self.brake_distance_text,
+                              self.fps);    
         else    
-             layer_text=format(layer_text_space,pitch_text,roll_text,speed_text,self:DistanceText(self.brake_distance),self.fps);    
+             layer_text=format(layer_text_space,
+                               pitch_text,
+                               roll_text,
+                               speed_text,
+                               self.brake_distance_text,
+                               self.fps);    
         end    
 
         if self.update_ui or screen.layer_text==nil then
