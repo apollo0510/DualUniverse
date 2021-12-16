@@ -80,15 +80,24 @@ local FlyLib=
     autoPitchPID = nil;
     autoYawPID   = nil;
     auto_align   = false;
+    auto_brake   = false;
 
-    brake_distance      = 0.0;
-    brake_distance_text = "";
-    auto_brake          = false;
+    target = 
+    {
+        valid          = false;
+        position       = nil;
+        vec            = nil;
+        brake_distance = 0.0;
+    };
 
-    target_valid    = false;
-    target_position = nil;
-    target_vec      = nil;
-    target_break_distance = 0.0;
+    ScreenOffset =
+    { 
+        x=0;
+        y=0;
+    };
+
+    current_brake_distance      = 0.0;
+    current_brake_distance_text = "";
 
     update_ui = false;
     blink     = false;
@@ -110,14 +119,15 @@ local FlyLib=
         {   x=-160;y=-80;w=20;h=20;text="T"; 
             
             update=function(self,flylib)
-               if flylib.target_valid~=self.target_valid then
-                    self.target_valid = flylib.target_valid;
+               local valid=flylib.target.valid;
+               if valid~=self.target_valid then
+                    self.target_valid = valid;
                     return true;
                end
             end;
 
             fill=function(self,flylib) 
-                if flylib.target_valid then return "green";
+                if flylib.target.valid then return "green";
                 else return "none"; end
             end;
         }; 
@@ -257,7 +267,8 @@ function FlyLib:IdentifySlots(system,unit)
         end    
     end    
     db_lib:Start(system,unit,self.data_bank);
-    self.ScreenOffset=db_lib:GetKey("ScreenOffset", { x=0; y=0; } , 1);
+    self.ScreenOffset=db_lib:GetKey("ScreenOffset", self.ScreenOffset , 1);
+    self.target      =db_lib:GetKey("Target"      , self.target       , 1);
     self:InitButtons();
     return self.InitOk;
 end
@@ -404,10 +415,10 @@ end
 
 function FlyLib:CheckAutoBrake()
 
-    self.brake_distance, self.brake_time = self:CalcBrakeDistance();
-    self.brake_distance_text = self:DistanceText(self.brake_distance);
-
-    if self.target_valid and self.auto_align then
+    self.current_brake_distance, self.current_brake_time = self:CalcBrakeDistance();
+    self.current_brake_distance_text = self:DistanceText(self.current_brake_distance);
+    local target=self.target;
+    if target.valid and self.auto_align then
         if self.kmh > 10.0 then
             local core = self.core;
             local myPos=vec3(core.getConstructWorldPos());
@@ -420,12 +431,12 @@ function FlyLib:CheckAutoBrake()
                       myPos.y * constructVelocityDir.y +
                       myPos.z * constructVelocityDir.z;
 
-            local target_d = self.target_vec.x * constructVelocityDir.x + 
-                             self.target_vec.y * constructVelocityDir.y + 
-                             self.target_vec.z * constructVelocityDir.z - d -self.target_break_distance;
+            local target_d = target.vec.x * constructVelocityDir.x + 
+                             target.vec.y * constructVelocityDir.y + 
+                             target.vec.z * constructVelocityDir.z - d -target.brake_distance;
 
             if target_d > 0 then
-                if target_d  < self.brake_distance * 1.5 then
+                if target_d  < self.current_brake_distance * 1.5 then
                     self.auto_brake = true;
                     -- self.system.print("auto brake "..target_d);
                 else
@@ -527,8 +538,9 @@ function FlyLib:OnFlush(targetAngularVelocity,
                         velocity,
                         inAtmosphere)
 
-    self.inAtmosphere = inAtmosphere;                            
-    if self.target_valid then
+    self.inAtmosphere = inAtmosphere;    
+    local target=self.target;
+    if target.valid then
 
         if self.autoPitchPID == nil then
             self.autoPitchPID = pid.new(self.AutoPitch * 0.01, 0, self.AutoPitch * 0.1);
@@ -538,7 +550,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
 
 
         local myPos=vec3(self.core.getConstructWorldPos());
-        local align_vector = (self.target_vec - myPos):normalize();
+        local align_vector = (target.vec - myPos):normalize();
         local align_scalar_pitch = - align_vector:dot(constructUp);
         local align_scalar_yaw   = - align_vector:dot(constructRight);
 
@@ -675,13 +687,13 @@ end
 function FlyLib:OninputText(text)
     local position=self:ParsePosition(text);
     if position then
-        self.target_position = position;
-        self.target_vec      = self:CalcWorldCoordinates(position);
-        self.target_break_distance = self:CalcTargetBreakDistance(position);
-
-        self.system.print("brake distance " .. self:DistanceText(self.target_break_distance));
-
-        self.target_valid    = (self.target_vec ~= nil);
+        local target=self.target;
+        target.position = position;
+        target.vec      = self:CalcWorldCoordinates(position);
+        target.brake_distance = self:CalcTargetBreakDistance(position);
+        self.system.print("brake distance " .. self:DistanceText(target.brake_distance));
+        target.valid    = (target.vec ~= nil);
+        target.update=true;
         self.system.setWaypoint(text);
     else
         self.system.print("OninputText : " .. text);
@@ -906,14 +918,14 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
                               roll_text,
                               alt_text,
                               speed_text,
-                              self.brake_distance_text,
+                              self.current_brake_distance_text,
                               self.fps);    
         else    
              layer_text=format(layer_text_space,
                                pitch_text,
                                roll_text,
                                speed_text,
-                               self.brake_distance_text,
+                               self.current_brake_distance_text,
                                self.fps);    
         end    
 
