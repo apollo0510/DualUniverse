@@ -97,7 +97,11 @@ local FlyLib=
     };
 
     current_brake_distance      = 0.0;
+    current_brake_distance_compare =0.0;
     current_brake_distance_text = "";
+
+    target_brake_distance_compare = 0.0;
+    target_brake_distance_text = "";
 
     update_ui = false;
     blink     = false;
@@ -132,7 +136,7 @@ local FlyLib=
             end;
         }; 
 
-        {   x=-135;y=-80;w=20;h=20;text="A"; 
+        {   x=-160;y=-55;w=20;h=20;text="A"; 
             hotkey=1;
             
             update=function(self,flylib)
@@ -416,7 +420,6 @@ end
 function FlyLib:CheckAutoBrake()
 
     self.current_brake_distance, self.current_brake_time = self:CalcBrakeDistance();
-    self.current_brake_distance_text = self:DistanceText(self.current_brake_distance);
     local target=self.target;
     if target.valid and self.auto_align then
         if self.kmh > 10.0 then
@@ -778,14 +781,17 @@ local layer_static=
           <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
           <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" />
           <circle cx="0" cy="0" r="10" />
+       </g>
+       <g fill="none" stroke="#80808080" >
           <rect x=20 y=-100 width=140 height=20 />
           <rect x=20 y=-80  width=70  height=20 />
           <rect x=90 y=-80  width=70  height=20 />
+          <rect x=60 y= 80 width=100 height=20 />
       </g>	
    </svg>
 ]];
 
-local layer_text_atmo=
+local layer_text_format=
 [[
 	<head>
 		<style>
@@ -799,40 +805,15 @@ local layer_text_atmo=
 	<body>
         <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
             <g fill="white" text-anchor="middle">
-               <text x="90" y="0" %s</text>
+               <text x="90" y="7" %s</text>
                <text x="0"  y="90" %s</text>
-               <text x="90" y="90">%s</text>
+               <text x="110" y="96">%s</text>
                <text x="100" y="-83">%s</text>
                <text x="60" y="-63">%s</text>
+               <text x="130" y="-63">%s</text>
             </g>	
             <g fill="white" style="font-size: 10px">
-		     <text x="-100"  y="-90">FPS %d</text>
-            </g>	
-        </svg>
-    </body>
-]];
-
-local layer_text_space=
-[[
-	<head>
-		<style>
-			svg 
-			{ 
-				font-family: ArialMT , Arial, sans-serif; 
-				font-size  : 20px;
-			} 
-		</style>
-	</head>
-	<body>
-        <svg  width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
-            <g fill="white" text-anchor="middle">
-               <text x="90" y="0" %s</text>
-               <text x="0"  y="90" %s</text>
-               <text x="100" y="-83">%s</text>
-               <text x="60" y="-63">%s</text>
-            </g>	
-            <g fill="white" style="font-size: 10px">
-		     <text x="-150"  y="-90">FPS %d</text>
+		     <text x="-160"  y="-85">FPS %d</text>
             </g>	
         </svg>
     </body>
@@ -880,33 +861,35 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
     end
 
     if draw_10hz then
-        local pitch_text;
-        local roll_text;
-
+        local x;
+        local target = self.target;
         local near_planet = (self.planetinfluence > 0.001); 
-
+        -- **************************************************************************
+        local pitch_text;
         if self.align_pitch_angle and not near_planet then
             pitch_text=format("fill=\"green\" >[%.1f]",self.align_pitch_angle);
         else
             pitch_text=format(">%.1f",self.pitch);
         end
-
+        -- **************************************************************************
+        local roll_text;
         if self.align_yaw_angle~=nil then
             roll_text =format("fill=\"green\" >[%.1f]",self.align_yaw_angle); 
         else
             roll_text =format(">%.1f",self.roll); 
         end
-
+        -- **************************************************************************
         local alt_text;
-        
-        if self.ground_distance >=0 then
-            alt_text=format("(%.1f m)",self.ground_distance)
+        if near_planet then
+            if self.ground_distance >=0 then
+                alt_text=format("(%.1f m)",self.ground_distance)
+            else
+                alt_text=format("%.3f km",self.altitude / 1000.0)
+            end    
         else
-            alt_text=format("%.3f km",self.altitude / 1000.0)
-        end    
-        
-        local layer_text;
-
+            alt_text="Space";
+        end
+        -- **************************************************************************
         local speed_text;
         if self.kmh <1.0 then
             speed_text="Stop";
@@ -915,24 +898,27 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         else
             speed_text=format("%.1f Tkm/h",self.kmh/1000.0);
         end
-
-        
-        if near_planet then
-        	layer_text=format(layer_text_atmo,
-                              pitch_text,
-                              roll_text,
-                              alt_text,
-                              speed_text,
-                              self.current_brake_distance_text,
-                              self.fps);    
-        else    
-             layer_text=format(layer_text_space,
-                               pitch_text,
-                               roll_text,
-                               speed_text,
-                               self.current_brake_distance_text,
-                               self.fps);    
-        end    
+        -- **************************************************************************
+        x=self.current_brake_distance;
+        if x~=self.current_brake_distance_compare then
+            self.current_brake_distance_compare=x;
+            self.current_brake_distance_text = self:DistanceText(x);
+        end
+        -- **************************************************************************
+        x=target.brake_distance;
+        if x ~= self.target_brake_distance_compare then
+            self.target_brake_distance_compare=x;
+            self.target_brake_distance_text = self:DistanceText(x);
+        end
+        -- **************************************************************************
+        local layer_text=format(layer_text_format,
+                            pitch_text,
+                            roll_text,
+                            alt_text,
+                            speed_text,
+                            self.current_brake_distance_text,
+                            self.target_brake_distance_text,
+                            self.fps);    
 
         if self.update_ui or screen.layer_text==nil then
             screen.layer_text = screen.addContent(0,0,layer_text);
