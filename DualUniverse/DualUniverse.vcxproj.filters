@@ -39,9 +39,6 @@
     <None Include="..\doorcontrol.json">
       <Filter>json</Filter>
     </None>
-    <None Include="..\industry_control.json">
-      <Filter>json</Filter>
-    </None>
     <None Include="..\master.json">
       <Filter>json</Filter>
     </None>
@@ -86,6 +83,9 @@
     </None>
     <None Include="..\mu_display.lua">
       <Filter>lua</Filter>
+    </None>
+    <None Include="..\industry_control.json">
+      <Filter>json</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

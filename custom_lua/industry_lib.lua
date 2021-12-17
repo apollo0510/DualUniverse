@@ -63,6 +63,8 @@ local recipe_table=
         { id =264385523  ; count = 20; name="adv reinf S";},   
         { id =264385481  ; count = 20; name="adv reinf M";},   
         { id =264385482  ; count = 20; name="adv reinf L";},   
+
+        { id =487996202  ; count = 20; name="adv stand XS";},   
     };
 
     Transformer=
@@ -627,6 +629,14 @@ function industry_lib:OnPeriodic()
         end
     else
         if switch then switch.obj.deactivate(); end
+    end
+end
+
+function industry_lib:OnStop()
+    local u = self.unit_classes;
+    local switch  =u.ManualSwitchUnit[1];
+    if switch then
+        switch.obj.deactivate();
     end
 end
 

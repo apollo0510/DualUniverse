@@ -1,70 +1,70 @@
 {
   "slots": {
     "0": {
-      "name": "switch",
+      "name": "core",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "1": {
-      "name": "slot2",
+      "name": "screen",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "2": {
-      "name": "slot3",
+      "name": "con3",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "3": {
-      "name": "slot4",
+      "name": "con1",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "4": {
-      "name": "slot5",
+      "name": "con2",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "5": {
-      "name": "slot6",
+      "name": "IO5",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "6": {
-      "name": "slot7",
+      "name": "con4",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "7": {
-      "name": "slot8",
+      "name": "con5",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "8": {
-      "name": "slot9",
+      "name": "con6",
       "type": {
         "events": [],
         "methods": []
       }
     },
     "9": {
-      "name": "slot10",
+      "name": "con7",
       "type": {
         "events": [],
         "methods": []
@@ -94,31 +94,40 @@
   },
   "handlers": [
     {
-      "code": "",
+      "code": "industries:SecureCall(\"RunService\");",
       "filter": {
         "args": [],
-        "signature": "",
-        "slotKey": "0"
+        "signature": "laserHit()",
+        "slotKey": "5"
       },
-      "key": 1
+      "key": "0"
     },
     {
-      "code": "switch.activate();",
+      "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
       "filter": {
         "args": [],
         "signature": "start()",
         "slotKey": "-1"
       },
-      "key": 2
+      "key": "1"
     },
     {
-      "code": "switch.deactivate();",
+      "code": "industries:SecureCall(\"OnPeriodic\");\n",
+      "filter": {
+        "args": [ { "value": "Periodic" } ],
+        "signature": "tick(timerId)",
+        "slotKey": "-1"
+      },
+      "key": "2"
+    },
+    {
+      "code": "-- industries:ErrorHandler(\"Offline\");\nindustries:OnStop();",
       "filter": {
         "args": [],
         "signature": "stop()",
         "slotKey": "-1"
       },
-      "key": 3
+      "key": "3"
     }
   ],
   "methods": [],

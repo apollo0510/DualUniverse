@@ -774,9 +774,14 @@ local layer_dynamic_space=
 
 local layer_static=
 [[ <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
-      <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
-      <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" stroke="white" />
-      <circle cx="0" cy="0" r="10" stroke="white" fill="none" />
+      <g fill="none" stroke="white" >
+          <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
+          <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" />
+          <circle cx="0" cy="0" r="10" />
+          <rect x=20 y=-100 width=140 height=20 />
+          <rect x=20 y=-80  width=70  height=20 />
+          <rect x=90 y=-80  width=70  height=20 />
+      </g>	
    </svg>
 ]];
 
@@ -797,8 +802,8 @@ local layer_text_atmo=
                <text x="90" y="0" %s</text>
                <text x="0"  y="90" %s</text>
                <text x="90" y="90">%s</text>
-               <text x="90" y="-80">%s</text>
-               <text x="90" y="-60">%s</text>
+               <text x="100" y="-83">%s</text>
+               <text x="60" y="-63">%s</text>
             </g>	
             <g fill="white" style="font-size: 10px">
 		     <text x="-100"  y="-90">FPS %d</text>
@@ -823,8 +828,8 @@ local layer_text_space=
             <g fill="white" text-anchor="middle">
                <text x="90" y="0" %s</text>
                <text x="0"  y="90" %s</text>
-               <text x="120" y="-80">%s</text>
-               <text x="120" y="-60">%s</text>
+               <text x="100" y="-83">%s</text>
+               <text x="60" y="-63">%s</text>
             </g>	
             <g fill="white" style="font-size: 10px">
 		     <text x="-150"  y="-90">FPS %d</text>
@@ -1006,7 +1011,7 @@ function FlyLib:CalcBrakeDistance()
         local c2 = c*c;
         local target_speed  = 0.0;
         local accel    = -self.max_brake / self.mass;
-        if self.speed > target_speed then
+        if self.speed > target_speed and self.speed<c then
             local k1 = c * ASIN(self.speed/c);
             local k2 = c2 * COS(k1/c) / accel;
             time     = (c* ASIN(target_speed/c) - k1) / accel;

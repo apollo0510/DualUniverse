@@ -15,7 +15,7 @@
       }
     },
     "2": {
-      "name": "IO",
+      "name": "IO1",
       "type": {
         "events": [],
         "methods": []
@@ -100,7 +100,7 @@
         "signature": "laserHit()",
         "slotKey": "2"
       },
-      "key": 4
+      "key": "0"
     },
     {
       "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
@@ -109,7 +109,7 @@
         "signature": "start()",
         "slotKey": "-1"
       },
-      "key": "0"
+      "key": "1"
     },
     {
       "code": "industries:SecureCall(\"OnPeriodic\");\n",
@@ -118,7 +118,7 @@
         "signature": "tick(timerId)",
         "slotKey": "-1"
       },
-      "key": "1"
+      "key": "2"
     },
     {
       "code": "-- industries:ErrorHandler(\"Offline\");",
@@ -127,7 +127,7 @@
         "signature": "stop()",
         "slotKey": "-1"
       },
-      "key": "2"
+      "key": "3"
     }
   ],
   "methods": [],
