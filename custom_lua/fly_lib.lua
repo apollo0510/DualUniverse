@@ -117,6 +117,10 @@ local FlyLib=
     target_brake_distance_compare = 0.0;
     target_brake_distance_text = "";
 
+    RemainingTravelTime = nil;
+    RemainingTravelTimeCompare = nil;
+    RemainingTravelTimeText = "";
+
     update_ui = false;
     blink     = false;
 
@@ -361,6 +365,20 @@ function FlyLib:OnUpdate()
    self.t            = t;
    self.fps_count    = self.fps_count+1;
 
+
+   self.player_rel_pos  = vec3(unit.getMasterPlayerPosition()); 
+   self.player_distance = self.player_rel_pos:len();
+
+   self.altitude        = core.getAltitude();
+   self.atmosphere      = unit.getAtmosphereDensity();  -- [ 0..1]
+   self.planetinfluence = unit.getClosestPlanetInfluence(); -- [ 0..1]
+
+   local v_velo = vec3(core.getVelocity());
+   local speed  = v_velo:len();
+   self.speed = speed;
+   self.kmh   = speed * 3.6;
+
+
    local draw_10hz=false;
    local draw_1hz =false;
 
@@ -381,20 +399,11 @@ function FlyLib:OnUpdate()
            self.fps_count = 0;
            self.unit_data = json.decode(unit.getData());
            self.max_brake = self.unit_data.maxBrake;
+
+           self:CalcRemainingTravelTime();
        end
    end
 
-   self.player_rel_pos  = vec3(unit.getMasterPlayerPosition()); 
-   self.player_distance = self.player_rel_pos:len();
-
-   self.altitude        = core.getAltitude();
-   self.atmosphere      = unit.getAtmosphereDensity();  -- [ 0..1]
-   self.planetinfluence = unit.getClosestPlanetInfluence(); -- [ 0..1]
-
-   local v_velo = vec3(core.getVelocity());
-   local speed  = v_velo:len();
-   self.speed = speed;
-   self.kmh   = speed * 3.6;
 
    if self.kmh > 1.0 then
         v_velo.x=v_velo.x/speed;
@@ -684,7 +693,8 @@ end
               if body then
                   if position.altitude < 0.0 then
                      -- this is a planet target
-                     return body.radius + 200000.0; -- 1su above surface
+                     return 200 * 1000 * 40;
+                     -- return body.radius + 200000.0; -- 1su above surface
                   end
                   if position.altitude < 30000.0 then
                      -- this is a target on planet surface
@@ -788,14 +798,21 @@ local layer_dynamic_space=
     </svg>
 ]];
 
-local layer_static=
+local layer_crosshair=
 [[ <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
       <g fill="none" stroke="white" >
           <path d="M-100,0 h50 M50,0 h50 M0,-100 v50 M0,50 v50" stroke="#80808080" />
           <path d="M-50,0 h40 M10,0 h40 M0,-50 v40 M0,10 v40" />
           <circle cx="0" cy="0" r="10" />
        </g>
+   </svg>
+]];
+
+local layer_frames=
+[[ <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
+       <rect x=-160 y= -100 width=320 height=200 fill="black" stroke="none" />
        <g fill="none" stroke="#80808080" >
+          <rect x=-135 y=-80 width=100 height=20 />
           <rect x=20 y=-100 width=140 height=20 />
           <rect x=20 y=-80  width=70  height=20 />
           <rect x=90 y=-80  width=70  height=20 />
@@ -803,6 +820,7 @@ local layer_static=
       </g>	
    </svg>
 ]];
+
 
 local layer_text_format=
 [[
@@ -824,6 +842,7 @@ local layer_text_format=
                <text x="100" y="-83">%s</text>
                <text x="60" y="-63">%s</text>
                <text x="130" y="-63">%s</text>
+               <text x="-90" y="-63">%s</text>
             </g>	
             <g fill="white" style="font-size: 10px">
 		     <text x="-160"  y="-85">FPS %d</text>
@@ -846,6 +865,13 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
     local cy      = self.v_angle_v * (-rad_to_delta);
     local c_pitch = self.pitch * degree_to_delta; -- 1 degree = 20 units
     local layer_dynamic;
+
+
+    if self.update_ui or screen.layer_frames == nil then
+        screen.setHTML("");
+        screen.clear(); 
+        screen.layer_frames = screen.addContent(0,0,layer_frames);
+    end
     
     if self.planetinfluence > 0.001 then
         layer_dynamic=format(layer_dynamic_atmo,self.roll,c_pitch,cx,cy);
@@ -854,16 +880,15 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
     end   
 
     if self.update_ui or screen.layer_dynamic==nil then
-        screen.setHTML("");
-        screen.clear(); 
         screen.layer_dynamic = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_dynamic);
     else
         screen.resetContent(screen.layer_dynamic,layer_dynamic);
     end   
     
-    if self.update_ui or screen.layer_static == nil then
-        screen.layer_static = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_static);
+    if self.update_ui or screen.layer_crosshair == nil then
+        screen.layer_crosshair = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_crosshair);
     end
+
 
     if self:UpdateLayerUI() then
         if screen.layer_ui == nil then
@@ -924,6 +949,12 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
             self.target_brake_distance_text = self:DistanceText(x);
         end
         -- **************************************************************************
+        x=self.RemainingTravelTime;
+        if x~=self.RemainingTravelTimeCompare then
+            self.RemainingTravelTimeCompare=x;
+            self.RemainingTravelTimeText = self:TimeText(x);
+        end
+        -- **************************************************************************
         local layer_text=format(layer_text_format,
                             pitch_text,
                             roll_text,
@@ -931,6 +962,7 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
                             speed_text,
                             self.current_brake_distance_text,
                             self.target_brake_distance_text,
+                            self.RemainingTravelTimeText,
                             self.fps);    
 
         if self.update_ui or screen.layer_text==nil then
@@ -992,6 +1024,18 @@ function FlyLib:DistanceText(distance)
     end
 end
 
+function FlyLib:TimeText(t)
+    if t~=nil then
+        t=math.floor(t);
+        local s = t % 60; t=t/60;
+        local m = t % 60; t=t/60;
+        local h = t;
+        return format("%.0f:%02.0f:%02.0f",h,m,s);
+    else
+        return "--";
+    end
+end
+
 function FlyLib:MassText(mass)
     if mass <1000.0 then
         return format("%.0fKg",mass);
@@ -1018,6 +1062,18 @@ function FlyLib:CalcBrakeDistance()
         end
     end
     return distance,time;
+end
+
+function FlyLib:CalcRemainingTravelTime()
+    local target= self.target;
+    self.RemainingTravelTime=nil;
+    if target.valid then
+        local myPos=vec3(self.core.getConstructWorldPos());  
+        local distance = (myPos-target.vec):len() - self.current_brake_distance - target.brake_distance;
+        if distance > 0 and self.speed>=50.0 then
+            self.RemainingTravelTime=distance / self.speed + self.current_brake_time;
+        end
+    end
 end
 
 return FlyLib;
