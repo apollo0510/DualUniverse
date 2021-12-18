@@ -693,8 +693,8 @@ end
               if body then
                   if position.altitude < 0.0 then
                      -- this is a planet target
-                     return 200 * 1000 * 40;
-                     -- return body.radius + 200000.0; -- 1su above surface
+                     -- return 200 * 1000 * 40;
+                     return body.radius + 200000.0; -- 1su above surface
                   end
                   if position.altitude < 30000.0 then
                      -- this is a target on planet surface
@@ -1026,11 +1026,12 @@ end
 
 function FlyLib:TimeText(t)
     if t~=nil then
-        t=math.floor(t);
-        local s = t % 60; t=t/60;
-        local m = t % 60; t=t/60;
+        -- return os.date("%x",t);
+        t = t // 1;
+        local s = t % 60; t=t//60;
+        local m = t % 60; t=t//60;
         local h = t;
-        return format("%.0f:%02.0f:%02.0f",h,m,s);
+        return format("%d:%02d:%02d",h,m,s);
     else
         return "--";
     end
