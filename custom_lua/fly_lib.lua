@@ -66,6 +66,8 @@ local FlyLib=
     altitude = 0.0;
     atmosphere = 0.0;
     planetinfluence = 0.0;
+    near_planet = false;
+
     speed = 0.0;
     kmh = 0.0;
     
@@ -372,6 +374,7 @@ function FlyLib:OnUpdate()
    self.altitude        = core.getAltitude();
    self.atmosphere      = unit.getAtmosphereDensity();  -- [ 0..1]
    self.planetinfluence = unit.getClosestPlanetInfluence(); -- [ 0..1]
+   self.near_planet     = (self.planetinfluence>0.001);
 
    local v_velo = vec3(core.getVelocity());
    local speed  = v_velo:len();
@@ -560,10 +563,8 @@ function FlyLib:OnFlush(targetAngularVelocity,
                         constructRight,
                         constructVelocity,
                         constructVelocityDir,
-                        velocity,
-                        inAtmosphere)
+                        velocity)
 
-    self.inAtmosphere = inAtmosphere;    
     local target=self.target;
     if target.valid then
 
@@ -590,7 +591,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
             local autoPitchInput =0.0;
             local autoYawInput   =0.0;
         
-            if not inAtmosphere then
+            if not self.near_planet then
                 autoPitchInput = self.autoPitchPID:get();
             end
             autoYawInput   = self.autoYawPID:get();
@@ -873,7 +874,7 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         screen.layer_frames = screen.addContent(0,0,layer_frames);
     end
     
-    if self.planetinfluence > 0.001 then
+    if self.near_planet then
         layer_dynamic=format(layer_dynamic_atmo,self.roll,c_pitch,cx,cy);
     else   
         layer_dynamic=format(layer_dynamic_space,cx,cy);
@@ -901,10 +902,9 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
     if draw_10hz then
         local x;
         local target = self.target;
-        local near_planet = (self.planetinfluence > 0.001); 
         -- **************************************************************************
         local pitch_text;
-        if self.align_pitch_angle and not near_planet then
+        if self.align_pitch_angle and not self.near_planet then
             pitch_text=format("fill=\"green\" >[%.1f]",self.align_pitch_angle);
         else
             pitch_text=format(">%.1f",self.pitch);
@@ -918,7 +918,7 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
         end
         -- **************************************************************************
         local alt_text;
-        if near_planet then
+        if self.near_planet then
             if self.ground_distance >=0 then
                 alt_text=format("(%.1f m)",self.ground_distance)
             else
