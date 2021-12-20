@@ -93,10 +93,11 @@ local FlyLib=
     AutoPitch = 2.0;
     AutoYaw   = 2.0;
 
-    autoPitchPID = nil;
-    autoYawPID   = nil;
-    auto_align   = false;
-    auto_brake   = AUTOBRAKE_OFF;
+    autoPitchPID        = nil;
+    autoYawPID          = nil;
+    auto_align          = false;
+    target_auto_brake   = AUTOBRAKE_OFF;
+    atmo_auto_brake     = false;
 
     target = 
     {
@@ -164,15 +165,15 @@ local FlyLib=
                     self.auto_align = flylib.auto_align;
                     return true;
                end
-               if flylib.auto_brake~=self.auto_brake then
-                    self.auto_brake = flylib.auto_brake;
+               if flylib.target_auto_brake~=self.target_auto_brake then
+                    self.target_auto_brake = flylib.target_auto_brake;
                     return true;
                end
             end;
 
             fill=function(self,flylib) 
                 if flylib.auto_align then 
-                   return auto_brake_colors[flylib.auto_brake]; 
+                   return auto_brake_colors[flylib.target_auto_brake]; 
                 else 
                    return "none"; end
             end;
@@ -442,7 +443,7 @@ function FlyLib:CheckAutoBrake()
     self.current_brake_distance, self.current_brake_time = self:CalcBrakeDistance();
     local target=self.target;
     if target.valid and self.auto_align then
-        if self.auto_brake~=AUTOBRAKE_LOCK then
+        if self.target_auto_brake~=AUTOBRAKE_LOCK then
             if self.kmh > 100.0 then
                 local core = self.core;
                 local myPos=vec3(core.getConstructWorldPos());
@@ -461,24 +462,27 @@ function FlyLib:CheckAutoBrake()
 
                 if target_d > 0 then
                     if target_d  < self.current_brake_distance * 1.1 then    -- 10% safety
-                        self.auto_brake = AUTOBRAKE_ON;
+                        self.target_auto_brake = AUTOBRAKE_ON;
                     else
-                        self.auto_brake = AUTOBRAKE_WAIT;
+                        self.target_auto_brake = AUTOBRAKE_WAIT;
                     end
                 else
-                    self.auto_brake = AUTOBRAKE_LOCK;
+                    self.target_auto_brake = AUTOBRAKE_LOCK;
                     self.system.print("auto brake lock - overshot target");
                 end
             else
-                if self.auto_brake~=AUTOBRAKE_OFF then
-                    self.auto_brake = AUTOBRAKE_LOCK;
+                if self.target_auto_brake~=AUTOBRAKE_OFF then
+                    self.target_auto_brake = AUTOBRAKE_LOCK;
                     self.system.print("auto brake lock - low speed");
                 end
             end
         end
     else
-        self.auto_brake = AUTOBRAKE_OFF;
+        self.target_auto_brake = AUTOBRAKE_OFF;
     end
+
+    self.atmo_auto_brake = self.near_planet and (self.kmh > 1050);
+
 end
 
 
