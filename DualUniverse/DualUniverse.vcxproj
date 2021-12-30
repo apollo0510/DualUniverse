@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="..\agg_control.lua" />
     <None Include="..\custom_config\custom_construct.conf" />
     <None Include="..\custom_lua\db_lib.lua" />
     <None Include="..\custom_lua\fly_lib.lua" />

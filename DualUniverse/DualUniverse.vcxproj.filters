@@ -87,6 +87,9 @@
     <None Include="..\industry_control.json">
       <Filter>json</Filter>
     </None>
+    <None Include="..\agg_control.lua">
+      <Filter>lua</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\readme.txt">

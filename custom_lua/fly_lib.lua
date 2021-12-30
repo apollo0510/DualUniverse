@@ -12,6 +12,21 @@ local auto_brake_colors =
     [AUTOBRAKE_ON   ] = "#FF0000FF";
     [AUTOBRAKE_LOCK ] = "#FF8080FF";
 };
+
+
+
+-- agg api:
+-- ************************************
+-- activate()
+-- deactivate()
+-- toggle()
+-- getState()
+-- setBaseAltitude(altitude)
+-- getBaseAltitude()
+
+-- agg keyboard:
+-- ***********************************
+-- ALT-G
     
 
 local FlyLib=
@@ -481,7 +496,7 @@ function FlyLib:CheckAutoBrake()
         self.target_auto_brake = AUTOBRAKE_OFF;
     end
 
-    self.atmo_auto_brake = self.near_planet and (self.kmh > 1050);
+    self.atmo_auto_brake = self.near_planet and (self.kmh > 1075);
 
 end
 

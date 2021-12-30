@@ -47,6 +47,9 @@ function unit_lib:IdentifySlots()
                  setmetatable(unit,class_table.meta);
                  class_table[#class_table+1]=unit; 
                  unit.id=obj.getId();
+                 if class_table.name then
+                    self[class_table.name]=obj;
+                end
              else if class~="Generic" then
                	self.system.print(format("Unexpected unit class %s",class));
              end    
