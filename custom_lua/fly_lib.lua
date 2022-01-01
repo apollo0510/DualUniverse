@@ -43,6 +43,7 @@ local FlyLib=
         AtmoFuelContainer  = { need = 0; meta = nil; },
         WarpDriveUnit      = { need = 0; meta = nil; },
         Cockpit            = { need = 0; meta = nil; },
+        ManualSwitchUnit   = { need = 0; meta = nil; name="switch"; },
     };
 
     ClassTranslation=
@@ -304,6 +305,10 @@ function FlyLib:IdentifySlots(system,unit)
     self.ScreenOffset=db_lib:GetKey("ScreenOffset", self.ScreenOffset , 1);
     self.target      =db_lib:GetKey("Target"      , self.target       , 1);
     self:InitButtons();
+    if self.switch then
+        self.switch.deactivate();
+        self.switch.activate();
+    end
     return self.InitOk;
 end
 
@@ -351,6 +356,11 @@ end
 
 function FlyLib:OnStop()
     db_lib:Stop();
+    if self.switch then
+        self.switch.deactivate();
+        self.switch.activate();
+    end
+
 end
     -- ******************************************************************
     --
@@ -496,7 +506,15 @@ function FlyLib:CheckAutoBrake()
         self.target_auto_brake = AUTOBRAKE_OFF;
     end
 
-    self.atmo_auto_brake = self.near_planet and (self.kmh > 1075);
+    if self.near_planet then
+        if self.atmosphere > 0.001 then
+            self.atmo_auto_brake =  self.kmh > 1075;
+        else
+            self.atmo_auto_brake =  (self.pitch < -0.0) and (self.kmh > 1075);
+        end
+    else
+        self.atmo_auto_brake = false;
+    end
 
 end
 
@@ -718,7 +736,7 @@ end
                   end
                   if position.altitude < 30000.0 then
                      -- this is a target on planet surface
-                     return 50.0;
+                     return 100.0;
                   end
               end
           end

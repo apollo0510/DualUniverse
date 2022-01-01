@@ -54,19 +54,19 @@ local agg_data = { height = 1000.0; }
 
 local buttons = 
 { 
-    {   x=-160;y=-70;w=40;h=20;text="+1000"; 
+    {   x=-160;y=-80;w=40;h=20;text="+1000"; 
         click = function(self) OnChangeAggHeight(1000.0); end
     };
-    {   x=-160;y=-45;w=40;h=20;text="+100"; 
+    {   x=-160;y=-55;w=40;h=20;text="+100"; 
         click = function(self) OnChangeAggHeight(100.0); end
     };
-    {   x=-160;y=-10;w=40;h=20;text="Curr"; 
+    {   x=-160;y=-20;w=40;h=20;text="Curr"; 
         click = function(self) OnChangeAggHeight(0); end
     };
-    {   x=-160;y=25;w=40;h=20;text="-100"; 
+    {   x=-160;y=15;w=40;h=20;text="-100"; 
         click = function(self) OnChangeAggHeight(-100.0); end
     };
-    {    x=-160;y=50;w=40;h=20;text="-1000"; 
+    {    x=-160;y=40;w=40;h=20;text="-1000"; 
         click = function(self) OnChangeAggHeight(-1000.0); end
     };
 };
@@ -125,16 +125,18 @@ local layer_frames=
 [[
     <svg width="100%" height="100%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
        <g fill="none" stroke="#808080"  >
-          <rect x=-110 y=-65 width=130 height=60 />
-          <rect x=-110 y=  5 width=130 height=60 />
-          <rect x=  30 y=-65 width=130 height=60 />
-          <rect x=  30 y=  5 width=130 height=60 />
+          <rect x=-110 y=-80 width=130 height=60 />
+          <rect x=-110 y=-10 width=130 height=60 />
+          <rect x=  30 y=-80 width=130 height=60 />
+          <rect x=  30 y=-10 width=130 height=60 />
+          <rect x=-110 y= 60 width=270 height=30 />
        </g>	
        <g fill="#808080" text-anchor="left">
-           <text x=-100 y=-50>AGG height [km]</text>
-           <text x=-100 y= 20>Curr height [km]</text>
-           <text x= 40 y=-50>AGG dest [km]</text>
-           <text x= 40 y= 20>Sink rate [m/s]</text>
+           <text x=-100 y=-65>AGG height [km]</text>
+           <text x=-100 y= 5>Curr height [km]</text>
+           <text x= 40 y=-65>AGG dest [km]</text>
+           <text x= 40 y= 5>Climb rate [m/s]</text>
+           <text x= -100 y= 75>Hold power %</text>
       </g>	
    </svg>
 ]];
@@ -144,21 +146,25 @@ local layer_text_format=
 [[
      <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
        <g fill="green" text-anchor="left" style="font-size: 30px" >
-           <text x=-100 y=-20 >%s</text>
-           <text x=-100 y= 50 >%s</text>
-           <text x= 40  y=-20 >%s</text>
-           <text x= 40  y= 50 >%s</text>
-      </g>	
+           <text x=-100 y=-30 >%s</text>
+           <text x=-100 y= 40 >%s</text>
+           <text x= 40  y=-30 >%s</text>
+           <text x= 40  y= 40 >%s</text>
+           <text x= -10  y= 85 >%s</text>
+      </g>
+      <rect x=-108 y= 62 width=%f height=26 fill="#80808080" stroke="none"/>
    </svg>
 ]],
 [[
      <svg width="100%%" height="100%%" viewBox="-160 -100 320 200" preserveAspectRatio ="xMidYMid meet" >
        <g fill="red" text-anchor="left" style="font-size: 30px" >
-           <text x=-100 y=-20 >%s</text>
-           <text x=-100 y= 50 >%s</text>
-           <text x= 40  y=-20 >%s</text>
-           <text x= 40  y= 50 >%s</text>
+           <text x=-100 y=-30 >%s</text>
+           <text x=-100 y= 40 >%s</text>
+           <text x= 40  y=-30 >%s</text>
+           <text x= 40  y= 40 >%s</text>
+           <text x= -10  y= 85 >%s</text>
       </g>	
+      <rect x=-108 y= 62 width=%f height=26 fill="#80808080" stroke="none"/>
    </svg>
 ]]
 };
@@ -227,8 +233,14 @@ function OnUpdate()
         local data_bank = u.data_bank;
 
         local altitude  = core.getAltitude();
-        local agg_state = agg.getState();
-        local agg_base  = agg.getBaseAltitude();
+        
+        local agg_state     = agg.getState();
+        local agg_json_data = agg.getData();
+        local agg_decode_data = json.decode(agg_json_data);
+        local agg_base =agg_decode_data.baseAltitude;
+        local agg_power=agg_decode_data.antiGPower;        -- [ 0 .. 1]
+        local agg_field=agg_decode_data.antiGravityField; 
+
 
         local sink_rate = (altitude - last_altitude) / dt;
 
@@ -242,6 +254,17 @@ function OnUpdate()
 
         local agg_base_text  = format("%.3f",agg_base/1000.0);
         local agg_dest_text  = format("%.3f",agg_data.height/1000.0);
+
+        local agg_power_text;
+        local agg_power_width;
+        if agg_power>0.0 then
+            agg_power_text = format("%.1f",agg_power*100.0);
+            agg_power_width=266.0 * agg_power;
+        else
+            agg_power_text = "--";
+            agg_power_width=0.0;
+        end
+        
 
         local altitude_text;
         local sink_rate_text;
@@ -260,7 +283,9 @@ function OnUpdate()
                                 agg_base_text,
                                 altitude_text,
                                 agg_dest_text,
-                                sink_rate_text);
+                                sink_rate_text,
+                                agg_power_text,
+                                agg_power_width);
 
         if screen.layer_text==nil then
             screen.layer_text = screen.addContent(0,0,layer_text);
