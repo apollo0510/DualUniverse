@@ -473,9 +473,15 @@ function FlyLib:CheckAutoBrake()
                 local core = self.core;
                 local myPos=vec3(core.getConstructWorldPos());
 
-                local constructVelocity    = vec3(core.getWorldVelocity());
-                local constructVelocityDir = vec3(core.getWorldVelocity()):normalize();
-                local velocity             = constructVelocity:len(); 
+                local constructVelocityDir;
+
+                if self.near_planet then
+                    local constructRight  = vec3(core.getConstructWorldOrientationRight());
+                    local worldVertical   = vec3(core.getWorldVertical()); -- along gravity
+                    constructVelocityDir  = constructRight:cross(worldVertical):normalize();
+                else
+                    constructVelocityDir = vec3(core.getWorldVelocity()):normalize();
+                end
 
                 local d = myPos.x * constructVelocityDir.x + 
                           myPos.y * constructVelocityDir.y +
