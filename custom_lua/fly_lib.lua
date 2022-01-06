@@ -82,7 +82,8 @@ local FlyLib=
     altitude = 0.0;
     atmosphere = 0.0;
     planetinfluence = 0.0;
-    near_planet = false;
+    in_atmosphere = false;
+    near_planet   = false;
 
     speed = 0.0;
     kmh = 0.0;
@@ -400,6 +401,7 @@ function FlyLib:OnUpdate()
    self.altitude        = core.getAltitude();
    self.atmosphere      = unit.getAtmosphereDensity();  -- [ 0..1]
    self.planetinfluence = unit.getClosestPlanetInfluence(); -- [ 0..1]
+   self.in_atmosphere   = (self.atmosphere > 0.001);
    self.near_planet     = (self.planetinfluence>0.001);
 
    local v_velo = vec3(core.getVelocity());
@@ -475,7 +477,7 @@ function FlyLib:CheckAutoBrake()
 
                 local constructVelocityDir;
 
-                if self.near_planet then
+                if self.in_atmosphere then
                     local constructRight  = vec3(core.getConstructWorldOrientationRight());
                     local worldVertical   = vec3(core.getWorldVertical()); -- along gravity
                     constructVelocityDir  = constructRight:cross(worldVertical):normalize();
@@ -513,10 +515,10 @@ function FlyLib:CheckAutoBrake()
     end
 
     if self.near_planet then
-        if self.atmosphere > 0.001 then
+        if self.in_atmosphere then
             self.atmo_auto_brake =  self.kmh > 1075;
         else
-            self.atmo_auto_brake =  (self.pitch < -0.0) and (self.kmh > 1075);
+            self.atmo_auto_brake =  (self.pitch <= -45.0) and (self.kmh > 1075);
         end
     else
         self.atmo_auto_brake = false;
