@@ -66,10 +66,18 @@ function OnPeriodic(shutdown)
     local door_open = false; 
     local door_switch = switch_door.getState();
     
- 	if kmh >= 50.0 and door_switch == 1 then
-          door_switch = 0;
-          print("Auto closing doors inflight");
-     end 
+    if kmh >= 10.0 then
+ 	    if kmh >= 55.0 and door_switch == 1 then
+            door_switch = 0;
+            switch_door.deactivate();
+             print("Auto closing doors inflight");
+        end 
+ 	    if kmh <= 45.0 and door_switch == 0 then
+            door_switch = 1;
+            switch_door.activate();
+            print("Auto opening doors for landing");
+        end 
+    end
     
 	for i=1,#doors do
      	local door=doors[i];
