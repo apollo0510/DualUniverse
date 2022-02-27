@@ -471,20 +471,24 @@ function FlyLib:CheckAutoBrake()
     local target=self.target;
     if target.valid and self.auto_align then
         if self.target_auto_brake~=AUTOBRAKE_LOCK then
-            if self.kmh > 100.0 then
-                local core = self.core;
-                local myPos=vec3(core.getConstructWorldPos());
 
-                local constructVelocityDir;
+            local core = self.core;
+            local myPos=vec3(core.getConstructWorldPos());
 
-                if self.in_atmosphere then
-                    local constructRight  = vec3(core.getConstructWorldOrientationRight());
-                    local worldVertical   = vec3(core.getWorldVertical()); -- along gravity
-                    constructVelocityDir  = constructRight:cross(worldVertical):normalize();
-                else
-                    constructVelocityDir = vec3(core.getWorldVelocity()):normalize();
-                end
+            local WorldVelocityDir     = vec3(core.getWorldVelocity()):normalize();
+            local constructVelocityDir = WorldVelocityDir;
+            local constructVelocity    = self.kmh;
+            local safety_factor = 1.1; -- 10% safety
 
+            if self.in_atmosphere then
+                local constructRight  = vec3(core.getConstructWorldOrientationRight());
+                local worldVertical   = vec3(core.getWorldVertical()); -- along gravity
+                constructVelocityDir  = constructRight:cross(worldVertical):normalize();
+                -- constructVelocity     = constructVelocity * constructVelocityDir:dot(WorldVelocityDir);
+                safety_factor         = 1.3;
+            end
+
+            if constructVelocity > 100.0 then
                 local d = myPos.x * constructVelocityDir.x + 
                           myPos.y * constructVelocityDir.y +
                           myPos.z * constructVelocityDir.z;
@@ -494,7 +498,7 @@ function FlyLib:CheckAutoBrake()
                                  target.vec.z * constructVelocityDir.z - d -target.brake_distance;
 
                 if target_d > 0 then
-                    if target_d  < self.current_brake_distance * 1.1 then    -- 10% safety
+                    if target_d  < self.current_brake_distance * safety_factor then
                         self.target_auto_brake = AUTOBRAKE_ON;
                     else
                         self.target_auto_brake = AUTOBRAKE_WAIT;
