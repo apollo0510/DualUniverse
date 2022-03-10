@@ -238,6 +238,113 @@ local recipe_table=
         { id = 721775397 ; count = 10;  name="Transfer Unit";},
     };
 
+    SanctEquipL=
+    {
+        { id = 937197329 ; count = 10; name="container M";}, 
+        { id = 1702024841; count = 10; name="container L";}, 
+        { id = 721775397 ; count = 10;  name="Transfer Unit";},
+    };
+
+    SanctEquipM=
+    {
+        { id = 1173587001  ; count = 10; name="container S";}, 
+        { id = 1113319562  ; count = 5; name="metalworks ind.";}, 
+        { id =  908248479  ; count = 5; name="3d printer";}, 
+        { id = 1809397339  ; count = 5; name="electron. ind.";}, 
+        { id = 1230093356  ; count = 5; name="chemical ind.";}, 
+        { id = 1197243001  ; count = 5; name="glass furnace";}, 
+        { id = 1837549935  ; count = 1; name="honeyc. ref.";}, 
+        { id = 1464958039  ; count = 1; name="basic refiner";},
+        { id = 487570606   ; count = 1; name="basic recycler";},
+        { id = 960095718   ; count = 1; name="basic smelter";}, 
+        { id = 2078992795  ; count = 1; name="ass. line L";},
+
+        { id = 1176770283 ; count = 10; name="Interior Door M";}, 
+        { id = 700444865 ; count = 10; name="Reinforced Door M";}, 
+        { id = 952044375 ; count = 10; name="Sliding Door M";}, 
+
+
+    };
+
+    SanctEquipS=
+    {
+        { id =760622009 ; count = 10; name="container XS";}, 
+        { id =2078992796 ; count = 5; name="Bas.Ass.Line M";}, 
+        { id =2078992786 ; count = 5; name="Bas.Ass.Line S";}, 
+
+    };
+
+    SanctEquipXS=
+    {
+    };
+
+
+    SanctFrames=
+    {
+         { id = 510615335; count = 20; name="bas stand XS";},    
+         { id = 461590286; count = 20; name="bas stand S";},    
+         { id = 461590276; count = 20; name="bas stand M";},    
+         { id = 461590277; count = 10; name="bas stand L";},    
+
+         { id = 376985783; count = 20; name="bas reinf XS";},    
+         { id = 266197940; count = 20; name="bas reinf S";},    
+         { id = 266197938; count = 20; name="bas reinf M";},    
+         { id = 266197949; count = 10; name="bas reinf L";},    
+         --{ id = 376985790; count = 4; name="bas reinf XL";},
+
+         --{ id = 374123370; count = 20; name="unc reinf XS";},    
+         --{ id = 266176773; count = 20; name="unc reinf S";},    
+         --{ id = 266176771; count = 10; name="unc reinf M";},    
+         --{ id = 266176780; count = 10; name="unc reinf L";},
+    };
+
+    SanctPanels=
+    {
+        { id =117227222  ; count = 20; name="bas mob panel XS";},   
+        { id =2096261880 ; count = 20; name="bas mob panel S";},   
+        { id =2096261830 ; count = 20; name="bas mob panel M";},   
+        { id =2096261825 ; count = 10; name="bas mob panel L";},   
+        { id =117227225 ; count = 1; name="bas mob panel XL";},   
+
+        --{ id =84420764   ; count = 20; name="unc mob panel XS";},   
+        --{ id =2096240839 ; count = 20; name="unc mob panel S";},   
+        --{ id =2096240861 ; count = 10; name="unc mob panel M";},   
+        --{ id =2096240860 ; count = 10; name="unc mob panel L";},   
+
+        { id =1977512378 ; count = 20; name="bas robo arm M";},   
+        { id =1977512379 ; count = 20; name="bas robo arm L";},   
+        { id =1977298056 ; count = 20; name="unc robo arm M";},   
+
+    };
+
+    SanctTanks=
+    {
+        { id =713802609 ; count = 10; name="bas chem cont XS";},   
+        { id =1815471308 ; count = 10; name="bas chem cont S";},   
+        { id =1815471302 ; count = 10; name="bas chem cont M";},   
+        { id =1815471301 ; count = 10; name="bas chem cont L";},   
+
+        -- { id =1815450741     ; count = 10; name="unc chem cont M";},   
+
+        -- { id =981789849 ; count = 20; name="bas gas cyl XS";},   
+        -- { id =1194767553 ; count = 20; name="bas gas cyl S";},   
+        -- { id =1194767567 ; count = 10; name="bas gas cyl M";},   
+
+        -- { id =648202053 ; count = 20; name="bas ionic cham XS";},   
+        -- { id =763768710 ; count = 20; name="bas ionic cham S";},   
+        -- { id =763768764 ; count = 20; name="bas ionic cham M";},   
+        -- { id =763768767 ; count = 10; name="bas ionic cham L";},   
+
+        -- { id =763789004 ; count = 5; name="unc ionic cham L";},   
+        -- { id =763760349 ; count = 1; name="adv ionic cham L";},
+    };
+
+    SanctEngines=
+    {
+          { id = 1873130580; count = 10; name="basic electric engine S";}, 
+          { id = 1873130574; count = 10; name="basic electric engine M";}, 
+    };
+
 
     ProdL=
     {
