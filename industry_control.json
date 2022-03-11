@@ -3,92 +3,118 @@
     "0": {
       "name": "core",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "1": {
       "name": "screen",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "2": {
       "name": "IO1",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "3": {
       "name": "con1",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "4": {
       "name": "con2",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "5": {
       "name": "con3",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "6": {
       "name": "con4",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "7": {
       "name": "con5",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "8": {
       "name": "con6",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "9": {
       "name": "con7",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "-1": {
       "name": "unit",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "-2": {
       "name": "system",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "-3": {
       "name": "library",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     }
   },
@@ -96,7 +122,8 @@
     {
       "code": "industries:SecureCall(\"RunService\");",
       "filter": {
-        "args": [],
+        "args": [
+        ],
         "signature": "laserHit()",
         "slotKey": "2"
       },
@@ -105,7 +132,8 @@
     {
       "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
       "filter": {
-        "args": [],
+        "args": [
+        ],
         "signature": "start()",
         "slotKey": "-1"
       },
@@ -114,22 +142,29 @@
     {
       "code": "industries:SecureCall(\"OnPeriodic\");\n",
       "filter": {
-        "args": [ { "value": "Periodic" } ],
+        "args": [
+          {
+            "value": "Periodic"
+          }
+        ],
         "signature": "tick(timerId)",
         "slotKey": "-1"
       },
       "key": "2"
     },
     {
-      "code": "-- industries:ErrorHandler(\"Offline\");",
+      "code": "industries:ShutDown();",
       "filter": {
-        "args": [],
+        "args": [
+        ],
         "signature": "stop()",
         "slotKey": "-1"
       },
       "key": "3"
     }
   ],
-  "methods": [],
-  "events": []
+  "methods": [
+  ],
+  "events": [
+  ]
 }

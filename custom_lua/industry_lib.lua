@@ -5,6 +5,10 @@ local ABS             = math.abs;
 
 local recipe_table=
 {
+-- **********************************************************
+--
+-- **********************************************************
+
     PosRefiner=
     {
          { id = 1199082577; count = 1000; name="Pure Alu";     ignore_missing=true; },    
@@ -33,6 +37,10 @@ local recipe_table=
          { id = 1010524904; count =  200; name="Pure Hydrogene"; ignore_missing=true; },    
          { id = 947806142; count =  400; name="Pure Oxygene";  ignore_missing=true; },    
     };
+
+-- **********************************************************
+--
+-- **********************************************************
 
     Frames=
     {
@@ -116,6 +124,10 @@ local recipe_table=
         { id =1977298056 ; count = 20; name="unc robo arm M";},   
     };
 
+-- **********************************************************
+--
+-- **********************************************************
+
     Mix1=
     {
           { id =3936127019 ; count = 800; name="basic screw";}, 
@@ -154,6 +166,10 @@ local recipe_table=
           -- { id = ; count = 50; name="unc casing XS";}, 
          
     };
+
+-- **********************************************************
+--
+-- **********************************************************
 
     Electro =
     {
@@ -238,6 +254,10 @@ local recipe_table=
         { id = 721775397 ; count = 10;  name="Transfer Unit";},
     };
 
+-- **********************************************************
+--
+-- **********************************************************
+
     SanctEquipL=
     {
         { id = 937197329 ; count = 10; name="container M";}, 
@@ -276,6 +296,13 @@ local recipe_table=
 
     SanctEquipXS=
     {
+        { id =1549896461 ; count = 5; name="Programming Board";}, 
+        { id =1349418519 ; count = 10; name="OR operator";}, 
+        { id =2050468732 ; count = 10; name="NOT operator";}, 
+        { id =474017912 ; count = 10; name="AND operator";}, 
+        { id =201914900 ; count = 10; name="NAND operator";}, 
+        { id =1591620448 ; count = 10; name="NOR operator";}, 
+        { id =827922060 ; count = 10; name="XOR operator";}, 
     };
 
 
@@ -345,6 +372,9 @@ local recipe_table=
           { id = 1873130574; count = 10; name="basic electric engine M";}, 
     };
 
+-- **********************************************************
+--
+-- **********************************************************
 
     ProdL=
     {
@@ -599,6 +629,18 @@ function industry_lib:ErrorHandler(text,switch_off)
     else
         self.system.print(text);
     end    
+end
+
+function industry_lib:ShutDown()
+    local u=self.unit_classes;
+    local screen=u.ScreenUnit[1];
+    if screen then
+	  screen.obj.setCenteredText("Offline");        
+    end    
+    local switch  =u.ManualSwitchUnit[1];
+    if switch then
+        switch.obj.deactivate();
+    end
 end
 
 function industry_lib:BuildRecipeTable()
