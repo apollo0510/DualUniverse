@@ -27,6 +27,18 @@ local auto_brake_colors =
 -- agg keyboard:
 -- ***********************************
 -- ALT-G
+
+
+
+-- newSpeedValue = 1000
+-- Nav.axisCommandManager:setTargetSpeedCommand(axisCommandId.longitudinal, newSpeedValue)
+--
+--
+-- in flush : switch to 
+-- controlMasterModeId = 1
+-- cancelCurrentControlMasterMode()
+
+
     
 
 local FlyLib=
@@ -317,19 +329,15 @@ end
     --
     -- ******************************************************************
 
-function FlyLib:OnPeriodic()
+function FlyLib:CheckGear()
 
-    local core        = self.core;
     local unit        = self.unit;
-    local v_velo = vec3(core.getVelocity());
-    local speed  = v_velo:len();
-    local kmh    = speed * 3.6;
     local gear_down = unit.isAnyLandingGearExtended();
-    if (kmh >= (GearSpeed + 50.0)) and (gear_down==1) then
+    if (self.kmh >= (GearSpeed + 50.0)) and (gear_down==1) then
         --print("Auto closing gear " );
         unit.retractLandingGears();
     end   
-    if (kmh <= (GearSpeed - 50.0)) and (gear_down==0) then
+    if (self.kmh <= (GearSpeed - 50.0)) and (gear_down==0) then
         --print("Auto deploying gear ");
         unit.extendLandingGears();    
     end   
@@ -432,6 +440,7 @@ function FlyLib:OnUpdate()
            self.max_brake = self.unit_data.maxBrake;
 
            self:CalcRemainingTravelTime();
+           self:CheckGear();
        end
    end
 

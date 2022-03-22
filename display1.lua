@@ -1,10 +1,11 @@
 objects = 
 {
-    { cont = cont1; disp=disp1; name="Iron";      container_type=3; container_count=3; container_volume=1075200; },
-    { cont = cont2; disp=disp2; name="Aluminium"; container_type=3; container_count=3; container_volume= 716800; },
-    { cont = cont3; disp=disp3; name="Carbon";    container_type=3; container_count=3; container_volume=1075200; },
-    { cont = cont4; disp=disp4; name="Silicon";   container_type=3; container_count=3; container_volume= 896000; },
+    { cont = cont1; disp=disp1; name="Fluorine"; container_type=3; container_count=1;  container_volume=179200; },
+    { cont = cont2; disp=disp2; name="Cobalt"; container_type=3; container_count=1;  container_volume=179200; },
+    { cont = cont3; disp=disp3; name="Gold"; container_type=3; container_count=1;  container_volume=179200; },
+    { cont = cont4; disp=disp4; name="Scandium"; container_type=3; container_count=1; container_volume=179200; },
 };
+
 
 -- below code is the same for all units
 
@@ -37,6 +38,13 @@ materials=
      ["Silver"]	= { density = 10.49; comment="Acanthite";} , 
    	["Sulfur"]  = { density = 1.82; comment="Pyrite";} ,
 
+      -- T4 ----------------
+     ["Fluorine"] = { density = 1.70; comment="Cryolite";} ,
+     ["Cobalt"]   = { density = 8.90; comment="Cobaltite";} ,
+     ["Gold"]	 = { density = 19.30; comment="Nuggets";} , 
+   	["Scandium"] = { density = 2.98; comment="Kolbecktite";} ,
+
+    
     
    	["Ore"]	    = { density=2.0; },
 	["WarpCells"]   = { density=2.5; volume=40; },    
@@ -138,6 +146,8 @@ end
 
 
 unit.setTimer("ContChecker",1.0);
+
+
 
 
 

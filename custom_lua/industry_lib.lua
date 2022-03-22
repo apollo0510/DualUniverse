@@ -115,6 +115,8 @@ local recipe_table=
 
         { id =763789004 ; count = 5; name="unc ionic cham L";},   
         { id =763760349 ; count = 1; name="adv ionic cham L";},
+
+         { id =1815447012 ; count = 10; name="adv chem cont M";},
     };
     
     Robotics=
