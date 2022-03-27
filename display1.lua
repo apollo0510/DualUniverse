@@ -1,22 +1,13 @@
 objects = 
 {
-    { cont = cont1; disp=disp1; name="Fluorine"; container_type=3; container_count=1;  container_volume=179200; },
-    { cont = cont2; disp=disp2; name="Cobalt"; container_type=3; container_count=1;  container_volume=179200; },
-    { cont = cont3; disp=disp3; name="Gold"; container_type=3; container_count=1;  container_volume=179200; },
-    { cont = cont4; disp=disp4; name="Scandium"; container_type=3; container_count=1; container_volume=179200; },
+    { cont = cont1; disp=disp1; name="Iron";      container_volume=1075200; },
+    { cont = cont2; disp=disp2; name="Aluminium"; container_volume= 716800; },
+    { cont = cont3; disp=disp3; name="Carbon";    container_volume=1075200; },
+    { cont = cont4; disp=disp4; name="Silicon";   container_volume= 896000; },
 };
-
 
 -- below code is the same for all units
 
-container=
-{
-	[1]={ size="S" ; mass =  1280; volume =   8000; },
-     [2]={ size="M" ; mass =  7420; volume =  64000; },
-     [3]={ size="L" ; mass = 14840; volume = 128000; }
-};
-
-container_skill = 1.4; -- multiplyer for volume
 
 materials=
 {
@@ -36,15 +27,14 @@ materials=
      ["Nickel"]	= { density = 8.91; comment="Garniertite";} ,
      ["Lithium"] = { density = 0.53; comment="Petalite";} ,
      ["Silver"]	= { density = 10.49; comment="Acanthite";} , 
-   	["Sulfur"]  = { density = 1.82; comment="Pyrite";} ,
+     ["Sulfur"]  = { density = 1.82; comment="Pyrite";} ,
 
       -- T4 ----------------
      ["Fluorine"] = { density = 1.70; comment="Cryolite";} ,
      ["Cobalt"]   = { density = 8.90; comment="Cobaltite";} ,
      ["Gold"]	 = { density = 19.30; comment="Nuggets";} , 
-   	["Scandium"] = { density = 2.98; comment="Kolbecktite";} ,
+   	 ["Scandium"] = { density = 2.98; comment="Kolbecktite";} ,
 
-    
     
    	["Ore"]	    = { density=2.0; },
 	["WarpCells"]   = { density=2.5; volume=40; },    
@@ -52,40 +42,16 @@ materials=
 
 function AnalyseContainer(o)
     local container_mass  = o.cont.getSelfMass();
-    local container_type  = o.container_type;
-    local container_count = o.container_count;
     local container_volume = o.container_volume or o.cont.getMaxVolume();
 
-    if container_type == nil then
-        container_count=1;
-        if container_mass > 2000 then
-            if container_mass > 8000 then
-                container_type = 3;
-            else
-                container_type = 2;
-            end
-        else
-            container_type = 1;
-        end
-    end
-    
-    local c = container[container_type];
     local m = materials[o.name];
     o.material   = m;
-    if container_volume~=nil and container_volume>0 then
-        system.print("container volume = " ..container_volume);     
-        o.max_volume = container_volume;
-    else
-        o.max_volume = c.volume * container_skill * container_count;
-    end
+    o.max_volume = container_volume;
     o.mass   = -1.0;
     o.pieces =  0.0;
     o.density          = m.density;
     o.volume_per_piece = m.volume;
-    if o.density and o.volume_per_piece then
-    	o.mass_per_piece   = o.volume_per_piece * o.density;
-    end    
-    
+   
 end
 
 function UpdateContainers()
@@ -98,10 +64,9 @@ function UpdateContainers()
         if cont then
             if disp then
                 if o.max_volume then
-                    local mass = cont.getItemsMass();
-                    if mass~=nil and mass~=o.mass then	
-                        o.mass    = mass;
-                        o.volume  = mass / o.density;
+                    local volume = cont.getItemsVolume();
+                    if volume~=nil and volume~=o.volume then	
+                        o.volume    = volume;
                         o.percent = o.volume * 100.0 / o.max_volume;
 
                         disp.clear();
@@ -114,12 +79,12 @@ function UpdateContainers()
                         local text=string.format("%.2f%%",o.percent);
                         disp.addText(5,40,18,text);
 
-                        if o.mass_per_piece then
-                        	o.pieces  = mass / o.mass_per_piece;
+                        if o.volume_per_piece then
+                        	o.pieces  = volume / o.volume_per_piece;
                              text=string.format("%d pcs",o.pieces );
                              disp.addText(10,80,10,text);
 				   else 	                            
-                            text=string.format("%.1f tons",mass / 1000.0 );
+                            text=string.format("%.1f kL",volume / 1000.0 );
                             disp.addText(10,80,10,text);
                         end    
                     end
@@ -146,7 +111,6 @@ end
 
 
 unit.setTimer("ContChecker",1.0);
-
 
 
 

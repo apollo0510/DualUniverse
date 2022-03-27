@@ -80,6 +80,7 @@ local recipe_table=
         { id =1365338032  ; count = 10; name="unc transf S";},   
         { id =1365333629  ; count = 10; name="bas transf M";},
         { id =1365338026  ; count = 10; name="unc transf M";},   
+        { id =1365686171  ; count = 5; name="adv transf M";},
     };
         
     Panels=
