@@ -94,6 +94,8 @@ local recipe_table=
         { id =2096240839 ; count = 20; name="unc mob panel S";},   
         { id =2096240861 ; count = 10; name="unc mob panel M";},   
         { id =2096240860 ; count = 10; name="unc mob panel L";},   
+
+        { id = 2096236588; count = 5; name="adv mob panel M";},   
     };
     
     Tanks=
@@ -125,6 +127,7 @@ local recipe_table=
         { id =1977512378 ; count = 20; name="bas robo arm M";},   
         { id =1977512379 ; count = 20; name="bas robo arm L";},   
         { id =1977298056 ; count = 20; name="unc robo arm M";},   
+        { id =1977408761 ; count = 5; name="adv robo arm M";},   
     };
 
 -- **********************************************************
