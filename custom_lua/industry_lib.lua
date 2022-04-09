@@ -68,6 +68,7 @@ local recipe_table=
          { id = 461676501; count = 10; name="unc stand M";},
          { id = 461676500; count = 10; name="unc stand L";},
 
+        { id =494352223  ; count = 20; name="adv reinf XS";},  
         { id =264385523  ; count = 20; name="adv reinf S";},   
         { id =264385481  ; count = 20; name="adv reinf M";},   
         { id =264385482  ; count = 20; name="adv reinf L";},   
@@ -210,7 +211,8 @@ local recipe_table=
         { id =441567189  ; count = 200; name="glass panel S";}, 
         { id =283407660  ; count = 200; name="glass panel M";}, 
         
-        -- uncommon assembly line xs
+        { id =2127592346 ; count = 2; name="Unc.Ass.Line XS";}, 
+
     };
 
     EquipS=
@@ -218,7 +220,7 @@ local recipe_table=
         { id =1601756570 ; count = 10; name="vert light L";}, 
         { id =2045974002  ; count = 200; name="glass panel L";}, 
         { id =760622009 ; count = 20; name="container XS";}, 
-        { id =1275490653 ; count = 0; name="Unc.Ass.Line S";}, 
+        { id =1275490653 ; count = 2; name="Unc.Ass.Line S";}, 
         { id =1053616004 ; count = 2; name="RezzNode";}, 
     };
 
@@ -233,7 +235,7 @@ local recipe_table=
         { id = 487570606  ; count = 0; name="basic recycler";},
 
         { id = 39016077    ; count = 0; name="unc 3d printer";}, 
-        { id = 1275491022  ; count = 0; name="unc ass line M";}, 
+        { id = 1275491022  ; count = 2; name="unc ass line M";}, 
         { id = 1303072730  ; count = 0; name="unc chem. ind.";}, 
         { id = 1151494170  ; count = 0; name="unc elec. ind.";}, 
         { id = 1081167024  ; count = 0; name="unc glass furn.";}, 
@@ -402,6 +404,8 @@ local recipe_table=
     PlaneL=
     {
         { id = 538110466 ; count = 8; name="Mil Space Eng L";}, 
+        { id = 1035733967 ; count = 0; name="Adv Man Atmo Eng L";},
+
         { id =1041265279 ; count = 4; name="Canopy corner L";}, 
         { id =1011557660 ; count = 4; name="Canopy tilted L";}, 
         { id =830288667  ; count = 4; name="Canopy flat L";}, 
@@ -471,6 +475,7 @@ local recipe_table=
         { id = 1972188620 ; count = 10; name="Adjustor S";}, 
         { id = 359449714 ; count = 10; name="Encampment Chair";}, 
         { id = 1834144963 ; count = 10; name="Fuel Intake XS";}, 
+        { id = 367260236 ; count = 8; name="Adv Man Atmo Eng XS";}, 
         -- gyro
     };
 
