@@ -403,8 +403,9 @@ local recipe_table=
 
     PlaneL=
     {
-        { id = 538110466 ; count = 8; name="Mil Space Eng L";}, 
+        { id = 538110466 ; count = 0; name="Mil Space Eng L";}, 
         { id = 1035733967 ; count = 0; name="Adv Man Atmo Eng L";},
+        { id = 892172000  ; count = 0; name="Adv Man Space Eng L";}, 
 
         { id =1041265279 ; count = 4; name="Canopy corner L";}, 
         { id =1011557660 ; count = 4; name="Canopy tilted L";}, 
@@ -435,6 +436,7 @@ local recipe_table=
         { id = 700444865 ; count = 10; name="Reinforced Door M";}, 
         { id = 952044375 ; count = 10; name="Sliding Door M";}, 
 
+        { id = 1475837143  ; count = 0; name="Adv Man Space Eng M";}, 
     };
 
     PlaneM2=
@@ -459,6 +461,9 @@ local recipe_table=
         { id = 2001045118 ; count = 10; name="Canopy triangle S";}, 
         { id = 203547655 ; count = 10; name="Canopy tilted S";}, 
         { id = 1825028805 ; count = 10; name="Canopy corner S";}, 
+
+        { id = 1574474550  ; count = 0; name="Adv Man Space Eng S";},
+
         -- adjustor S
         -- space fuel tank S
         -- atmo tank S
