@@ -130,7 +130,7 @@
       "key": "4"
     },
     {
-      "code": "local t=system.getTime();\n\nfor i=1,#doors do\n    local door=doors[i];\n    local s=door.obj.getState();\n    if s~=door.status then\n    \tdoor.status=s;\n         door.time=t;\n    else\n       if s==1 then\n           local delta=t-door.time; \n           if delta>=DoorTimeout then\n               door.obj.deactivate();     \n           end     \n       end     \n    end\nend\n",
+      "code": "local t=system.getArkTime();\n\nfor i=1,#doors do\n    local door=doors[i];\n    local s=door.obj.getState();\n    if s~=door.status then\n    \tdoor.status=s;\n         door.time=t;\n    else\n       if s==1 then\n           local delta=t-door.time; \n           if delta>=DoorTimeout then\n               door.obj.deactivate();     \n           end     \n       end     \n    end\nend\n",
       "filter": {
         "args": [ { "value": "DoorChecker" } ],
         "signature": "tick(timerId)",

@@ -51,7 +51,7 @@ local last_door_open=-1;
 local last_enable_force_field=-1;
 
 function OnPeriodic(shutdown)
-    local t  = system.getTime();
+    local t  = system.getArkTime();
     
     local u  = unit_classes;
     local core        = u.CoreUnitDynamic[1].obj;

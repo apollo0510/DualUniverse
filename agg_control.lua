@@ -221,7 +221,7 @@ function OnUpdate()
         screen.layer_frames = screen.addContent(0,0,layer_frames);
     end
 
-    local t =system.getTime();
+    local t =system.getArkTime();
     local dt=t-last_t;
     if (dt>=1.0) or update_ui then
 

@@ -398,7 +398,7 @@ function FlyLib:OnUpdate()
        self.ground_distance = -1;
    end    
 
-   local t           = system.getTime();
+   local t           = system.getArkTime();
    self.t            = t;
    self.fps_count    = self.fps_count+1;
 

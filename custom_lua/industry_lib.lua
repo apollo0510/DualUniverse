@@ -807,7 +807,7 @@ end
 
 function industry_lib:RunService()
 
-    local t=self.system.getTime();
+    local t=self.system.getArkTime();
     local u=self.unit_classes;
     local industry_table = u.Industry;
 
