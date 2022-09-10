@@ -30,12 +30,6 @@
     <None Include="..\display1.json">
       <Filter>json</Filter>
     </None>
-    <None Include="..\display2.json">
-      <Filter>json</Filter>
-    </None>
-    <None Include="..\display3.json">
-      <Filter>json</Filter>
-    </None>
     <None Include="..\doorcontrol.json">
       <Filter>json</Filter>
     </None>

@@ -21,8 +21,8 @@ local unit_classes=
 function IdentifySlots()
     local u = unit_classes;
     for key,obj in pairs(unit) do
-        if (type(obj)=="table") and (obj.getElementClass~=nil) then
-            local class = obj.getElementClass();
+        if (type(obj)=="table") and (obj.getClass~=nil) then
+            local class = obj.getClass();
             local class_table = u[class];
             if class_table then
                  local unit = {};
@@ -59,12 +59,12 @@ function OnPeriodic(shutdown)
     local led_doors   = u.LightUnit[1].obj;
     local doors       = u.DoorUnit;
     
-    local v_velo = vec3(core.getVelocity());
+    local v_velo = vec3(construct.getVelocity());
     local speed  = v_velo:len();
     local kmh    = speed * 3.6;
     
     local door_open = false; 
-    local door_switch = switch_door.getState();
+    local door_switch = switch_door.isActive();
     
     if kmh >= 10.0 then
  	    if kmh >= 55.0 and door_switch == 1 then
@@ -82,7 +82,7 @@ function OnPeriodic(shutdown)
 	for i=1,#doors do
      	local door=doors[i];
          if door.obj then
-         	local s=door.obj.getState();
+         	local s=door.obj.isOpen();
              if s~=door.status then
              	door.status=s;
                  door.time=t;
@@ -91,13 +91,13 @@ function OnPeriodic(shutdown)
              	if s == 1 then
                  	door_open = true;
                  else   
-                 	door.obj.activate();   
+                 	door.obj.open();   
                  end    
              else   
              	if s == 1 then
                      local delta = t - door.time;
                      if (delta>DoorTimeout) or shutdown then
-                     	door.obj.deactivate();  
+                     	door.obj.close();  
                      else
 	                    door_open = true;
                      end    
@@ -110,10 +110,10 @@ function OnPeriodic(shutdown)
      	last_door_open = door_open;
          if door_open then 
      	    led_doors.activate();
-             led_doors.setRGBColor(255,0,0);
+             led_doors.setColor(255,0,0);
          else              
              led_doors.activate(); 
-             led_doors.setRGBColor(0,255,0);
+             led_doors.setColor(0,255,0);
          end    
 	end   
     
@@ -126,9 +126,9 @@ function OnPeriodic(shutdown)
             for i=1,n do
                 local force_field=force_fields[i];
                   if enable_force_field then
-                      force_field.obj.activate();
+                      force_field.obj.deploy();
                   else  
-                      force_field.obj.deactivate();
+                      force_field.obj.retract();
                   end  
             end 
             if enable_force_field then

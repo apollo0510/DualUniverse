@@ -20,7 +20,7 @@ local auto_brake_colors =
 -- activate()
 -- deactivate()
 -- toggle()
--- getState()
+-- isActive()
 -- setBaseAltitude(altitude)
 -- getBaseAltitude()
 
@@ -69,6 +69,7 @@ local FlyLib=
 
     system = nil;
     unit   = nil;
+    construct = nil;
     core   = nil;
     gyro   = nil;
     tele   = nil;
@@ -279,15 +280,16 @@ end
     --
     -- ******************************************************************
 
-function FlyLib:IdentifySlots(system,unit)
+function FlyLib:IdentifySlots(system,unit,construct)
     self.system=system;
     self.unit  =unit;
+    self.construct=construct;
     self.InitOk = true;
     local u = self.UnitClasses;
     -- ******************************************************************
     for key,obj in pairs(self.unit) do
-        if (type(obj)=="table") and (obj.getElementClass~=nil) then
-            local class = obj.getElementClass();
+        if (type(obj)=="table") and (obj.getClass~=nil) then
+            local class = obj.getClass();
             class =  self.ClassTranslation[class] or class;
             local class_table = u[class];
             if class_table then
@@ -380,6 +382,7 @@ function FlyLib:OnUpdate()
    if not self.InitOk then return end
 
    local core        = self.core;
+   local construct   = self.construct;
    local unit        = self.unit;
    local system      = self.system;
    local gyro        = self.gyro;
@@ -412,7 +415,7 @@ function FlyLib:OnUpdate()
    self.in_atmosphere   = (self.atmosphere > 0.001);
    self.near_planet     = (self.planetinfluence>0.001);
 
-   local v_velo = vec3(core.getVelocity());
+   local v_velo = vec3(construct.getVelocity());
    local speed  = v_velo:len();
    self.speed = speed;
    self.kmh   = speed * 3.6;

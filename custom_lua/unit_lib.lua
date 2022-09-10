@@ -37,8 +37,8 @@ function unit_lib:IdentifySlots()
     self.init_ok=true;
     local u = self.unit_classes;
     for key,obj in pairs(self.unit) do
-        if (type(obj)=="table") and (obj.getElementClass~=nil) then
-            local class = obj.getElementClass();
+        if (type(obj)=="table") and (obj.getClass~=nil) then
+            local class = obj.getClass();
             class =  class_translation[class] or class;
             local class_table = u[class];
             if class_table then

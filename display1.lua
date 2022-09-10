@@ -6,6 +6,32 @@ objects =
     { cont = cont4; disp=disp4; name="Silicon";   container_volume= 896000; },
 };
 
+-- objects = 
+-- {
+--    { cont = cont1; disp=disp1; name="Chromium"; container_volume=358000; },
+--    { cont = cont2; disp=disp2; name="Copper";   container_volume=358000;},
+--    { cont = cont3; disp=disp3; name="Calcium";  container_volume=358000;},
+--    { cont = cont4; disp=disp4; name="Sodium";   container_volume=537320;},
+-- };
+
+-- objects = 
+-- {
+--     { cont = cont1; disp=disp1; name="Sulfur"; container_volume=179200; },
+--     { cont = cont2; disp=disp2; name="Silver"; container_volume=179200; },
+--     { cont = cont3; disp=disp3; name="Nickel"; container_volume=179200; },
+--     { cont = cont4; disp=disp4; name="Lithium"; container_volume=179200; },
+-- };
+
+-- objects = 
+-- {
+--     { cont = cont1; disp=disp1; name="Fluorine"; container_volume=179200; },
+--     { cont = cont2; disp=disp2; name="Cobalt"; container_volume=179200; },
+--     { cont = cont3; disp=disp3; name="Gold"; container_volume=179200; },
+--     { cont = cont4; disp=disp4; name="Scandium"; container_volume=179200; },
+-- };
+
+
+
 -- below code is the same for all units
 
 
@@ -111,6 +137,8 @@ end
 
 
 unit.setTimer("ContChecker",1.0);
+
+
 
 
 
