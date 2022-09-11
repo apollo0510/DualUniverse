@@ -280,12 +280,14 @@ end
     --
     -- ******************************************************************
 
-function FlyLib:IdentifySlots(system,unit,construct)
+function FlyLib:IdentifySlots(system,unit,construct,player)
     self.system=system;
     self.unit  =unit;
     self.construct=construct;
+    self.player = player;
     self.InitOk = true;
     local u = self.UnitClasses;
+    system.print("Starting to identify slots");
     -- ******************************************************************
     for key,obj in pairs(self.unit) do
         if (type(obj)=="table") and (obj.getClass~=nil) then
@@ -297,7 +299,7 @@ function FlyLib:IdentifySlots(system,unit,construct)
                 unit.obj=obj; 
                 setmetatable(unit,class_table.meta);
                 class_table[#class_table+1]=unit; 
-                unit.id=obj.getId();
+                unit.id=obj.getLocalId();
                 if class_table.name then
                     self[class_table.name]=obj;
                 end
@@ -309,6 +311,7 @@ function FlyLib:IdentifySlots(system,unit,construct)
         end    
     end
     -- ******************************************************************
+    system.print("Checking for missing unit types");
     for class_name,class_table in pairs(u) do
         local n = #class_table;
         if n < class_table.need then
@@ -316,9 +319,13 @@ function FlyLib:IdentifySlots(system,unit,construct)
             self:ErrorHandler(format("Missing unit type %s : %d of %d",class_name,n,class_table.need));
         end    
     end    
+    -- ******************************************************************
+    system.print("Loading data base");
     db_lib:Start(system,unit,self.data_bank);
     self.ScreenOffset=db_lib:GetKey("ScreenOffset", self.ScreenOffset , 1);
     self.target      =db_lib:GetKey("Target"      , self.target       , 1);
+    -- ******************************************************************
+    system.print("Init UI buttons");
     self:InitButtons();
     if self.switch then
         self.switch.deactivate();
@@ -334,14 +341,14 @@ end
 function FlyLib:CheckGear()
 
     local unit        = self.unit;
-    local gear_down = unit.isAnyLandingGearExtended();
+    local gear_down = unit.isAnyLandingGearDeployed();
     if (self.kmh >= (GearSpeed + 50.0)) and (gear_down==1) then
         --print("Auto closing gear " );
         unit.retractLandingGears();
     end   
     if (self.kmh <= (GearSpeed - 50.0)) and (gear_down==0) then
         --print("Auto deploying gear ");
-        unit.extendLandingGears();    
+        unit.deployLandingGears();    
     end   
 end
 
@@ -383,20 +390,21 @@ function FlyLib:OnUpdate()
 
    local core        = self.core;
    local construct   = self.construct;
+   local player      = self.player;
    local unit        = self.unit;
    local system      = self.system;
    local gyro        = self.gyro;
 
    if self.v_forward == nil then
-       self.v_forward = vec3(core.getConstructOrientationForward());
-       self.v_up      = vec3(core.getConstructOrientationUp());
-       self.v_right   = vec3(core.getConstructOrientationRight());
+       self.v_forward = vec3(construct.getOrientationForward());
+       self.v_up      = vec3(construct.getOrientationUp());
+       self.v_right   = vec3(construct.getOrientationRight());
 
-        self.mass      = core.getConstructMass();
+        self.mass      = construct.getMass();
    end
 
    if self.telemeter then
-       self.ground_distance = self.telemeter.getDistance();
+       self.ground_distance = self.telemeter.raycast().distance;
    else
        self.ground_distance = -1;
    end    
@@ -406,7 +414,7 @@ function FlyLib:OnUpdate()
    self.fps_count    = self.fps_count+1;
 
 
-   self.player_rel_pos  = vec3(unit.getMasterPlayerPosition()); 
+   self.player_rel_pos  = vec3(player.getPosition()); 
    self.player_distance = self.player_rel_pos:len();
 
    self.altitude        = core.getAltitude();
@@ -439,7 +447,7 @@ function FlyLib:OnUpdate()
            draw_1hz = true;
            self.fps = self.fps_count;
            self.fps_count = 0;
-           self.unit_data = json.decode(unit.getData());
+           self.unit_data = json.decode(unit.getWidgetData());
            self.max_brake = self.unit_data.maxBrake;
 
            self:CalcRemainingTravelTime();
@@ -485,15 +493,16 @@ function FlyLib:CheckAutoBrake()
         if self.target_auto_brake~=AUTOBRAKE_LOCK then
 
             local core = self.core;
-            local myPos=vec3(core.getConstructWorldPos());
+            local construct = self.construct;
+            local myPos=vec3(construct.getWorldPosition());
 
-            local WorldVelocityDir     = vec3(core.getWorldVelocity()):normalize();
+            local WorldVelocityDir     = vec3(construct.getWorldVelocity()):normalize();
             local constructVelocityDir = WorldVelocityDir;
             local constructVelocity    = self.kmh;
             local safety_factor = 1.1; -- 10% safety
 
             if self.in_atmosphere then
-                local constructRight  = vec3(core.getConstructWorldOrientationRight());
+                local constructRight  = vec3(construct.getWorldOrientationRight());
                 local worldVertical   = vec3(core.getWorldVertical()); -- along gravity
                 constructVelocityDir  = constructRight:cross(worldVertical):normalize();
                 -- constructVelocity     = constructVelocity * constructVelocityDir:dot(WorldVelocityDir);
@@ -636,7 +645,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
         end
 
 
-        local myPos=vec3(self.core.getConstructWorldPos());
+        local myPos=vec3(self.construct.getWorldPosition());
         local align_vector = (target.vec - myPos):normalize();
         local align_scalar_pitch = - align_vector:dot(constructUp);
         local align_scalar_yaw   = - align_vector:dot(constructRight);
@@ -1130,7 +1139,7 @@ function FlyLib:CalcRemainingTravelTime()
     local target= self.target;
     self.RemainingTravelTime=nil;
     if target.valid then
-        local myPos=vec3(self.core.getConstructWorldPos());  
+        local myPos=vec3(self.construct.getWorldPosition());  
         local distance = (myPos-target.vec):len() - self.current_brake_distance - target.brake_distance;
         if distance > 0 and self.speed>=50.0 then
             self.RemainingTravelTime=distance / self.speed + self.current_brake_time;

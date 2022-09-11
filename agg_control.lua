@@ -235,7 +235,7 @@ function OnUpdate()
         local altitude  = core.getAltitude();
         
         local agg_state     = agg.isActive();
-        local agg_json_data = agg.getData();
+        local agg_json_data = agg.getWidgetData();
         local agg_decode_data = json.decode(agg_json_data);
         local agg_base =agg_decode_data.baseAltitude;
         local agg_power=agg_decode_data.antiGPower;        -- [ 0 .. 1]

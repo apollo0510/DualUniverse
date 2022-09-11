@@ -22,8 +22,7 @@ function DBLib:Load()
     if data_bank then
         local loaded_key_count = 0;
         local data = {}
-        local key_list_string=data_bank.getKeys();
-        local key_list=json.decode(key_list_string);
+        local key_list=data_bank.getKeyList();
         for index,key in ipairs(key_list) do
             local key_value_text=data_bank.getStringValue(key);
             data[key]=json.decode(key_value_text);

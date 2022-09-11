@@ -46,7 +46,7 @@ function unit_lib:IdentifySlots()
                  unit.obj=obj; 
                  setmetatable(unit,class_table.meta);
                  class_table[#class_table+1]=unit; 
-                 unit.id=obj.getId();
+                 unit.id=obj.getLocalId();
                  if class_table.name then
                     self[class_table.name]=obj;
                 end

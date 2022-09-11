@@ -582,7 +582,7 @@ local industry_lib=
     
 };
 
-function industry_lib.new(system,unit)
+function industry_lib.new(system,unit,player)
 
     local unit_classes=
     {
@@ -622,6 +622,7 @@ function industry_lib.new(system,unit)
      if lib.unit_lib.init_ok then
          lib.system       = system;
          lib.unit         = unit;
+         lib.player       = player;
          lib.unit_classes = unit_classes;
          lib.service_slot = 1000;
          lib.warm_up      = 50;
@@ -779,7 +780,7 @@ function industry_lib:OnPeriodic()
         end
     end
 
-    local player_distance= self.unit.getMasterPlayerPosition();
+    local player_distance= self.player.getPosition();
     local r  = 50;
     local dx = ABS(player_distance[1]);
     local dy = ABS(player_distance[2]);
