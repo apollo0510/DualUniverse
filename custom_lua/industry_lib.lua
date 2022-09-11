@@ -788,7 +788,7 @@ function industry_lib:OnPeriodic()
     if dx < r and dy<r and dz<r then
         if switch then switch.obj.activate(); end
         if counter then
-            counter.obj.next();
+            counter.obj.nextIndex();
         end
         if not detector then
             self:RunService();
@@ -824,8 +824,15 @@ function industry_lib:RunService()
 
         local industry    = industry_table[self.service_slot];
         local m           = industry.obj; 
-        local status      = self.machine_stati[m.getStatus()];
-        local id          = m.getCurrentSchematic();
+        local status      = self.machine_stati[m.getState()];
+        local id_list     = m.getOutputs();
+        local id          = 0;
+        if id_list then
+            local n=#id_list;
+            if n>=1 then
+                id = id_list[1];
+            end
+        end
         local container = industry.container;
 
         if  (status~=industry.status) or 
@@ -852,7 +859,7 @@ function industry_lib:RunService()
 
                     local recipe_time=recipe_times[id_string];
                     if (recipe.count>0) and ((recipe_time==nil) or  (recipe_time < container.t)) then
-                        m.startAndMaintain(recipe.count);    
+                        m.startMaintain(recipe.count);    
                         recipe_times[id_string]=t;
                         --self.system.print(format("Starting recipe %s : %d" , recipe.name,recipe.count));
                     else
@@ -861,7 +868,7 @@ function industry_lib:RunService()
                             id_string=tostring(recipe.id);
                             recipe_time=recipe_times[id_string];
                             if (recipe_time==nil) or  (recipe_time < container.t) then
-                                m.setCurrentSchematic(recipe.id);
+                                m.setOutput(recipe.id);
                                 --self.system.print("Changing recipe to "..recipe.name);
                                 break;
                             end   
@@ -873,11 +880,11 @@ function industry_lib:RunService()
                 if recipe then
                    if recipe.ignore_missing then
                       self.system.print("Ignoring missing ingredients");    
-                       m.hardStop();
+                       m.stop(true);
                    end
                 end
             elseif(status~=self.STATUS_RUNNING) then
-                m.hardStop();
+                m.stop(true);
                 --self.system.print("Stopping machine");    
             end    
         end
@@ -931,7 +938,7 @@ function industry_lib:UpdateScreen()
             local recipe_list = industry.recipe_list;
         	local m = industry.obj; 
         	if m then
-                 local status_name = m.getStatus();
+                 local status_name = m.getState();
                  if status_name then
                      local status      = self.machine_stati[status_name];
                      if status then

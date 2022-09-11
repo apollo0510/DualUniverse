@@ -3,92 +3,136 @@
     "0": {
       "name": "core",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "1": {
       "name": "screen",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "2": {
       "name": "con3",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "3": {
       "name": "con1",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "4": {
       "name": "con2",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "5": {
       "name": "IO5",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "6": {
       "name": "con4",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "7": {
       "name": "con5",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "8": {
       "name": "con6",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "9": {
       "name": "con7",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "-1": {
       "name": "unit",
       "type": {
-        "events": [],
-        "methods": []
-      }
-    },
-    "-2": {
-      "name": "system",
-      "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     },
     "-3": {
+      "name": "player",
+      "type": {
+        "events": [
+        ],
+        "methods": [
+        ]
+      }
+    },
+    "-2": {
+      "name": "construct",
+      "type": {
+        "events": [
+        ],
+        "methods": [
+        ]
+      }
+    },
+    "-4": {
+      "name": "system",
+      "type": {
+        "events": [
+        ],
+        "methods": [
+        ]
+      }
+    },
+    "-5": {
       "name": "library",
       "type": {
-        "events": [],
-        "methods": []
+        "events": [
+        ],
+        "methods": [
+        ]
       }
     }
   },
@@ -96,40 +140,49 @@
     {
       "code": "industries:SecureCall(\"RunService\");",
       "filter": {
-        "args": [],
-        "signature": "laserHit()",
+        "args": [
+        ],
+        "signature": "onHit()",
         "slotKey": "5"
       },
-      "key": "0"
+      "key": 5
     },
     {
-      "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
+      "code": "-- industries:ErrorHandler(\"Offline\");\nindustries:OnStop();",
       "filter": {
-        "args": [],
-        "signature": "start()",
+        "args": [
+        ],
+        "signature": "onStop()",
         "slotKey": "-1"
       },
       "key": "1"
     },
     {
-      "code": "industries:SecureCall(\"OnPeriodic\");\n",
+      "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit,player);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
       "filter": {
-        "args": [ { "value": "Periodic" } ],
-        "signature": "tick(timerId)",
+        "args": [
+        ],
+        "signature": "onStart()",
         "slotKey": "-1"
       },
       "key": "2"
     },
     {
-      "code": "-- industries:ErrorHandler(\"Offline\");\nindustries:OnStop();",
+      "code": "industries:SecureCall(\"OnPeriodic\");",
       "filter": {
-        "args": [],
-        "signature": "stop()",
+        "args": [
+          {
+            "value": "Periodic"
+          }
+        ],
+        "signature": "onTimer(tag)",
         "slotKey": "-1"
       },
       "key": "3"
     }
   ],
-  "methods": [],
-  "events": []
+  "methods": [
+  ],
+  "events": [
+  ]
 }
