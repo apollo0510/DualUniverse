@@ -103,6 +103,7 @@ local FlyLib=
     
     unit_data = nil;
     mass      = nil;
+    max_speed = nil;
     max_brake = nil;
 
     v_angle_v = 0.0;
@@ -401,6 +402,7 @@ function FlyLib:OnUpdate()
        self.v_right   = vec3(construct.getOrientationRight());
 
         self.mass      = construct.getMass();
+        self.max_speed = construct.getMaxSpeed();
    end
 
    if self.telemeter then
@@ -1120,8 +1122,8 @@ function FlyLib:CalcBrakeDistance()
 
     local distance = 0.0;
     local time     = 0.0;
-    if self.max_brake and self.mass then
-        local c = 30000.0 / 3.6; -- in m/s
+    if self.max_brake and self.mass and self.max_speed then
+        local c = self.max_speed / 3.6; -- in m/s
         local c2 = c*c;
         local target_speed  = 0.0;
         local accel    = -self.max_brake / self.mass;
