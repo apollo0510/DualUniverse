@@ -84,10 +84,19 @@
     <None Include="..\agg_control.lua">
       <Filter>lua</Filter>
     </None>
+    <None Include="..\haven_monitor_display.lua">
+      <Filter>lua</Filter>
+    </None>
+    <None Include="..\haven_monitor_pb.lua">
+      <Filter>lua</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\readme.txt">
       <Filter>resource</Filter>
+    </Text>
+    <Text Include="..\renderscript_api.txt">
+      <Filter>lua</Filter>
     </Text>
   </ItemGroup>
 </Project>

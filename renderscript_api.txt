@@ -1,0 +1,89 @@
+addBezier(layer, x1, y1, x2, y2, x3, y3)
+addBox(layer, x, y, sx, sy)
+addBoxRounded(layer, x, y, sx, sy, r)
+addCircle(layer, x, y, r)
+addImage(layer, image, x, y, sx, sy)
+addImageSub(layer, image, x, y, sx, sy, subX, subY, subSx, subSy)
+addLine(layer, x1, y1, x2, y2)
+addQuad(layer, x1, y1, x2, y2, x3, y3, x4, y4)
+addText(layer, font, text, x, y)
+addTriangle(layer, x1, y1, x2, y2, x3, y3)
+createLayer()
+getAvailableFontCount()
+getAvailableFontName(index)
+getCursor()
+getCursorDown()
+getCursorPressed()
+getCursorReleased()
+getDeltaTime()
+getFontMetrics(font)
+getFontSize(font)
+getImageSize(image)
+getInput()
+getLocale()
+getRenderCost()
+getRenderCostMax()
+getResolution()
+getTextBounds(font, text)
+getTime()
+isImageLoaded(image)
+loadImage(url)
+loadFont(name, size)
+logMessage(message)
+requestAnimationFrame(frames)
+setBackgroundColor(r, g, b)
+setDefaultFillColor(layer, shapeType, r, g, b, a)
+setDefaultRotation(layer, shapeType, rotation)
+setDefaultShadow(layer, shapeType, radius, r, g, b, a)
+setDefaultStrokeColor(layer, shapeType, r, g, b, a)
+setDefaultStrokeWidth(layer, shapeType, strokeWidth)
+setDefaultTextAlign(layer, alignH, alignV)
+setFontSize(font, size)
+setLayerClipRect(layer, x, y, sx, sy)
+setLayerOrigin(layer, x, y)
+setLayerRotation(layer, rotation)
+setLayerScale(layer, sx, sy)
+setLayerTranslation(layer, tx, ty)
+setNextFillColor(layer, r, g, b, a)
+setNextRotation(layer, rotation)
+setNextRotationDegrees(layer, rotation)
+setNextShadow(layer, radius, r, g, b, a)
+setNextStrokeColor(layer, r, g, b, a)
+setNextStrokeWidth(layer, strokeWidth)
+setNextTextAlign(layer, alignH, alignV)
+setOutput(output)
+
+Fonts:
+"FiraMono" 
+"FiraMono-Bold" 
+"Montserrat" 
+"Montserrat-Light" 
+"Montserrat-Bold" 
+"Play" 
+"Play-Bold" 
+"RefrigeratorDeluxe" 
+"RefrigeratorDeluxe-Light" 
+"RobotoCondensed" 
+"RobotoMono" 
+"RobotoMono-Bold"
+
+Render Order:
+Text 
+Quads 
+Triangles 
+Lines 
+Circles 
+Rounded Boxes 
+Boxes 
+Beziers 
+Images
+
+Shape Types:
+Shape_Bezier 
+Shape_Box 
+Shape_BoxRounded 
+Shape_Circle 
+Shape_Image 
+Shape_Line 
+Shape_Polygon 
+Shape_Text
