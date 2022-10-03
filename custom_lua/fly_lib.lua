@@ -1123,7 +1123,7 @@ function FlyLib:CalcBrakeDistance()
     local distance = 0.0;
     local time     = 0.0;
     if self.max_brake and self.mass and self.max_speed then
-        local c = self.max_speed / 3.6; -- in m/s
+        local c = self.max_speed;
         local c2 = c*c;
         local target_speed  = 0.0;
         local accel    = -self.max_brake / self.mass;
