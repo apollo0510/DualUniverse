@@ -135,7 +135,10 @@ local FlyLib=
         valid          = false;
         position       = nil;
         vec            = nil;
-        brake_distance = 0.0;
+        
+        brake_distance   = 1000.0;
+        shutoff_distance = 100.0;
+        shutoff_speed    = 200.0;
     };
 
     ScreenOffset =
@@ -511,7 +514,7 @@ function FlyLib:CheckAutoBrake()
                 safety_factor         = 1.3;
             end
 
-            if constructVelocity > 100.0 then
+            if constructVelocity > target.shutoff_speed then
                 local d = myPos.x * constructVelocityDir.x + 
                           myPos.y * constructVelocityDir.y +
                           myPos.z * constructVelocityDir.z;
@@ -759,6 +762,7 @@ end
     end
 
     function FlyLib:CalcTargetBreakDistance(position)
+        -- return bake_distance, shutoff_speed
         if position then
           local solar_system = atlas[position.systemId];
           if solar_system then
@@ -767,16 +771,16 @@ end
                   if position.altitude < 0.0 then
                      -- this is a planet target
                      -- return 200 * 1000 * 40;
-                     return body.radius + 200000.0; -- 1su above surface
+                     return body.radius + 200000.0,5000.0; -- 1su above surface
                   end
                   if position.altitude < 30000.0 then
                      -- this is a target on planet surface
-                     return 100.0;
+                     return 100.0,200.0;
                   end
               end
           end
         end
-        return 1000.0; -- default is 1km distance for a target in space
+        return 1000.0,500.0; -- default is 1km distance for a target in space
     end
 
     -- ******************************************************************
@@ -789,7 +793,7 @@ function FlyLib:OninputText(text)
         local target=self.target;
         target.position = position;
         target.vec      = self:CalcWorldCoordinates(position);
-        target.brake_distance = self:CalcTargetBreakDistance(position);
+        target.brake_distance , target.shutoff_speed   = self:CalcTargetBreakDistance(position);
         self.system.print("brake distance " .. self:DistanceText(target.brake_distance));
         target.valid    = (target.vec ~= nil);
         target.update=true;
