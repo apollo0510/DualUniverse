@@ -55,6 +55,7 @@ local FlyLib=
         AtmoFuelContainer  = { need = 0; meta = nil; },
         WarpDriveUnit      = { need = 0; meta = nil; },
         Cockpit            = { need = 0; meta = nil; },
+        CockpitHovercraftUnit = { need = 0; meta = nil; },
         ManualSwitchUnit   = { need = 0; meta = nil; name="switch"; },
     };
 
@@ -454,6 +455,8 @@ function FlyLib:OnUpdate()
            self.fps_count = 0;
            self.unit_data = json.decode(unit.getWidgetData());
            self.max_brake = self.unit_data.maxBrake;
+           self.mass      = construct.getMass();
+           self.max_speed = construct.getMaxSpeed();
 
            self:CalcRemainingTravelTime();
            self:CheckGear();
@@ -1131,7 +1134,8 @@ function FlyLib:CalcBrakeDistance()
         local c2 = c*c;
         local target_speed  = 0.0;
         local accel    = -self.max_brake / self.mass;
-        if self.speed > target_speed and self.speed<c then
+        if self.speed > target_speed then
+            if self.speed>c then c=self.speed; end
             local k1 = c * ASIN(self.speed/c);
             local k2 = c2 * COS(k1/c) / accel;
             time     = (c* ASIN(target_speed/c) - k1) / accel;
