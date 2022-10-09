@@ -46,7 +46,7 @@ local FlyLib=
     UnitClasses=
     {
         CoreUnit           = { need = 1; meta = nil; name="core"; },
-        ScreenUnit         = { need = 1; meta = nil; name="screen"; },
+        ScreenUnit         = { need = 0; meta = nil; name="screen"; },
         GyroUnit           = { need = 1; meta = nil; name="gyro"; },
         DataBankUnit       = { need = 1; meta = nil; name="data_bank"; },
 
@@ -571,33 +571,35 @@ local mouse_screen_y0     = -mouse_screen_height / 2;
 
 function FlyLib:CheckMouse()
    local screen  = self.screen;
-   local mouse_x = screen.getMouseX();
-   local mouse_y = screen.getMouseY();
-   local mouse_s     = false;
-   local mouse_valid = false;
-   if mouse_x>=0.0 and mouse_y>=0.0 then
-        mouse_x = mouse_screen_x0 + mouse_x * mouse_screen_width;
-        mouse_y = mouse_screen_y0 + mouse_y * mouse_screen_height;
-        mouse_s = (screen.getMouseState() == 1);
-        mouse_valid = true;
-   end
+   if screen then
+       local mouse_x = screen.getMouseX();
+       local mouse_y = screen.getMouseY();
+       local mouse_s     = false;
+       local mouse_valid = false;
+       if mouse_x>=0.0 and mouse_y>=0.0 then
+            mouse_x = mouse_screen_x0 + mouse_x * mouse_screen_width;
+            mouse_y = mouse_screen_y0 + mouse_y * mouse_screen_height;
+            mouse_s = (screen.getMouseState() == 1);
+            mouse_valid = true;
+       end
 
-   if (mouse_x~=self.mouse_x) or 
-      (mouse_y~=self.mouse_y) or
-      (mouse_s~=self.mouse_s) then
-        self.mouse_x=mouse_x;
-        self.mouse_y=mouse_y;
-        local mouse_change  = (mouse_s ~= self.mouse_s);
-        local mouse_press   = mouse_change and mouse_s;
-        local mouse_release = mouse_change and self.mouse_s;
-        self.mouse_s=mouse_s;
-        self.mouse_valid=mouse_valid;
-        if mouse_press then
-            self:OnMousePress(mouse_x,mouse_y);
-        end
-        if mouse_release then
-            self:OnMouseRelease(mouse_x,mouse_y);    
-        end
+       if (mouse_x~=self.mouse_x) or 
+          (mouse_y~=self.mouse_y) or
+          (mouse_s~=self.mouse_s) then
+            self.mouse_x=mouse_x;
+            self.mouse_y=mouse_y;
+            local mouse_change  = (mouse_s ~= self.mouse_s);
+            local mouse_press   = mouse_change and mouse_s;
+            local mouse_release = mouse_change and self.mouse_s;
+            self.mouse_s=mouse_s;
+            self.mouse_valid=mouse_valid;
+            if mouse_press then
+                self:OnMousePress(mouse_x,mouse_y);
+            end
+            if mouse_release then
+                self:OnMouseRelease(mouse_x,mouse_y);    
+            end
+       end
    end
 end
 
@@ -937,119 +939,117 @@ local layer_text_format=
 
 function FlyLib:CheckScreens(draw_10hz,draw_1hz)
     local screen   = self.screen;
-    
-    -- mouseXpos = screen.getMouseX()
-    -- mouseYpos = screen.getMouseY()
-
-    local cx      = self.v_angle_h * ( rad_to_delta);
-    local cy      = self.v_angle_v * (-rad_to_delta);
-    local c_pitch = self.pitch * degree_to_delta; -- 1 degree = 20 units
-    local layer_dynamic;
+    if screen then
+        local cx      = self.v_angle_h * ( rad_to_delta);
+        local cy      = self.v_angle_v * (-rad_to_delta);
+        local c_pitch = self.pitch * degree_to_delta; -- 1 degree = 20 units
+        local layer_dynamic;
 
 
-    if self.update_ui or screen.layer_frames == nil then
-        screen.setHTML("");
-        screen.clear(); 
-        screen.layer_frames = screen.addContent(0,0,layer_frames);
-    end
-    
-    if self.near_planet then
-        layer_dynamic=format(layer_dynamic_atmo,self.roll,c_pitch,cx,cy);
-    else   
-        layer_dynamic=format(layer_dynamic_space,cx,cy);
-    end   
-
-    if self.update_ui or screen.layer_dynamic==nil then
-        screen.layer_dynamic = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_dynamic);
-    else
-        screen.resetContent(screen.layer_dynamic,layer_dynamic);
-    end   
-    
-    if self.update_ui or screen.layer_crosshair == nil then
-        screen.layer_crosshair = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_crosshair);
-    end
-
-
-    if self:UpdateLayerUI() then
-        if screen.layer_ui == nil then
-            screen.layer_ui = screen.addContent(0,0,self.layer_ui);
-        else
-            screen.resetContent(screen.layer_ui,self.layer_ui);
+        if self.update_ui or screen.layer_frames == nil then
+            screen.setHTML("");
+            screen.clear(); 
+            screen.layer_frames = screen.addContent(0,0,layer_frames);
         end
-    end
-
-    if draw_10hz then
-        local x;
-        local target = self.target;
-        -- **************************************************************************
-        local pitch_text;
-        if self.align_pitch_angle and not self.near_planet then
-            pitch_text=format("fill=\"green\" >[%.1f]",self.align_pitch_angle);
-        else
-            pitch_text=format(">%.1f",self.pitch);
-        end
-        -- **************************************************************************
-        local roll_text;
-        if self.align_yaw_angle~=nil then
-            roll_text =format("fill=\"green\" >[%.1f]",self.align_yaw_angle); 
-        else
-            roll_text =format(">%.1f",self.roll); 
-        end
-        -- **************************************************************************
-        local alt_text;
+    
         if self.near_planet then
-            if self.ground_distance >=0 then
-                alt_text=format("(%.1f m)",self.ground_distance)
-            else
-                alt_text=format("%.3f km",self.altitude / 1000.0)
-            end    
-        else
-            alt_text="Space";
-        end
-        -- **************************************************************************
-        local speed_text;
-        if self.kmh <1.0 then
-            speed_text="Stop";
-        elseif self.kmh < 10000.0 then
-            speed_text=format("%.0f km/h",self.kmh);
-        else
-            speed_text=format("%.1f Tkm/h",self.kmh/1000.0);
-        end
-        -- **************************************************************************
-        x=self.current_brake_distance;
-        if x~=self.current_brake_distance_compare then
-            self.current_brake_distance_compare=x;
-            self.current_brake_distance_text = self:DistanceText(x);
-        end
-        -- **************************************************************************
-        x=target.brake_distance;
-        if x ~= self.target_brake_distance_compare then
-            self.target_brake_distance_compare=x;
-            self.target_brake_distance_text = self:DistanceText(x);
-        end
-        -- **************************************************************************
-        x=self.RemainingTravelTime;
-        if x~=self.RemainingTravelTimeCompare then
-            self.RemainingTravelTimeCompare=x;
-            self.RemainingTravelTimeText = self:TimeText(x);
-        end
-        -- **************************************************************************
-        local layer_text=format(layer_text_format,
-                            pitch_text,
-                            roll_text,
-                            alt_text,
-                            speed_text,
-                            self.current_brake_distance_text,
-                            self.target_brake_distance_text,
-                            self.RemainingTravelTimeText,
-                            self.fps);    
+            layer_dynamic=format(layer_dynamic_atmo,self.roll,c_pitch,cx,cy);
+        else   
+            layer_dynamic=format(layer_dynamic_space,cx,cy);
+        end   
 
-        if self.update_ui or screen.layer_text==nil then
-            screen.layer_text = screen.addContent(0,0,layer_text);
+        if self.update_ui or screen.layer_dynamic==nil then
+            screen.layer_dynamic = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_dynamic);
         else
-            screen.resetContent(screen.layer_text,layer_text);
+            screen.resetContent(screen.layer_dynamic,layer_dynamic);
+        end   
+    
+        if self.update_ui or screen.layer_crosshair == nil then
+            screen.layer_crosshair = screen.addContent(self.ScreenOffset.x,self.ScreenOffset.y,layer_crosshair);
+        end
+
+
+        if self:UpdateLayerUI() then
+            if screen.layer_ui == nil then
+                screen.layer_ui = screen.addContent(0,0,self.layer_ui);
+            else
+                screen.resetContent(screen.layer_ui,self.layer_ui);
+            end
+        end
+
+        if draw_10hz then
+            local x;
+            local target = self.target;
+            -- **************************************************************************
+            local pitch_text;
+            if self.align_pitch_angle and not self.near_planet then
+                pitch_text=format("fill=\"green\" >[%.1f]",self.align_pitch_angle);
+            else
+                pitch_text=format(">%.1f",self.pitch);
+            end
+            -- **************************************************************************
+            local roll_text;
+            if self.align_yaw_angle~=nil then
+                roll_text =format("fill=\"green\" >[%.1f]",self.align_yaw_angle); 
+            else
+                roll_text =format(">%.1f",self.roll); 
+            end
+            -- **************************************************************************
+            local alt_text;
+            if self.near_planet then
+                if self.ground_distance >=0 then
+                    alt_text=format("(%.1f m)",self.ground_distance)
+                else
+                    alt_text=format("%.3f km",self.altitude / 1000.0)
+                end    
+            else
+                alt_text="Space";
+            end
+            -- **************************************************************************
+            local speed_text;
+            if self.kmh <1.0 then
+                speed_text="Stop";
+            elseif self.kmh < 10000.0 then
+                speed_text=format("%.0f km/h",self.kmh);
+            else
+                speed_text=format("%.1f Tkm/h",self.kmh/1000.0);
+            end
+            -- **************************************************************************
+            x=self.current_brake_distance;
+            if x~=self.current_brake_distance_compare then
+                self.current_brake_distance_compare=x;
+                self.current_brake_distance_text = self:DistanceText(x);
+            end
+            -- **************************************************************************
+            x=target.brake_distance;
+            if x ~= self.target_brake_distance_compare then
+                self.target_brake_distance_compare=x;
+                self.target_brake_distance_text = self:DistanceText(x);
+            end
+            -- **************************************************************************
+            x=self.RemainingTravelTime;
+            if x~=self.RemainingTravelTimeCompare then
+                self.RemainingTravelTimeCompare=x;
+                self.RemainingTravelTimeText = self:TimeText(x);
+            end
+            -- **************************************************************************
+            local layer_text=format(layer_text_format,
+                                pitch_text,
+                                roll_text,
+                                alt_text,
+                                speed_text,
+                                self.current_brake_distance_text,
+                                self.target_brake_distance_text,
+                                self.RemainingTravelTimeText,
+                                self.fps);    
+
+            if self.update_ui or screen.layer_text==nil then
+                screen.layer_text = screen.addContent(0,0,layer_text);
+            else
+                screen.resetContent(screen.layer_text,layer_text);
+            end    
         end    
-    end    
+    end
     self.update_ui = false;
 end
 
