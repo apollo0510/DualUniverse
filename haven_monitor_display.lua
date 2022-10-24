@@ -16,8 +16,22 @@ local data_index_row        =2;
 local data_index_perc       =3;
 local data_index_vol        =4;
 local data_index_name       =5;
-local data_index_blueprints =6;
+local data_index_status     =6;
 -- *****************************************************************
+
+local machine_status=
+{
+	{ "Stop", "#808080" },
+	{ "Run", "#40FF40" },
+	{ "Ingr", "#FF4040" }, 
+	{ "Full", "#FF4040" }, 
+	{ "Outp", "#FF4040" },
+	{ "Pend", "#FFFFFF" },
+	{ "Schem", "#FF4040" },
+	{ "", "#808080" },
+	{ "", "#808080" },
+	{ "", "#808080" },
+};
 
 
 function GetCell(col,row,padding)
@@ -75,11 +89,11 @@ if(type(input_string)=="string") then
 						setNextTextAlign(layer, AlignH_Left, AlignV_Bottom);
 						addText(layer,font_small,text,cell.x0+text_pad,cell.y1-text_pad);
 
-						local blueprints=bar[data_index_blueprints];
-						if blueprints~=nil then
-							local text=format("%d",blueprints);
+						local status_bits=bar[data_index_status];
+						if status_bits~=nil then
+							local status=machine_status[status_bits % 10];
 							setNextTextAlign(layer, AlignH_Right, AlignV_Bottom);
-							addText(layer,font_small,text,cell.x1-text_pad,cell.y1-text_pad);
+							addText(layer,font_small,status[1],cell.x1-text_pad,cell.y1-text_pad);
 						end
 
 					end

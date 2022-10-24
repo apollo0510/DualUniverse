@@ -9,7 +9,7 @@ local data_index_row        =2;
 local data_index_perc       =3;
 local data_index_vol        =4;
 local data_index_name       =5;
-local data_index_blueprints =6;
+local data_index_status     =6;
 -- *****************************************************************
 
 
@@ -51,14 +51,14 @@ local display_data=
 
 local container_data=
 {
-	{ cont=cont1; bar=display_data.bars[1]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont2; bar=display_data.bars[2]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont3; bar=display_data.bars[3]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont4; bar=display_data.bars[4]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont5; bar=display_data.bars[5]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont6; bar=display_data.bars[6]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont7; bar=display_data.bars[7]; volume=-1; schematicsRemaining=nil; },
-	{ cont=cont8; bar=display_data.bars[8]; volume=-1; schematicsRemaining=nil; }
+	{ cont=cont1; bar=display_data.bars[1]; volume=-1; status_bits=0; },
+	{ cont=cont2; bar=display_data.bars[2]; volume=-1; status_bits=0; },
+	{ cont=cont3; bar=display_data.bars[3]; volume=-1; status_bits=0; },
+	{ cont=cont4; bar=display_data.bars[4]; volume=-1; status_bits=0; },
+	{ cont=cont5; bar=display_data.bars[5]; volume=-1; status_bits=0; },
+	{ cont=cont6; bar=display_data.bars[6]; volume=-1; status_bits=0; },
+	{ cont=cont7; bar=display_data.bars[7]; volume=-1; status_bits=0; },
+	{ cont=cont8; bar=display_data.bars[8]; volume=-1; status_bits=0; }
 };
 
 function UpdateContainers()
@@ -66,23 +66,23 @@ function UpdateContainers()
 	for i,c in ipairs(container_data) do
 		if c.cont then
 			local volume = c.cont.getItemsVolume();
-		    local schematicsRemaining = nil;
+		    local status_table = nil;
+			local status_bits  = 0;
 			if c.ids then
+				local factor=1;
 				for j,local_id in ipairs(c.ids) do
 				   local info=core.getElementIndustryInfoById(local_id);
 				   if info then
-					   if schematicsRemaining==nil or schematicsRemaining>info.schematicsRemaining then
-							schematicsRemaining=info.schematicsRemaining;
-  						    print("schematicsRemaining="..info.schematicsRemaining .. " id=" .. local_id);
-					   end
+						status_bits=status_bits + info.state * factor;
+						factor = factor * 10;
 				   end
 				end
 			end
-			if schematicsRemaining~=c.schematicsRemaining then
-				c.schematicsRemaining=schematicsRemaining;
+			if status_bits~=c.status_bits then
+				c.status_bits=status_bits;
 				local bar     = c.bar;
 				if bar then
-				   bar[data_index_blueprints]=schematicsRemaining;
+				   bar[data_index_status]=status_bits;
 				   changed=true;
 				end
 			end
