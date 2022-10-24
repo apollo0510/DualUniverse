@@ -21,16 +21,16 @@ local data_index_status     =6;
 
 local machine_status=
 {
-	{ "Stop", "#808080" },
-	{ "Run", "#40FF40" },
-	{ "Ingr", "#FF4040" }, 
-	{ "Full", "#FF4040" }, 
-	{ "Outp", "#FF4040" },
-	{ "Pend", "#FFFFFF" },
-	{ "Schem", "#FF4040" },
-	{ "", "#808080" },
-	{ "", "#808080" },
-	{ "", "#808080" },
+	{ text="Stop", r=1.0,g=1.0,b=1.0,a=0.5 },
+	{ text="Run", r=0.0,g=1.0,b=0.0,a=1.0 },
+	{ text="Ingr", r=1.0,g=0.0,b=0.0,a=1.0 }, 
+	{ text="Full", r=0.0,g=0.0,b=1.0,a=0.5 }, 
+	{ text="Outp", r=1.0,g=0.0,b=0.0,a=1.0 },
+	{ text=nil }, -- pending
+	{ text="Schem", r=1.0,g=0.0,b=0.0,a=1.0 },
+	{ text=nil },
+	{ text=nil },
+	{ text=nil },
 };
 
 
@@ -92,8 +92,11 @@ if(type(input_string)=="string") then
 						local status_bits=bar[data_index_status];
 						if status_bits~=nil then
 							local status=machine_status[status_bits % 10];
-							setNextTextAlign(layer, AlignH_Right, AlignV_Bottom);
-							addText(layer,font_small,status[1],cell.x1-text_pad,cell.y1-text_pad);
+							if status.text then
+								setNextFillColor(layer,status.r,status.g,status.b,status.a);
+								setNextTextAlign(layer, AlignH_Right, AlignV_Bottom);
+								addText(layer,font,status.text,cell.x1-text_pad,cell.y1-text_pad);
+							end
 						end
 
 					end
