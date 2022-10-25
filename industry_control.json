@@ -124,17 +124,17 @@
       "filter": {
         "args": [
         ],
-        "signature": "laserHit()",
+        "signature": "onHit()",
         "slotKey": "2"
       },
       "key": "0"
     },
     {
-      "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
+      "code": "local ok, message;\nok, message = pcall(require,\"industry_lib\");\nif ok then\n    industry_lib = message;\n    ok, message = pcall(industry_lib.new,system,unit,player);\n    if ok then\n        industries = message;    \n    else\n        system.print(message);\n    end    \nelse\n    system.print(message);\nend\n\n\n\n\n    ",
       "filter": {
         "args": [
         ],
-        "signature": "start()",
+        "signature": "onStart()",
         "slotKey": "-1"
       },
       "key": "1"
@@ -147,7 +147,7 @@
             "value": "Periodic"
           }
         ],
-        "signature": "tick(timerId)",
+        "signature": "onTimer(timerId)",
         "slotKey": "-1"
       },
       "key": "2"
@@ -157,7 +157,7 @@
       "filter": {
         "args": [
         ],
-        "signature": "stop()",
+        "signature": "onStop()",
         "slotKey": "-1"
       },
       "key": "3"

@@ -10,6 +10,7 @@ local class_translation=
     ["CoreUnitStatic" ] = "CoreUnit";
     ["CoreUnitDynamic"] = "CoreUnit";
     ["CoreUnitSpace"  ] = "CoreUnit";
+    ["ContainerXLGroup"] = "ItemContainer";
 };
 
 function unit_lib.new(system,unit,unit_classes)

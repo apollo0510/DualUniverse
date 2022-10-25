@@ -39,7 +39,7 @@ local display_data=
 		{ 1,2,0,0,"Steel"        ,nil},
 		{ 1,3,0,0,"Silumin"      ,nil},
 		{ 1,4,0,0,"Polycarbonate",nil},
-		{ 2,1,0,0,"Calc.Reinf."  ,nil},
+		{ 2,1,0,0,"CalcReinf"    ,nil},
 		{ 2,2,0,0,"Stainless"    ,nil},
 		{ 2,3,0,0,"Duralumin"    ,nil},
 		{ 2,4,0,0,"PolyCalcide"  ,nil}

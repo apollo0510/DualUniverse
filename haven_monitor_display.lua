@@ -26,7 +26,7 @@ local machine_status=
 	{ text="Ingr", r=1.0,g=0.0,b=0.0,a=1.0 }, 
 	{ text="Full", r=0.0,g=0.0,b=1.0,a=0.5 }, 
 	{ text="Outp", r=1.0,g=0.0,b=0.0,a=1.0 },
-	{ text=nil }, -- pending
+	{ text="Ok", r=1.0,g=1.0,b=1.0,a=0.5  }, -- pending
 	{ text="Schem", r=1.0,g=0.0,b=0.0,a=1.0 },
 	{ text=nil },
 	{ text=nil },
