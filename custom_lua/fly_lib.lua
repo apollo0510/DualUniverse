@@ -336,6 +336,9 @@ function FlyLib:IdentifySlots(system,unit,construct,player)
         self.switch.deactivate();
         self.switch.activate();
     end
+    if self.screen then
+        self.screen.activate(); 
+    end
     return self.InitOk;
 end
 
@@ -383,7 +386,9 @@ function FlyLib:OnStop()
         self.switch.deactivate();
         self.switch.activate();
     end
-
+    if self.screen then
+        self.screen.deactivate(); 
+    end
 end
     -- ******************************************************************
     --
