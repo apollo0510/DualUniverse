@@ -4,12 +4,12 @@ local print  = system.print;
 local insert = table.insert;
 
 -- *****************************************************************
-local data_index_col       =1;
-local data_index_row        =2;
-local data_index_perc       =3;
-local data_index_vol        =4;
-local data_index_name       =5;
-local data_index_status     =6;
+local data_index_col   <const> =1;
+local data_index_row   <const> =2;
+local data_index_perc  <const> =3;
+local data_index_vol   <const> =4;
+local data_index_name  <const> =5;
+local data_index_status<const> =6;
 -- *****************************************************************
 
 
