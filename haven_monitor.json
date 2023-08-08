@@ -1,0 +1,149 @@
+{
+  "slots": {
+    "0": {
+      "name": "display",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "1": {
+      "name": "core",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "2": {
+      "name": "cont1",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "3": {
+      "name": "cont2",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "4": {
+      "name": "cont3",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "5": {
+      "name": "cont4",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "6": {
+      "name": "cont5",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "7": {
+      "name": "cont6",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "8": {
+      "name": "cont7",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "9": {
+      "name": "cont8",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-1": {
+      "name": "unit",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-3": {
+      "name": "player",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-2": {
+      "name": "construct",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-4": {
+      "name": "system",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    },
+    "-5": {
+      "name": "library",
+      "type": {
+        "events": [],
+        "methods": []
+      }
+    }
+  },
+  "handlers": [
+    {
+      "code": "",
+      "filter": {
+        "args": [],
+        "signature": "()",
+        "slotKey": "0"
+      },
+      "key": "0"
+    },
+    {
+      "code": "local json = require('dkjson');\nlocal format = string.format;\nlocal print  = system.print;\nlocal insert = table.insert;\n\n-- *****************************************************************\nlocal data_index_col       =1;\nlocal data_index_row        =2;\nlocal data_index_perc       =3;\nlocal data_index_vol        =4;\nlocal data_index_name       =5;\nlocal data_index_status     =6;\n-- *****************************************************************\n\n\nlocal display_data=\n{\n\tcolumns=2;\n\trows   =4;\n\n\t-- left display\n\tbars=\n\t{\n\t\t{ 1,1,0,0,\"Silumin\"  ,nil},\n\t\t{ 1,2,0,0,\"Steel\"    ,nil},\n\t\t{ 1,3,0,0,\"Al-Fe\"    ,nil},\n\t\t{ 1,4,0,0,\"PolyCarb\" ,nil},\n\t\t{ 2,1,0,0,\"Glass\"    ,nil},\n\t\t{ 2,2,0,0,\"Fuel\"     ,nil},\n\t\t{ 2,3,0,0,\"Ore\"      ,nil},\n\t\t{ 2,4,0,0,\"T1\"       ,nil}\n\t};\n\n\t-- right display\n\t--[[\n\tbars=\n\t{\n\t\t{ 1,1,0,0,\"Al-Fe\"        ,nil},\n\t\t{ 1,2,0,0,\"Steel\"        ,nil},\n\t\t{ 1,3,0,0,\"Silumin\"      ,nil},\n\t\t{ 1,4,0,0,\"Polycarbonate\",nil},\n\t\t{ 2,1,0,0,\"CalcReinf\"    ,nil},\n\t\t{ 2,2,0,0,\"Stainless\"    ,nil},\n\t\t{ 2,3,0,0,\"Duralumin\"    ,nil},\n\t\t{ 2,4,0,0,\"PolyCalcide\"  ,nil}\n\t};\n\t]]--\n\n};\n\n\nlocal container_data=\n{\n\t{ cont=cont1; bar=display_data.bars[1]; volume=-1; status_bits=0; },\n\t{ cont=cont2; bar=display_data.bars[2]; volume=-1; status_bits=0; },\n\t{ cont=cont3; bar=display_data.bars[3]; volume=-1; status_bits=0; },\n\t{ cont=cont4; bar=display_data.bars[4]; volume=-1; status_bits=0; },\n\t{ cont=cont5; bar=display_data.bars[5]; volume=-1; status_bits=0; },\n\t{ cont=cont6; bar=display_data.bars[6]; volume=-1; status_bits=0; },\n\t{ cont=cont7; bar=display_data.bars[7]; volume=-1; status_bits=0; },\n\t{ cont=cont8; bar=display_data.bars[8]; volume=-1; status_bits=0; }\n};\n\nfunction UpdateContainers()\n\tlocal changed_false;\n\tfor i,c in ipairs(container_data) do\n\t\tif c.cont then\n\t\t\tlocal volume = c.cont.getItemsVolume();\n\t\t    local status_table = nil;\n\t\t\tlocal status_bits  = 0;\n\t\t\tif c.ids then\n\t\t\t\tlocal factor=1;\n\t\t\t\tfor j,local_id in ipairs(c.ids) do\n\t\t\t\t   local info=core.getElementIndustryInfoById(local_id);\n\t\t\t\t   if info then\n\t\t\t\t\t\tstatus_bits=status_bits + info.state * factor;\n\t\t\t\t\t\tfactor = factor * 10;\n\t\t\t\t   end\n\t\t\t\tend\n\t\t\tend\n\t\t\tif status_bits~=c.status_bits then\n\t\t\t\tc.status_bits=status_bits;\n\t\t\t\tlocal bar     = c.bar;\n\t\t\t\tif bar then\n\t\t\t\t   bar[data_index_status]=status_bits;\n\t\t\t\t   changed=true;\n\t\t\t\tend\n\t\t\tend\n\t\t\tif volume~=nil and volume~=c.volume then\n\t\t\t\tc.volume=volume;\n\t\t\t\tif c.max_volume == nil then\n\t\t\t\t\tc.max_volume=c.cont.getMaxVolume();\n\t\t\t\tend\n\t\t\t\tlocal percent = c.volume * 100.0 / c.max_volume;\n\t\t\t\tlocal bar     = c.bar;\n\t\t\t\tif percent~=bar[data_index_perc] then\n\t\t\t\t\tbar[data_index_perc]=percent;\n\t\t\t\t\tbar[data_index_vol ] =volume;\n\t\t\t\t\tchanged=true;\n\t\t\t\tend\n\t\t\tend\n\t\tend\n\tend\n\tif changed then\n\t\tdisplay.setScriptInput(json.encode(display_data));\n\tend\nend\n\n-- ****************************************************************\n\nfunction StartUp()\n\n\tlocal IndustryTypes=\n\t{\n\t\tIndustryUnit=true,\n\t\tIndustry1   =true,\n\t\tIndustry2   =true,\n\t\tIndustry3   =true,\n\t\tIndustry4   =true,\n\t\tIndustry5   =true\n\t};\n\n\tlocal IndustryNames={ };\n\tfor i,c in ipairs(container_data) do\n\t\tif c.cont then\n\t\t\tlocal bar = c.bar;\n\t\t\tlocal name=\"Ind_\"..bar[data_index_name];\n\t\t\tIndustryNames[name]=c;\n\t\tend\n\tend\n\n\tlocal id_list=core.getElementIdList();\n\tfor i,local_id in ipairs(id_list) do\n\t\tlocal class_name=core.getElementClassById(local_id);\n\t\tif IndustryTypes[class_name] then\n\t\t\tlocal element_name=core.getElementNameById(local_id);\n\t\t\tlocal c=IndustryNames[element_name];\n\t\t\tif c then\n\t\t\t    if c.ids == nil then c.ids={}; end \n\t\t\t    insert(c.ids,local_id);\n\t\t\tend\n\t\tend\n\tend\nend\n\n-- ****************************************************************\n\nlocal shutown_display_data=\n{\n\tcolumns=0;\n\trows   =0;\n};\n\nlocal shutdown_string = json.encode(shutown_display_data);\n\nfunction Shutdown()\n\tif display~=nil then\n\t\tdisplay.setScriptInput(shutdown_string);\n\tend\nend\n\nif display~=nil then\n\tStartUp();\n\tUpdateContainers();\n\tunit.setTimer(\"ContChecker\",1.0);\nelse\n\tprint(\"No display found\");\nend\n\t",
+      "filter": {
+        "args": [],
+        "signature": "onStart()",
+        "slotKey": "-1"
+      },
+      "key": "1"
+    },
+    {
+      "code": "Shutdown();",
+      "filter": {
+        "args": [],
+        "signature": "onStop()",
+        "slotKey": "-1"
+      },
+      "key": "2"
+    },
+    {
+      "code": "UpdateContainers();",
+      "filter": {
+        "args": [ { "value": "ContChecker" } ],
+        "signature": "onTimer(tag)",
+        "slotKey": "-1"
+      },
+      "key": "3"
+    }
+  ],
+  "methods": [],
+  "events": []
+}

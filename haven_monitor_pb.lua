@@ -21,14 +21,14 @@ local display_data=
 	-- left display
 	bars=
 	{
-		{ 1,1,0,0,"Aluminium",nil},
-		{ 1,2,0,0,"Carbon"   ,nil},
-		{ 1,3,0,0,"Iron"     ,nil},
-		{ 1,4,0,0,"Silicon"  ,nil},
-		{ 2,1,0,0,"Calcium"  ,nil},
-		{ 2,2,0,0,"Chromium" ,nil},
-		{ 2,3,0,0,"Copper"   ,nil},
-		{ 2,4,0,0,"Sodium"   ,nil}
+		{ 1,1,0,0,"Silumin"  ,nil},
+		{ 1,2,0,0,"Steel"    ,nil},
+		{ 1,3,0,0,"Al-Fe"    ,nil},
+		{ 1,4,0,0,"PolyCarb" ,nil},
+		{ 2,1,0,0,"Glass"    ,nil},
+		{ 2,2,0,0,"Fuel"     ,nil},
+		{ 2,3,0,0,"Ore"      ,nil},
+		{ 2,4,0,0,"T1"       ,nil}
 	};
 
 	-- right display

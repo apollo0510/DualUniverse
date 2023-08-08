@@ -90,6 +90,9 @@
     <None Include="..\haven_monitor_pb.lua">
       <Filter>lua</Filter>
     </None>
+    <None Include="..\haven_monitor.json">
+      <Filter>json</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\readme.txt">
