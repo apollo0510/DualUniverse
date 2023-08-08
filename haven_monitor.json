@@ -138,10 +138,10 @@
       "code": "UpdateContainers();",
       "filter": {
         "args": [ { "value": "ContChecker" } ],
-        "signature": "onTimer(tag)",
+        "signature": "onTimer(tag)",  
         "slotKey": "-1"
       },
-      "key": "3"
+      "key": "3"  
     }
   ],
   "methods": [],
