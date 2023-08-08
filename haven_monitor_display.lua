@@ -1,4 +1,4 @@
-local json = require('dkjson');
+local json = require('json');
 local format = string.format;
 local layer        = createLayer();
 local xres,yres    = getResolution();

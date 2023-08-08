@@ -1,4 +1,4 @@
-local json = require('dkjson');
+local json = require('json');
 local format = string.format;
 local print  = system.print;
 local insert = table.insert;
