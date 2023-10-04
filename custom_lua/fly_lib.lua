@@ -49,6 +49,7 @@ local FlyLib=
         ScreenUnit         = { need = 0; meta = nil; name="screen"; },
         GyroUnit           = { need = 1; meta = nil; name="gyro"; },
         DataBankUnit       = { need = 1; meta = nil; name="data_bank"; },
+        ShieldGenerator    = { need = 0; meta = nil; name="shield"; },
 
         TelemeterUnit      = { need = 0; meta = nil; name="telemeter"; },
         SpaceFuelContainer = { need = 0; meta = nil; },
@@ -66,6 +67,7 @@ local FlyLib=
         ["CoreUnitSpace"  ] = "CoreUnit";
         ["CockpitCommandmentUnit"  ] = "Cockpit";
         ["CockpitFighterUnit"  ] = "Cockpit";
+        ["ShieldGeneratorExtraSmallGroup"  ] = "ShieldGenerator";
     };
 
     system = nil;
@@ -75,6 +77,7 @@ local FlyLib=
     gyro   = nil;
     tele   = nil;
     screen = nil;
+    shield = nil;
 
     InitOk = false;
 
@@ -250,6 +253,8 @@ local ACOS = math.acos;
 local ASIN = math.asin;
 local SIN  = math.sin;
 local COS  = math.cos;
+local ABS  = math.abs;
+
 
 local atlas = require("atlas");
 
@@ -364,6 +369,43 @@ end
     --
     -- ******************************************************************
 
+function FlyLib:CheckShield()
+    local shield=self.shield;
+    if shield~=nil then
+        local shieldCD = shield.getResistancesCooldown();
+
+         print("check shields " .. shieldCD); 
+
+        if shieldCD == 0 then 
+            local sRR = shield.getStressRatioRaw();
+            if sRR[1]~=0.0 or sRR[2]~=0.0 or sRR[3]~=0.0 or sRR[4]~=0.0 then
+                local tot = shield.getResistancesPool();
+                local curr_res = shield.getResistances();
+                local res1=sRR[1]*tot;
+                local res2=sRR[2]*tot;
+                local res3=sRR[3]*tot;
+                local res4=sRR[4]*tot;
+                local diff = ABS(curr_res[1]-res1) +
+                             ABS(curr_res[2]-res2) +
+                             ABS(curr_res[3]-res3) +
+                             ABS(curr_res[4]-res4);
+                print("shield received damage , diff = "..diff);    
+                if diff>5 then
+                    if not shield.setResistances(res1,res2,res3,res4) then
+                        print("shield setResistances failed");    
+                    end
+                end
+            end
+        end
+
+
+    end
+end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
 function FlyLib:OnCursorKey(dx,dy)
 
     self.ScreenOffset.x = self.ScreenOffset.x + dx/20.0;
@@ -465,6 +507,7 @@ function FlyLib:OnUpdate()
 
            self:CalcRemainingTravelTime();
            self:CheckGear();
+           self:CheckShield();
        end
    end
 
