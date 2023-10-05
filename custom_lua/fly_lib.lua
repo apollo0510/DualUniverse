@@ -77,9 +77,11 @@ local FlyLib=
     gyro   = nil;
     tele   = nil;
     screen = nil;
+    
     shield = nil;
     set_shield_delay=0;
     shield_ready    =false;
+    shield_stress = {0,0,0,0};
 
     InitOk = false;
 
@@ -384,50 +386,32 @@ function FlyLib:CheckShield()
          end
 
         if ready then 
-            local sRR = shield.getStressRatioRaw();
-            if sRR[1]~=0.0 or sRR[2]~=0.0 or sRR[3]~=0.0 or sRR[4]~=0.0 then
-                local tot = shield.getResistancesPool();
-                local res1=sRR[1]*tot;
-                local res2=sRR[2]*tot;
-                local res3=sRR[3]*tot;
-                local res4=sRR[4]*tot;
-                if set_shield_delay==0 then
-                    local curr_res = shield.getResistances();
-                    local diff = ABS(curr_res[1]-res1) +
-                                 ABS(curr_res[2]-res2) +
-                                 ABS(curr_res[3]-res3) +
-                                 ABS(curr_res[4]-res4);
-                    if diff>5 then
-                        set_shield_delay=10;
-                        self.system.print("requesting shield config , diff = "..diff);    
-                    end
-                else
-                   set_shield_delay=set_shield_delay-1;
-                   if set_shield_delay<=0 then
-                        set_shield_delay=0;
-                        if shield.setResistances(res1,res2,res3,res4) then
-                            self.system.print("shield configured");    
-                        else
-                            self.system.print("shield configuration failed");    
-                        end
-                   end
+
+            local stress = shield.getStressRatioRaw();
+            if stress[1]==0.0 and stress[2]==0.0 and stress[3]==0.0 and stress[4]==0.0 then
+                stress[1]=0.25;
+                stress[2]=0.25;
+                stress[3]=0.25;
+                stress[4]=0.25;
+            end
+
+            if set_shield_delay==0 then
+                local last=self.shield_stress;
+                local diff = ABS(last[1]-stress[1]) + ABS(last[2]-stress[2]) + ABS(last[3]-stress[3]) + ABS(last[4]-stress[4]);
+                if diff>0.1 then
+                    set_shield_delay=10;
+                    self.system.print("requesting shield config");    
                 end
             else
-                local tot = shield.getResistancesPool();
-                local res1=0.25*tot;
-                local res2=0.25*tot;
-                local res3=0.25*tot;
-                local res4=0.25*tot;
-                local curr_res = shield.getResistances();
-                local diff = ABS(curr_res[1]-res1) +
-                             ABS(curr_res[2]-res2) +
-                             ABS(curr_res[3]-res3) +
-                             ABS(curr_res[4]-res4);
-                if diff>5 then
-                    if shield.setResistances(res1,res2,res3,res4) then
-                        self.system.print("shield config reset");    
+                set_shield_delay=set_shield_delay-1;
+                if set_shield_delay<=0 then
+                    set_shield_delay=0;
+                    local pool = shield.getResistancesPool();
+                    if shield.setResistances(stress[1]*pool,stress[2]*pool,stress[3]*pool,stress[4]*pool) then
+                        self.system.print("shield configured");    
+                        self.shield_stress=stress;
                     else
-                        self.system.print("shield config reset failed");    
+                        self.system.print("shield configuration failed");    
                     end
                 end
             end
