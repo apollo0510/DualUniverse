@@ -78,6 +78,8 @@ local FlyLib=
     tele   = nil;
     screen = nil;
     shield = nil;
+    set_shield_delay=0;
+    shield_ready    =false;
 
     InitOk = false;
 
@@ -356,11 +358,11 @@ function FlyLib:CheckGear()
     local unit        = self.unit;
     local gear_down = unit.isAnyLandingGearDeployed();
     if (self.kmh >= (GearSpeed + 50.0)) and (gear_down==1) then
-        --print("Auto closing gear " );
+        --self.system.print("Auto closing gear " );
         unit.retractLandingGears();
     end   
     if (self.kmh <= (GearSpeed - 50.0)) and (gear_down==0) then
-        --print("Auto deploying gear ");
+        --self.system.print("Auto deploying gear ");
         unit.deployLandingGears();    
     end   
 end
@@ -371,34 +373,65 @@ end
 
 function FlyLib:CheckShield()
     local shield=self.shield;
-    if shield~=nil then
-        local shieldCD = shield.getResistancesCooldown();
+    if shield then
+        local ready = (shield.getResistancesCooldown()==0);
 
-         print("check shields " .. shieldCD); 
+        if ready ~= self.shield_ready then
+            self.shield_ready=ready;
+            if ready then
+                self.system.print(">>> shield ready <<<"); 
+            end
+         end
 
-        if shieldCD == 0 then 
+        if ready then 
             local sRR = shield.getStressRatioRaw();
             if sRR[1]~=0.0 or sRR[2]~=0.0 or sRR[3]~=0.0 or sRR[4]~=0.0 then
                 local tot = shield.getResistancesPool();
-                local curr_res = shield.getResistances();
                 local res1=sRR[1]*tot;
                 local res2=sRR[2]*tot;
                 local res3=sRR[3]*tot;
                 local res4=sRR[4]*tot;
+                if set_shield_delay==0 then
+                    local curr_res = shield.getResistances();
+                    local diff = ABS(curr_res[1]-res1) +
+                                 ABS(curr_res[2]-res2) +
+                                 ABS(curr_res[3]-res3) +
+                                 ABS(curr_res[4]-res4);
+                    if diff>5 then
+                        set_shield_delay=10;
+                        self.system.print("requesting shield config , diff = "..diff);    
+                    end
+                else
+                   set_shield_delay=set_shield_delay-1;
+                   if set_shield_delay<=0 then
+                        set_shield_delay=0;
+                        if shield.setResistances(res1,res2,res3,res4) then
+                            self.system.print("shield configured");    
+                        else
+                            self.system.print("shield configuration failed");    
+                        end
+                   end
+                end
+            else
+                local tot = shield.getResistancesPool();
+                local res1=0.25*tot;
+                local res2=0.25*tot;
+                local res3=0.25*tot;
+                local res4=0.25*tot;
+                local curr_res = shield.getResistances();
                 local diff = ABS(curr_res[1]-res1) +
                              ABS(curr_res[2]-res2) +
                              ABS(curr_res[3]-res3) +
                              ABS(curr_res[4]-res4);
-                print("shield received damage , diff = "..diff);    
                 if diff>5 then
-                    if not shield.setResistances(res1,res2,res3,res4) then
-                        print("shield setResistances failed");    
+                    if shield.setResistances(res1,res2,res3,res4) then
+                        self.system.print("shield config reset");    
+                    else
+                        self.system.print("shield config reset failed");    
                     end
                 end
             end
         end
-
-
     end
 end
 
