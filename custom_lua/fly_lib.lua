@@ -395,17 +395,17 @@ function FlyLib:CheckShield()
                 stress[4]=0.25;
             end
 
-            if set_shield_delay==0 then
+            if self.set_shield_delay==0 then
                 local last=self.shield_stress;
                 local diff = ABS(last[1]-stress[1]) + ABS(last[2]-stress[2]) + ABS(last[3]-stress[3]) + ABS(last[4]-stress[4]);
                 if diff>0.1 then
-                    set_shield_delay=10;
+                    self.set_shield_delay=10;
                     self.system.print("requesting shield config");    
                 end
             else
-                set_shield_delay=set_shield_delay-1;
-                if set_shield_delay<=0 then
-                    set_shield_delay=0;
+                self.set_shield_delay=self.set_shield_delay-1;
+                if self.set_shield_delay<=0 then
+                    self.set_shield_delay=0;
                     local pool = shield.getResistancesPool();
                     if shield.setResistances(stress[1]*pool,stress[2]*pool,stress[3]*pool,stress[4]*pool) then
                         self.system.print("shield configured");    
