@@ -13,7 +13,17 @@ local auto_brake_colors =
     [AUTOBRAKE_LOCK ] = "#FF8080FF";
 };
 
-
+local POSITION_TYPE_SPACE   = 1;
+local POSITION_TYPE_PLANET  = 2;
+local POSITION_TYPE_SURFACE = 3;
+local POSITION_TYPE_ORBIT   = 4;
+local PositionTypeNames=
+{
+    [POSITION_TYPE_SPACE]  ="Space",
+    [POSITION_TYPE_PLANET] ="Planet",
+    [POSITION_TYPE_SURFACE]="Surface",
+    [POSITION_TYPE_ORBIT]  ="Orbit"
+};
 
 -- agg api:
 -- ************************************
@@ -789,14 +799,34 @@ end
                _latitude ~=nil and 
                _longitude~=nil and 
                _altitude ~=nil then 
+
+               local solar_system = atlas[_systemId];
                local position=
                {
-                    systemId  = _systemId;
-                    bodyId    = _bodyId;
-                    latitude  = _latitude;
-                    longitude = _longitude;
-                    altitude  = _altitude;
+                    systemId     = _systemId;
+                    bodyId       = _bodyId;
+                    latitude     = _latitude;
+                    longitude    = _longitude;
+                    altitude     = _altitude;
+                    body         = nil;
+                    type         = POSITION_TYPE_SPACE;
                };
+               if _bodyId ~= 0 then
+                    local body=solar_system[_bodyId];
+                    if body ~=nil then
+                        position.body=body;
+                        local h  = body.radius + _altitude;
+                        if h < 1000.0 then
+                            position.type=POSITION_TYPE_PLANET;
+                        else
+                            if _altitude < 10000.0 then
+                                position.type=POSITION_TYPE_SURFACE;
+                            else
+                                position.type=POSITION_TYPE_ORBIT;
+                            end
+                        end
+                    end
+               end
                return position;
             end
         end
@@ -809,24 +839,20 @@ end
 
     function FlyLib:CalcWorldCoordinates(position)
         if position then
-          if position.bodyId == 0 then
-             return vec3(position.latitude, position.longitude, position.altitude);
-          end
-          local solar_system = atlas[position.systemId];
-          if solar_system then
-              local body = solar_system[position.bodyId];
-              if body then
-                 local h  = body.radius + position.altitude;
-                 local c  = body.center;
-                 local latitude  = position.latitude *deg_to_rad;
-                 local longitude = position.longitude*deg_to_rad;
-                 local cosl = COS(latitude);
-                 local x = c[1] + h * COS(longitude) * cosl;
-                 local y = c[2] + h * SIN(longitude) * cosl;
-                 local z = c[3] + h * SIN(latitude);
-                 return vec3(x,y,z);
-              end
-          end
+            local body = position.body;
+            if body == nil then
+                return vec3(position.latitude, position.longitude, position.altitude);
+            else
+                local h  = body.radius + position.altitude;
+                local c  = body.center;
+                local latitude  = position.latitude *deg_to_rad;
+                local longitude = position.longitude*deg_to_rad;
+                local cosl = COS(latitude);
+                local x = c[1] + h * COS(longitude) * cosl;
+                local y = c[2] + h * SIN(longitude) * cosl;
+                local z = c[3] + h * SIN(latitude);
+                return vec3(x,y,z);
+            end
         end
         return nil
     end
@@ -834,21 +860,15 @@ end
     function FlyLib:CalcTargetBreakDistance(position)
         -- return bake_distance, shutoff_speed
         if position then
-          local solar_system = atlas[position.systemId];
-          if solar_system then
-              local body = solar_system[position.bodyId];
-              if body then
-                  if position.altitude < 0.0 then
-                     -- this is a planet target
-                     -- return 200 * 1000 * 40;
-                     return body.radius + 200000.0,5000.0; -- 1su above surface
-                  end
-                  if position.altitude < 30000.0 then
-                     -- this is a target on planet surface
-                     return 100.0,200.0;
-                  end
-              end
-          end
+            local body = position.body;
+            if body then
+                if position.type==POSITION_TYPE_PLANET then
+                    return body.radius + 200000.0,5000.0; -- 1su above surface
+                end
+                if position.type==POSITION_TYPE_SURFACE then
+                    return 100.0,200.0;
+                end
+            end
         end
         return 1000.0,500.0; -- default is 1km distance for a target in space
     end
@@ -864,7 +884,9 @@ function FlyLib:OninputText(text)
         target.position = position;
         target.vec      = self:CalcWorldCoordinates(position);
         target.brake_distance , target.shutoff_speed   = self:CalcTargetBreakDistance(position);
-        self.system.print("brake distance " .. self:DistanceText(target.brake_distance));
+        self.system.print(format("%s brake distance %s" ,
+                PositionTypeNames[position.type],
+                self:DistanceText(target.brake_distance)));
         target.valid    = (target.vec ~= nil);
         target.update=true;
         self.system.setWaypoint(text);

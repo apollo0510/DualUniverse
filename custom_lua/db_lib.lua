@@ -42,7 +42,7 @@ function DBLib:Save()
         for key,value in pairs(self.data) do
             if value.update or data_bank.hasKey(key)~=1 then    
                 local key_value_text=json.encode(value);
-                data_bank.setStringValue(key,key_value_text);
+                data_bank.setStringValue(key,key_value_text);   
                 saved_key_count = saved_key_count + 1;
             end
         end
