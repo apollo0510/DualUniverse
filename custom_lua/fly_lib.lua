@@ -141,9 +141,11 @@ local FlyLib=
 
     AutoPitch = 2.0;
     AutoYaw   = 2.0;
+    AutoRoll  = 2.0;
 
     autoPitchPID        = nil;
     autoYawPID          = nil;
+    autoRollPID         = nil;
     auto_align          = false;
     target_auto_brake   = AUTOBRAKE_OFF;
     atmo_auto_brake     = false;
@@ -726,6 +728,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
         if self.autoPitchPID == nil then
             self.autoPitchPID = pid.new(self.AutoPitch * 0.01, 0, self.AutoPitch * 0.1);
             self.autoYawPID   = pid.new(self.AutoYaw   * 0.01, 0, self.AutoYaw   * 0.1);
+            self.autoRollPID  = pid.new(self.AutoRoll  * 0.01, 0, self.AutoRoll   * 0.1);
             self.system.print("starting auto align");
         end
 
@@ -737,39 +740,48 @@ function FlyLib:OnFlush(targetAngularVelocity,
 
         self.align_pitch_angle  =  ASIN(align_scalar_pitch) * rad_to_deg;
         self.align_yaw_angle    =  ASIN(align_scalar_yaw  ) * rad_to_deg;
+        self.align_roll_angle   = 0;
 
         self.autoPitchPID:inject(-self.align_pitch_angle);
         self.autoYawPID:inject(self.align_yaw_angle);
+        self.autoRollPID:inject(self.align_roll_angle);
 
         if self.auto_align then
             
             local autoPitchInput =0.0;
             local autoYawInput   =0.0;
+            local autoRollInput  =0.0;
         
             if not self.near_planet then
                 autoPitchInput = self.autoPitchPID:get();
+                autoRollInput  = self.autoRollPID:get(); 
             end
             autoYawInput   = self.autoYawPID:get();
 
             targetAngularVelocity.x = targetAngularVelocity.x +  
                 autoPitchInput * constructRight.x +
-                autoYawInput   * constructUp.x;
+                autoYawInput   * constructUp.x +
+                autoRollInput  * constructForward.x;
             
             targetAngularVelocity.y = targetAngularVelocity.y +  
                 autoPitchInput * constructRight.y +
-                autoYawInput   * constructUp.y;
+                autoYawInput   * constructUp.y +
+                autoRollInput  * constructForward.y;
             
             targetAngularVelocity.z = targetAngularVelocity.z +  
                 autoPitchInput * constructRight.z +
-                autoYawInput   * constructUp.z;
+                autoYawInput   * constructUp.z +
+                autoRollInput  * constructForward.z;
         end
 
     else
         if self.autoPitchPID then
             self.autoPitchPID       = nil;
             self.autoYawPID         = nil;
+            self.autoRollPID        = nil;
             self.align_pitch_angle  = nil;
             self.align_yaw_angle    = nil;
+            self.align_roll_angle   = nil;
             self.system.print("stopping auto align");
         end
     end
@@ -810,11 +822,16 @@ end
                     altitude     = _altitude;
                     body         = nil;
                     type         = POSITION_TYPE_SPACE;
+                    body         = nil;
                };
                if _bodyId ~= 0 then
                     local body=solar_system[_bodyId];
                     if body ~=nil then
-                        position.body=body;
+                        position.body=
+                        {
+                            radius=body.radius;
+                            center=vec3(body.center[1],body.center[2],body.center[3]);
+                        };
                         local h  = body.radius + _altitude;
                         if h < 1000.0 then
                             position.type=POSITION_TYPE_PLANET;
@@ -848,9 +865,9 @@ end
                 local latitude  = position.latitude *deg_to_rad;
                 local longitude = position.longitude*deg_to_rad;
                 local cosl = COS(latitude);
-                local x = c[1] + h * COS(longitude) * cosl;
-                local y = c[2] + h * SIN(longitude) * cosl;
-                local z = c[3] + h * SIN(latitude);
+                local x = c.x + h * COS(longitude) * cosl;
+                local y = c.y + h * SIN(longitude) * cosl;
+                local z = c.z + h * SIN(latitude);
                 return vec3(x,y,z);
             end
         end
