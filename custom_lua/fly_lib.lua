@@ -91,7 +91,7 @@ local FlyLib=
     shield = nil;
     set_shield_delay=0;
     shield_ready    =false;
-    shield_stress = {0,0,0,0};
+    shield_stress = {0.25,0.25,0.25,0.25};
 
     InitOk = false;
 
@@ -368,14 +368,13 @@ end
     -- ******************************************************************
 
 function FlyLib:CheckGear()
-
     local unit        = self.unit;
     local gear_down = unit.isAnyLandingGearDeployed();
-    if (self.kmh >= (GearSpeed + 50.0)) and (gear_down==1) then
-        --self.system.print("Auto closing gear " );
+    if (self.kmh >= 350.0) and (gear_down==1) then
+        --self.system.print("Auto closing gear "     );
         unit.retractLandingGears();
     end   
-    if (self.kmh <= (GearSpeed - 50.0)) and (gear_down==0) then
+    if (self.kmh <= 250.0) and (gear_down==0) then
         --self.system.print("Auto deploying gear ");
         unit.deployLandingGears();    
     end   
