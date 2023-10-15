@@ -60,6 +60,8 @@ local FlyLib=
         GyroUnit           = { need = 1; meta = nil; name="gyro"; },
         DataBankUnit       = { need = 1; meta = nil; name="data_bank"; },
         ShieldGenerator    = { need = 0; meta = nil; name="shield"; },
+        Radar              = { need = 0; meta = nil; name="radar"; },
+        Weapon             = { need = 0; meta = nil; name="weapon"; },
 
         TelemeterUnit      = { need = 0; meta = nil; name="telemeter"; },
         SpaceFuelContainer = { need = 0; meta = nil; },
@@ -78,6 +80,8 @@ local FlyLib=
         ["CockpitCommandmentUnit"  ] = "Cockpit";
         ["CockpitFighterUnit"  ] = "Cockpit";
         ["ShieldGeneratorExtraSmallGroup"  ] = "ShieldGenerator";
+        ["RadarPVPSpaceSmallGroup"] = "Radar";
+        ["WeaponCannonExtraSmall"] = "Weapon";
     };
 
     system = nil;
@@ -92,6 +96,8 @@ local FlyLib=
     set_shield_delay=0;
     shield_ready    =false;
     shield_stress = {0.25,0.25,0.25,0.25};
+
+    radar = nil;
 
     InitOk = false;
 
@@ -147,10 +153,22 @@ local FlyLib=
     autoYawPID          = nil;
     autoRollPID         = nil;
     auto_align          = false;
+    auto_target         = false;
     target_auto_brake   = AUTOBRAKE_OFF;
     atmo_auto_brake     = false;
 
-    target = 
+    travel_target = 
+    {
+        valid          = false;
+        position       = nil;
+        vec            = nil;
+        
+        brake_distance   = 1000.0;
+        shutoff_distance = 100.0;
+        shutoff_speed    = 200.0;
+    };
+
+    radar_target = 
     {
         valid          = false;
         position       = nil;
@@ -198,15 +216,15 @@ local FlyLib=
         {   x=-160;y=-80;w=20;h=20;text="T"; 
             
             update=function(self,flylib)
-               local valid=flylib.target.valid;
-               if valid~=self.target_valid then
-                    self.target_valid = valid;
+               local valid=flylib.travel_target.valid;
+               if valid~=self.travel_target_valid then
+                    self.travel_target_valid = valid;
                     return true;
                end
             end;
 
             fill=function(self,flylib) 
-                if flylib.target.valid then return "green";
+                if flylib.travel_target.valid then return "green";
                 else return "none"; end
             end;
         }; 
@@ -237,6 +255,36 @@ local FlyLib=
             end
         }; 
 
+        {   x=-160;y=-30;w=20;h=20;text="R"; 
+            hotkey=2;
+            
+            update=function(self,flylib)
+               if flylib.auto_target~=self.auto_target then
+                    self.auto_target = flylib.auto_target;
+                    return true;
+               end
+               local target=flylib.radar_target;
+               if target.valid~=self.target_valid then
+                    self.target_valid = target.valid;
+                    return true;
+               end
+            end;
+
+            fill=function(self,flylib) 
+                if self.auto_target then 
+                    if not self.target_valid then
+                        return "#00FF00FF "; 
+                    else
+                        return "#FF0000FF "; 
+                    end
+                else 
+                   return "none"; end
+            end;
+
+            click=function(self,flylib)
+                flylib:ToggleAutoTarget();
+            end
+        }; 
 
 
     };  
@@ -348,8 +396,8 @@ function FlyLib:IdentifySlots(system,unit,construct,player)
     -- ******************************************************************
     system.print("Loading data base");
     db_lib:Start(system,unit,self.data_bank);
-    self.ScreenOffset=db_lib:GetKey("ScreenOffset", self.ScreenOffset , 1);
-    self.target      =db_lib:GetKey("Target"      , self.target       , 1);
+    self.ScreenOffset =db_lib:GetKey("ScreenOffset", self.ScreenOffset , 1);
+    self.travel_target=db_lib:GetKey("Target"      , self.travel_target       , 1);
     -- ******************************************************************
     system.print("Init UI buttons");
     self:InitButtons();
@@ -426,6 +474,32 @@ function FlyLib:CheckShield()
                     end
                 end
             end
+        end
+    end
+end
+
+    -- ******************************************************************
+    --
+    -- ******************************************************************
+
+function FlyLib:CheckRadar()
+    local radar=self.radar;
+    if radar then
+        local target = self.radar_target;
+        local id=radar.getTargetId();
+        if id ~= target.id then
+            target.id=id;
+            self.system.print("target id changed");    
+        end
+        target.valid=false;
+        if id~=nil then
+           local v=radar.getConstructWorldPos(id);
+           if v~=nil then
+               if v[1]~=0 or v[2]~=0 or v[3]~=0 then
+                   target.vec=vec3(v);
+                   target.valid=true;
+               end
+           end
         end
     end
 end
@@ -518,6 +592,7 @@ function FlyLib:OnUpdate()
        draw_10hz = true;
 
        self:CheckAutoBrake();
+       self:CheckRadar();
 
        if (t - self.t_2hz) >= 0.5 then
            self.t_2hz = t;
@@ -572,7 +647,7 @@ end
 function FlyLib:CheckAutoBrake()
 
     self.current_brake_distance, self.current_brake_time = self:CalcBrakeDistance();
-    local target=self.target;
+    local target=self.travel_target;
     if target.valid and self.auto_align then
         if self.target_auto_brake~=AUTOBRAKE_LOCK then
 
@@ -721,7 +796,12 @@ function FlyLib:OnFlush(targetAngularVelocity,
                         constructVelocityDir,
                         velocity)
 
-    local target=self.target;
+    local target=self.travel_target;
+    local active=self.auto_align;
+    if self.auto_target and self.radar_target.valid then
+        target=self.radar_target;
+        active=self.auto_target;
+    end
     if target.valid then
 
         if self.autoPitchPID == nil then
@@ -730,7 +810,6 @@ function FlyLib:OnFlush(targetAngularVelocity,
             self.autoRollPID  = pid.new(self.AutoRoll  * 0.01, 0, self.AutoRoll   * 0.1);
             self.system.print("starting auto align");
         end
-
 
         local myPos=vec3(self.construct.getWorldPosition());
         local align_vector = (target.vec - myPos):normalize();
@@ -745,7 +824,7 @@ function FlyLib:OnFlush(targetAngularVelocity,
         self.autoYawPID:inject(self.align_yaw_angle);
         self.autoRollPID:inject(self.align_roll_angle);
 
-        if self.auto_align then
+        if active then
             
             local autoPitchInput =0.0;
             local autoYawInput   =0.0;
@@ -896,7 +975,7 @@ end
 function FlyLib:OninputText(text)
     local position=self:ParsePosition(text);
     if position then
-        local target=self.target;
+        local target=self.travel_target;
         target.position = position;
         target.vec      = self:CalcWorldCoordinates(position);
         target.brake_distance , target.shutoff_speed   = self:CalcTargetBreakDistance(position);
@@ -921,6 +1000,15 @@ function FlyLib:ToggleAutoAlign()
         self.system.print("auto align on");
     else
         self.system.print("auto align off");
+    end
+end
+
+function FlyLib:ToggleAutoTarget()
+    self.auto_target = not self.auto_target;
+    if self.auto_target then
+        self.system.print("auto target on");
+    else
+        self.system.print("auto target off");
     end
 end
 
@@ -1082,7 +1170,7 @@ function FlyLib:CheckScreens(draw_10hz,draw_1hz)
 
         if draw_10hz then
             local x;
-            local target = self.target;
+            local target = self.travel_target;
             -- **************************************************************************
             local pitch_text;
             if self.align_pitch_angle and not self.near_planet then
@@ -1249,7 +1337,7 @@ function FlyLib:CalcBrakeDistance()
 end
 
 function FlyLib:CalcRemainingTravelTime()
-    local target= self.target;
+    local target= self.travel_target;
     self.RemainingTravelTime=nil;
     if target.valid then
         local myPos=vec3(self.construct.getWorldPosition());  
