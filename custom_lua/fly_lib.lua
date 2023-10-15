@@ -997,6 +997,7 @@ end
 function FlyLib:ToggleAutoAlign()
     self.auto_align = not self.auto_align;
     if self.auto_align then
+        self.auto_target=false;
         self.system.print("auto align on");
     else
         self.system.print("auto align off");
@@ -1006,6 +1007,7 @@ end
 function FlyLib:ToggleAutoTarget()
     self.auto_target = not self.auto_target;
     if self.auto_target then
+        self.auto_align=false;
         self.system.print("auto target on");
     else
         self.system.print("auto target off");
