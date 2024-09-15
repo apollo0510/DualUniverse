@@ -489,7 +489,7 @@ function FlyLib:CheckRadar()
         local id=radar.getTargetId();
         if id ~= target.id then
             target.id=id;
-            self.system.print("target id changed");    
+            -- self.system.print("target id changed");    
         end
         target.valid=false;
         if id~=nil then
