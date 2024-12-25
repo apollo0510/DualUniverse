@@ -16,6 +16,9 @@
     <Filter Include="resource">
       <UniqueIdentifier>{ac8d73db-09fe-415c-b8eb-e60e8c66c5a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asteroids">
+      <UniqueIdentifier>{df6b9fae-4e71-464e-bcd0-4d9fcbdf3b63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\custom_config\custom_construct.conf">
@@ -92,6 +95,1506 @@
     </None>
     <None Include="..\haven_monitor.json">
       <Filter>json</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_1.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_2.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_3.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_4.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_5.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_6.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_7.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_8.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_9.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_10.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_11.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_12.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_13.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_14.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_15.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_16.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_17.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_18.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_19.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_20.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_21.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_22.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_23.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_24.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_25.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_26.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_27.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_28.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_29.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_30.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_31.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_32.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_33.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_34.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_35.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_36.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_37.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_38.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_39.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_40.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_41.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_42.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_43.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_44.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_45.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_46.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_47.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_48.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_49.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_50.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_51.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_52.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_53.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_54.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_55.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_56.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_57.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_58.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_59.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_60.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_61.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_62.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_63.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_64.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_65.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_66.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_67.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_68.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_69.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_70.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_71.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_72.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_73.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_74.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_75.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_76.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_77.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_78.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_79.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_80.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_81.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_82.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_83.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_84.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_85.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_86.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_87.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_88.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_89.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_90.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_91.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_92.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_93.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_94.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_95.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_96.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_97.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_98.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_99.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_1_100.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_1.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_2.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_3.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_4.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_5.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_6.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_7.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_8.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_9.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_10.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_11.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_12.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_13.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_14.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_15.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_16.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_17.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_18.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_19.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_20.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_21.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_22.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_23.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_24.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_25.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_26.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_27.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_28.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_29.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_30.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_31.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_32.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_33.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_34.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_35.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_36.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_37.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_38.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_39.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_40.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_41.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_42.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_43.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_44.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_45.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_46.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_47.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_48.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_49.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_50.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_51.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_52.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_53.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_54.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_55.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_56.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_57.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_58.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_59.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_60.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_61.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_62.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_63.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_64.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_65.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_66.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_67.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_68.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_69.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_70.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_71.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_72.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_73.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_74.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_75.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_76.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_77.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_78.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_79.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_80.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_81.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_82.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_83.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_84.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_85.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_86.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_87.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_88.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_89.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_90.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_91.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_92.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_93.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_94.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_95.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_96.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_97.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_98.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_99.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_2_100.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_1.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_2.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_3.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_4.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_5.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_6.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_7.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_8.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_9.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_10.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_11.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_12.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_13.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_14.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_15.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_16.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_17.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_18.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_19.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_20.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_21.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_22.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_23.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_24.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_25.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_26.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_27.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_28.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_29.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_30.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_31.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_32.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_33.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_34.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_35.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_36.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_37.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_38.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_39.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_40.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_41.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_42.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_43.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_44.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_45.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_46.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_47.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_48.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_49.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_50.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_51.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_52.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_53.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_54.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_55.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_56.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_57.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_58.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_59.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_60.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_61.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_62.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_63.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_64.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_65.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_66.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_67.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_68.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_69.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_70.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_71.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_72.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_73.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_74.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_75.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_76.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_77.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_78.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_79.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_80.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_81.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_82.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_83.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_84.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_85.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_86.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_87.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_88.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_89.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_90.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_91.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_92.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_93.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_94.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_95.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_96.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_97.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_98.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_99.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_3_100.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_1.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_2.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_3.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_4.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_5.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_6.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_7.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_8.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_9.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_10.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_11.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_12.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_13.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_14.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_15.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_16.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_17.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_18.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_19.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_20.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_21.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_22.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_23.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_24.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_25.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_26.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_27.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_28.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_29.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_30.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_31.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_32.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_33.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_34.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_35.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_36.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_37.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_38.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_39.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_40.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_41.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_42.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_43.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_44.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_45.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_46.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_47.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_48.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_49.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_50.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_51.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_52.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_53.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_54.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_55.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_56.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_57.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_58.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_59.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_60.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_61.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_62.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_63.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_64.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_65.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_66.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_67.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_68.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_69.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_70.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_71.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_72.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_73.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_74.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_75.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_76.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_77.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_78.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_79.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_80.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_81.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_82.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_83.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_84.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_85.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_86.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_87.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_88.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_89.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_90.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_91.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_92.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_93.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_94.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_95.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_96.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_97.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_98.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_99.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_4_100.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_1.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_2.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_3.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_4.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_5.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_6.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_7.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_8.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_9.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_10.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_11.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_12.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_13.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_14.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_15.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_16.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_17.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_18.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_19.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_20.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_21.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_22.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_23.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_24.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_25.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_26.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_27.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_28.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_29.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_30.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_31.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_32.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_33.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_34.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_35.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_36.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_37.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_38.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_39.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_40.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_41.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_42.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_43.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_44.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_45.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_46.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_47.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_48.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_49.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_50.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_51.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_52.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_53.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_54.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_55.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_56.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_57.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_58.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_59.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_60.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_61.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_62.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_63.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_64.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_65.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_66.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_67.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_68.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_69.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_70.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_71.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_72.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_73.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_74.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_75.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_76.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_77.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_78.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_79.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_80.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_81.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_82.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_83.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_84.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_85.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_86.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_87.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_88.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_89.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_90.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_91.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_92.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_93.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_94.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_95.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_96.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_97.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_98.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_99.json">
+      <Filter>Asteroids</Filter>
+    </None>
+    <None Include="..\asteroids\basic_5_100.json">
+      <Filter>Asteroids</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

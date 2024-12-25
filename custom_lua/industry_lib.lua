@@ -7,7 +7,7 @@ local recipe_table=
 {
     Frames=
     {
-         -- { id = 510615335; count = 20; name="bas stand XS";},    
+         { id = 510615335; count = 20; name="bas stand XS";},    
     };
 
     Panels=

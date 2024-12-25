@@ -699,10 +699,23 @@ function FlyLib:CheckAutoBrake()
     end
 
     if self.near_planet then
+
+        local atmo_speed_limit = 2050.0 - self.atmosphere * 1000.0;
+
+        local slowdown_area    = 20000.0;
+        local atmosphere_begin = 6000.0;
+        local entry_speed_area = 10000.0;
+
+        local normed_altitude=(self.altitude-atmosphere_begin) / slowdown_area;
+        if normed_altitude < 0.0 then normed_altitude = 0.0 end
+        if normed_altitude > 1.0 then normed_altitude = 1.0 end
+
+        local entry_speed_limit=atmo_speed_limit + normed_altitude * entry_speed_area;
+
         if self.in_atmosphere then
-            self.atmo_auto_brake =  self.kmh > 1075;
+            self.atmo_auto_brake =  self.kmh > entry_speed_limit;
         else
-            self.atmo_auto_brake =  (self.pitch <= -45.0) and (self.kmh > 1075);
+            self.atmo_auto_brake =  (self.pitch <= -45.0) and (self.kmh > entry_speed_limit);
         end
     else
         self.atmo_auto_brake = false;
